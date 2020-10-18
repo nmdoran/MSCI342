@@ -1,0 +1,62 @@
+/*
+SQL to create the database structure, exported from Astah ER diagram
+*/
+
+CREATE TABLE Categories (
+ type CHAR(10) NOT NULL
+);
+
+ALTER TABLE Categories ADD CONSTRAINT PK_Categories PRIMARY KEY (type);
+
+
+CREATE TABLE Products (
+ prod_ID CHAR(10) NOT NULL,
+ prod_name CHAR(255),
+ type CHAR(255) NOT NULL,
+ lifetime INT
+);
+
+ALTER TABLE Products ADD CONSTRAINT PK_Products PRIMARY KEY (prod_ID);
+
+
+CREATE TABLE Users (
+ user_ID CHAR(10) NOT NULL,
+ name CHAR(255),
+ email CHAR(255),
+ postal_code CHAR(7),
+ email_freq INT
+);
+
+ALTER TABLE Users ADD CONSTRAINT PK_Users PRIMARY KEY (user_ID);
+
+
+CREATE TABLE Fridge_Products (
+ user_ID CHAR(10) NOT NULL,
+ prod_ID CHAR(10) NOT NULL,
+ input_dt DATE NOT NULL,
+ exp_dt DATE,
+ qty FLOAT(10),
+ unit CHAR(255)
+);
+
+ALTER TABLE Fridge_Products ADD CONSTRAINT PK_Fridge_Products PRIMARY KEY (user_ID,prod_ID,input_dt);
+
+
+CREATE TABLE Historical (
+ user_ID CHAR(10) NOT NULL,
+ prod_ID CHAR(10) NOT NULL,
+ total_consumed INT
+);
+
+ALTER TABLE Historical ADD CONSTRAINT PK_Historical PRIMARY KEY (user_ID,prod_ID);
+
+
+ALTER TABLE Products ADD CONSTRAINT FK_Products_0 FOREIGN KEY (type) REFERENCES Categories (type);
+
+
+ALTER TABLE Fridge_Products ADD CONSTRAINT FK_Fridge_Products_0 FOREIGN KEY (user_ID) REFERENCES Users (user_ID);
+ALTER TABLE Fridge_Products ADD CONSTRAINT FK_Fridge_Products_1 FOREIGN KEY (prod_ID) REFERENCES Products (prod_ID);
+
+
+ALTER TABLE Historical ADD CONSTRAINT FK_Historical_0 FOREIGN KEY (user_ID) REFERENCES Users (user_ID);
+ALTER TABLE Historical ADD CONSTRAINT FK_Historical_1 FOREIGN KEY (prod_ID) REFERENCES Products (prod_ID);
