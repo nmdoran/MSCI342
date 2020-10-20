@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/header.ejs %>
+    <!-- <script src="../../public/scripts/client.js"></script> -->
+    <script src="/client.js"></script>
+  </head>
+
+  <body>
+
+    <% include ../partials/nav.ejs %>
+
+    <div class="container">
+      <h2>Database Results</h2>
+
+      <ul>
+          <% results.forEach(function(r) { %>
+              <li><%= r.id %> - <%= r.name %></li>
+          <% }); %>
+      </ul>
+
+      <label for="id">ID</label>
+      <input type="text" id="id"/>
+      <label for="name">Name</label>
+      <input type="text" id="name"/> 
+      <!-- <label for="insert">Insert</label>
+      <input type="radio" id="insert" name="queryType" value="insert">
+      <label for="delete">Delete</label>
+      <input type="radio" id="delete" name="queryType" value="delete"> -->
+
+      <button onclick="addRow()">Insert Row</button>
+      <button onclick="deleteRow()">Delete Row</button>
+
+    </div>
+
+  </body>
+</html>
