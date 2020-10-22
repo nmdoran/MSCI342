@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <% include ../partials/header.ejs %>
+        <!-- <script src="../../public/scripts/client.js"></script> -->
+        <script src="/client.js"></script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <p class="header-text">What's Cooking, Good Looking?</p>
+            
+            <label for="id">ID</label>
+            <input type="text" id="id"/>
+            <label for="name">Name</label>
+            <input type="text" id="name"/> 
+            <!-- <label for="insert">Insert</label>
+            <input type="radio" id="insert" name="queryType" value="insert">
+            <label for="delete">Delete</label>
+            <input type="radio" id="delete" name="queryType" value="delete"> -->
+            <br>
+            <button onclick="addRow()">Insert Row</button>
+            <button onclick="deleteRow()">Delete Row</button>
+            <!-- <button onclick="updateRow()">Update Row</button> -->
+          
+        </div>
+    </body>
+</html>
