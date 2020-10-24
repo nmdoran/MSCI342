@@ -64,6 +64,21 @@ express()
       console.error(err);
       res.send("Error " + err);
     }
+})
+  .post('/checkfridge', jsonParser, async function(req, res) {
+      console.log(req.body)
+      console.log(req.body.id)
+      try {
+        const client = await pool.connect();
+        client.query(`SELECT p.prod_name, f.qty, f.exp_date FROM fridge_products f
+          LEFT JOIN products p ON p.prod_ID = f.prod_ID
+          WHERE user_ID = ${req.body.id}`);
+        client.release();
+        res.send("Success! " + res);
+      } catch (err) {
+        console.error(err);
+        res.send("Error " + err);
+      }
   
   })
 
