@@ -1,0 +1,22 @@
+[
+	{	
+		"prod_id": "39"
+		"prod_name": "pie",
+		"type": "baked goods",
+		"lifetime": "4",
+		
+	},
+	{
+		"prod_id": "44"
+		"prod_name": "muffins",
+		"type": "baked goods",
+		"lifetime": "10",
+	},
+	{
+		"prod_id": "51"
+		"prod_name": "floor tortillas",
+		"type": "baked goods",
+		"lifetime": "3",
+	},
+	
+]
