@@ -72,7 +72,7 @@ express()
         const client = await pool.connect();
         client.query(`SELECT p.prod_name, f.qty, f.exp_date FROM fridge_products f
           LEFT JOIN products p ON p.prod_ID = f.prod_ID
-          WHERE user_ID = ${req.body.id}`);
+          WHERE user_ID = '1');
         client.release();
         res.send("Success! " + res);
       } catch (err) {
