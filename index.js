@@ -17,7 +17,12 @@ express()
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
+  .get('/', jsonParser, async (req, res) => {
+    try {
+      const client = await pool.connect();
+      const result = await client.query(`SELECT * FROM fridge_products`);
+      const results = { 'results': (result) ? result.rows : null};
+      res.render('pages/index', results );
   .get('/db', async (req, res) => {
     try {
       const client = await pool.connect();
