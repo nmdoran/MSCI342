@@ -29,10 +29,10 @@ express()
       res.send("Error " + err);
     }
 })
-  .get('/db', async (req, res) => {
+  .get('/db', jsonParser, async (req, res) => {
     try {
       const client = await pool.connect();
-      const result = await client.query(`SELECT * FROM products where prod_name ='${req.query.searchParam}'`);
+      const result = await client.query(`SELECT * FROM products where prod_name='${req.query.searchParam}'`);
       const results = { 'results': (result) ? result.rows : null};
       res.render('pages/db', results );
       client.release();

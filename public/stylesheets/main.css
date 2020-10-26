@@ -1,3 +1,10 @@
+body {
+  margin: 50px;
+  padding: 0;
+  background: #e84118;
+  font-family: Verdana, sans-serif;
+ }
+
 .header-text {
   color: white;
   position: relative;
