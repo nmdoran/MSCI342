@@ -13,6 +13,22 @@
   </div>
 <font color = #ffffff >
 <h1> Hello User!</h1>
+
+<p class="alignment">
+            <span>
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                &emsp;&emsp;&emsp;&emsp;&emsp;
+                
+                Would you like to add a new product?
+            </span>
+        </p>
+
+        <p>Today's Date: <span id="datetime"></span></p>
+        <script>
+            var dt = new Date();
+            document.getElementById("datetime").innerHTML = dt.toLocaleString();</script>
+
 <p>Here's what is in your fridge </p>
 <table  border = 2 style="width:50%">
   <tr>
@@ -31,5 +47,8 @@
   <% }); %>
 </table>
 </font>
+
+  <button type="button" class="button">Find out what's expiring soon -></button>
+
 </body>
 </html>

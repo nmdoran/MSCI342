@@ -57,3 +57,14 @@ body {
  width: 0px;
  font-weight: bold;
 }
+.alignment {
+    display: block;
+    margin: 15px;
+}
+
+    .alignment span {
+        display: block;
+        float: right;
+        width: 50%;
+        margin-left: 15px;
+    }
