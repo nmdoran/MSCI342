@@ -25,7 +25,7 @@ function addProduct() {
 }
 
 function removeProduct() {
-  console.log("Adding a product...")
+  console.log("Removing a product...")
   const userRequest = new XMLHttpRequest();
   userRequest.open('post', '/removeProduct');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
