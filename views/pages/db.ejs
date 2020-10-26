@@ -15,7 +15,7 @@
 
       <ul>
           <% results.forEach(function(r) { %>
-              <li><%= r.id %> - <%= r.name %></li>
+              <li><%= r.prod_id %> - <%= r.prod_name %></li>
           <% }); %>
       </ul>
 
@@ -30,6 +30,11 @@
 
       <button onclick="addRow()">Insert Row</button>
       <button onclick="deleteRow()">Delete Row</button>
+
+      <form class="search" method="get">
+        <input class="form-control typeahead tt-query" type="text" name="searchParam" placeholder="Search">
+        <input class="btn btn-primary" type="submit" value="Submit">
+     </form>
 
     </div>
 
