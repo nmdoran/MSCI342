@@ -30,6 +30,35 @@ express()
       res.send("Error " + err);
     }
   })
+  .get('/addProduct', (req, res) => res.render('pages/addProduct'))
+  .post('/addProduct', jsonParser, async function(req, res) {
+    try {
+      const client = await pool.connect();
+      client.query(`insert into fridge_products
+                      values(1
+                      ,(select prod_id from products where prod_name = '${req.body.product}')
+                      ,current_date
+                      ,current_date + (select lifetime from products where prod_name = '${req.body.product}')
+                      , ${req.body.quantity}
+                      , 'each');`)
+      client.release();
+      res.send("Success! " + res);
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+  .post('/removeProduct', jsonParser, async function(req, res) {
+    try {
+      const client = await pool.connect();
+      client.query(`delete from fridge_products where user_ID = '1' AND prod_id=(select prod_id from products where prod_name = '${req.body.product}');`)
+      client.release();
+      res.send("Success! " + res);
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
   .get('/users', function(req, res) {
     console.log("Requesting...")
     request('https://jsonplaceholder.typicode.com/users', function(error, response, body) {
