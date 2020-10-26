@@ -65,18 +65,18 @@ express()
       res.send("Error " + err);
     }
 })
-  .post('/checkfridge', jsonParser, async function(req, res) {
+  .post('/checkfridge', jsonParser, async function(req, res) { //create a "get" method to check fridge products (product name, quantity, expiry date)
       console.log(req.body)
       console.log(req.body.id)
       try {
         const client = await pool.connect();
         client.query(`SELECT p.prod_name, f.qty, f.exp_date FROM fridge_products f
-          LEFT JOIN products p ON p.prod_ID = f.prod_ID
-          WHERE user_ID = '1');
+          LEFT JOIN products p ON p.prod_ID = f.prod_ID 
+          WHERE user_ID = '1'); //query that will pull product name, quantity and expiry date from respective databaes
         client.release();
-        res.send("Success! " + res);
+        res.send("Success! " + res); //if its successful
       } catch (err) {
-        console.error(err);
+        console.error(err); //if there is an error 
         res.send("Error " + err);
       }
   
