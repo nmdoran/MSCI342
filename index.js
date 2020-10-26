@@ -17,7 +17,18 @@ express()
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
+  .get('/', jsonParser, async (req, res) => {
+    try {
+      const client = await pool.connect();
+      const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products NATURAL JOIN products`);
+      const results = { 'results': (result) ? result.rows : null};
+      res.render('pages/index', results );
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+})
   .get('/db', async (req, res) => {
     try {
       const client = await pool.connect();
