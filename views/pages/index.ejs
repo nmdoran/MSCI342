@@ -3,52 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <link rel = "stylesheet" href= "/stylesheets/search.css">
+<script src="/client.js"></script>
 <title>Main Page</title>
 </head>
 <body>
- <div class="search-box">
-   <input type="text" name="" class="search-txt" placeholder="Search..."/>
-   <a class="search-btn" href = "#">
-   </a>
-  </div>
-<font color = #ffffff >
-<h1> Hello User!</h1>
+  <div class="container">
 
-<p class="alignment">
-            <span>
-                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                &emsp;&emsp;&emsp;&emsp;&emsp;
-                
-                Would you like to add a new product?
-            </span>
-        </p>
+    <div class="search-box">
+      <input type="text" name="" class="search-txt" placeholder="Search..."/>
+      <a class="search-btn" href = "#"></a>
+    </div>
+    
+  <font color = #ffffff >
+  <h1> Hello User!</h1>
 
-        <p>Today's Date: <span id="datetime"></span></p>
-        <script>
-            var dt = new Date();
-            document.getElementById("datetime").innerHTML = dt.toLocaleString();</script>
+  <p class="alignment">
+              <span>
+                  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                  &emsp;&emsp;&emsp;&emsp;&emsp;
+                  
+                  Would you like to add a new product?
+              </span>
+          </p>
 
-<p>Here's what is in your fridge </p>
-<table  border = 2 style="width:50%">
-  <tr>
-    <th>Products</th>
-    <th>Type</th>
-    <th>Date of Expiry</th>
-    <th>Quantity</th>
-  </tr>
-  <% results.forEach(function(r) { %>
+          <h3>Today's Date: <span id="datetime"></span></h3>
+          <script>
+              var dt = new Date();
+              document.getElementById("datetime").innerHTML = dt.toLocaleString();</script>
+
+  <h2>Here's what is in your fridge: </h2>
+  <table  border = 2 style="width:50%">
     <tr>
-      <td><%= r.prod_name%></td>
-      <td><%= r.type%></td>
-      <td><%= r.exp_dt%></td>
-      <td><%= r.qty%></td>
+      <th>Products</th>
+      <th>Type</th>
+      <th>Date of Expiry</th>
+      <th>Quantity</th>
     </tr>
-  <% }); %>
-</table>
-</font>
+    <% results.forEach(function(r) { %>
+      <tr>
+        <td><%= r.prod_name%></td>
+        <td><%= r.type%></td>
+        <td><%= r.exp_dt%></td>
+        <td><%= r.qty%></td>
+      </tr>
+    <% }); %>
+  </table>
 
   <button type="button" class="button">Find out what's expiring soon -></button>
+
+  <h2>Add Products to the Fridge</h2>
+
+    <label for="name">Product Name:</label>
+    <select name="addProduct" id="addProduct">
+        <option value="peaches">Peach</option>
+        <option value="muffins">Muffin</option>
+        <option value="oranges">Orange</option>
+        <option value="eggs">Egg</option>
+        <option value="bacon">Bacon</option>
+        <option value="butter">Butter</option>
+        <option value="celery">Celery</option>
+    </select>
+    <br>
+    <label for="name">Quantity</label>
+    <input type="number" id="quantity"/> 
+    <br>
+    <button onclick="addProduct()">Add to Fridge</button>
+
+    <br>
+    <br>
+
+    <h2>Remove Products from the Fridge</h2>
+
+    <label for="name">Product Name:</label>
+    <select name="removeProduct" id="removeProduct">
+        <option value="peaches">Peach</option>
+        <option value="muffins">Muffin</option>
+        <option value="oranges">Orange</option>
+        <option value="eggs">Egg</option>
+        <option value="bacon">Bacon</option>
+        <option value="butter">Butter</option>
+        <option value="celery">Celery</option>
+    </select>
+    <br>
+    <button onclick="removeProduct()">Remove from Fridge</button>
+
+    <br>
+    <br>
+    
+    <a href="/db">Click here to go to the search page</a>
+
+  </font>
 
 </body>
 </html>
