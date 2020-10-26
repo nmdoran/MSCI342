@@ -21,10 +21,14 @@
     <th>Date of Expiry</th>
     <th>Quantity</th>
   </tr>
-            <td><%= r.prod_name%></td>
-            <td><%= r.prod_type%></td>
-            <td><%= r.prod_expiry%></td>
-            <td><%= r.prod_quantity%></td>
+  <% results.forEach(function(r) { %>
+    <tr>
+      <td><%= r.prod_name%></td>
+      <td><%= r.type%></td>
+      <td><%= r.exp_dt%></td>
+      <td><%= r.qty%></td>
+    </tr>
+  <% }); %>
 </table>
 </font>
 </body>
