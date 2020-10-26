@@ -6,34 +6,6 @@ function addRow() {
   userRequest.open('post', '/addRow');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
   userRequest.send(JSON.stringify({'id':document.getElementById("id").value, 'name': document.getElementById("name").value}));
-
-  /* $.ajax({
-    type: "POST",
-    url: '/addRow',
-    dataType: "json",
-    success: function(res) {
-        console.log("Success!", res)
-        var res_data = JSON.parse(res);
-        console.log(res_data);
-    },
-    error: function(res) {
-      console.log("Fail!", res)
-    }
-  }); */
-
-  /* $.ajax({
-    type: "GET",
-    url: '/users',
-    dataType: "json",
-    success: function(res) {
-        console.log("Success!")
-        var res_data = JSON.parse(res);
-        console.log(res_data);
-    },
-    error: function(res) {
-      console.log("Fail!", res)
-    }
-  }); */
 }
 
 function deleteRow() {
@@ -42,4 +14,20 @@ function deleteRow() {
   userRequest.open('post', '/deleteRow');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
   userRequest.send(JSON.stringify({'id':document.getElementById("id").value, 'name': document.getElementById("name").value}));
+}
+
+function addProduct() {
+  console.log("Adding a product...")
+  const userRequest = new XMLHttpRequest();
+  userRequest.open('post', '/addProduct');
+  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  userRequest.send(JSON.stringify({'product':document.getElementById("addProduct").value, 'quantity': document.getElementById("quantity").value}));
+}
+
+function removeProduct() {
+  console.log("Removing a product...")
+  const userRequest = new XMLHttpRequest();
+  userRequest.open('post', '/removeProduct');
+  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  userRequest.send(JSON.stringify({'product':document.getElementById("removeProduct").value, 'quantity': document.getElementById("quantity").value}));
 }
