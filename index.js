@@ -65,7 +65,7 @@ express()
       res.send("Error " + err);
     }
 })
-  .post('/checkfridge', jsonParser, async function(req, res) { //create a "get" method to check fridge products (product name, quantity, expiry date)
+  .post('/checkfridge', jsonParser, async function(req, res) { //create a "post" method to check fridge products (product name, quantity, expiry date)
       console.log(req.body)
       console.log(req.body.id)
       try {
