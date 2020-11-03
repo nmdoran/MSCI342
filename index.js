@@ -19,16 +19,10 @@ express()
   .set('view engine', 'ejs')
   .get('/', jsonParser, async (req, res) => {
     try {
-      var results = null;
-      var searchResults = null;
       const client = await pool.connect();
       const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products NATURAL JOIN products`);
-      results = { 'results': (result) ? result.rows : null};
-      if (req.query.searchParam) {
-        const searchResult = await client.query(`SELECT * FROM products where prod_name='${req.query.searchParam}'`);
-        searchResults = { 'searchResults': (searchResult) ? searchResult.rows : null};
-      }
-      res.render('pages/index', results, searchResults );
+      const results = { 'results': (result) ? result.rows : null};
+      res.render('pages/index', results );
       client.release();
     } catch (err) {
       console.error(err);
@@ -85,7 +79,6 @@ express()
         res.json(body)
       });
   })
-  .get('/signin', (req, res) => res.render('pages/signin'))
   .post('/addRow', jsonParser, async function(req, res) {
     console.log(req.body)
     console.log(req.body.id, req.body.name)
