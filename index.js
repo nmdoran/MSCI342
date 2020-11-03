@@ -70,6 +70,7 @@ express()
       res.send("Error " + err);
     }
   })
+  .get('/signin', (req, res) => res.render('pages/signin'))
   .get('/users', function(req, res) {
     console.log("Requesting...")
     request('https://jsonplaceholder.typicode.com/users', function(error, response, body) {
