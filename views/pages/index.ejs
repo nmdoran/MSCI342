@@ -44,7 +44,7 @@
       <tr>
         <td><%= r.prod_name%></td>
         <td><%= r.type%></td>
-        <td><%= r.exp_dt%></td>
+        <td><%= r.exp_dt.toLocaleString()%></td>
         <td><%= r.qty%></td>
       </tr>
     <% }); %>
@@ -92,6 +92,18 @@
     <br>
     
     <a href="/db">Click here to go to the search page</a>
+
+    <!-- <br>
+    <br>
+
+    <form class="search" method="get">
+      <input class="form-control typeahead tt-query" type="text" name="searchParam" placeholder="Search">
+      <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+
+    <% results.forEach(function(r) { %>
+      <li><%= r.prod_id %> - <%= r.prod_name %></li>
+    <% }); %> -->
 
   </font>
 
