@@ -1,4 +1,5 @@
 console.log('Script file loaded successfully');
+console.log(auth2)
 if (auth2.isSignedIn.get()) {
   var profile = auth2.currentUser.get().getBasicProfile();
   console.log('ID: ' + profile.getId());
@@ -7,6 +8,11 @@ if (auth2.isSignedIn.get()) {
   console.log('Family Name: ' + profile.getFamilyName());
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail());
+}
+
+console.log(GoogleAuth)
+if (GoogleAuth) {
+  console.log(GoogleAuth.currentUser.get())
 }
 
 
