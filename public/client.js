@@ -1,5 +1,18 @@
 console.log('Script file loaded successfully');
-console.log(auth2)
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+function init() {
+  gapi.load('auth2', function() {
+    /* Ready. Make a call to gapi.auth2.init or some other API */
+    console.log("Loaded auth2")
+    console.log("Auth2", auth2)
+    console.log("GoogleAuth:", GoogleAuth)
+  if (GoogleAuth) {
+    console.log(GoogleAuth.currentUser.get())
+  }
+  });
+}
+
+console.log("Auth2", auth2)
 if (auth2.isSignedIn.get()) {
   var profile = auth2.currentUser.get().getBasicProfile();
   console.log('ID: ' + profile.getId());
@@ -10,7 +23,7 @@ if (auth2.isSignedIn.get()) {
   console.log('Email: ' + profile.getEmail());
 }
 
-console.log(GoogleAuth)
+console.log("GoogleAuth:", GoogleAuth)
 if (GoogleAuth) {
   console.log(GoogleAuth.currentUser.get())
 }
