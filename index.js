@@ -24,10 +24,9 @@ express()
       const result = await client.query(`SELECT p.prod_name, f.exp_dt, f.qty, p.type
   FROM fridge_products f
   INNER JOIN products p ON f.prod_ID = p.prod_ID
-  WHERE user_ID = '1'
   ORDER BY exp_dt ${req.query.expirysort}`)
   const results = { 'results': (result) ? result.rows : null};
-  res.render('pages/db', results );
+  res.render('pages/index', results );
   client.release();
 } else {
       const client = await pool.connect();
@@ -40,6 +39,7 @@ express()
       res.send("Error " + err);
     }
 })
+
   .get('/db', jsonParser, async (req, res) => {
     try {
       const client = await pool.connect();

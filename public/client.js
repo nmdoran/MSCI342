@@ -33,7 +33,7 @@ function removeProduct() {
 }
 
 
-function myFunction() {
+function sortbyExpiry() {
   var x = document.getElementById("expirysort").value;
   window.location.replace("http://localhost:5000/?expirysort="+x);
 }
