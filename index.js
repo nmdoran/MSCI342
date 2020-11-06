@@ -24,13 +24,14 @@ express()
       const result = await client.query(`SELECT p.prod_name, f.exp_dt, f.qty, p.type
   FROM fridge_products f
   INNER JOIN products p ON f.prod_ID = p.prod_ID
+  WHERE user_ID = '1'
   ORDER BY exp_dt ${req.query.expirysort}`)
   const results = { 'results': (result) ? result.rows : null};
   res.render('pages/index', results );
   client.release();
 } else {
       const client = await pool.connect();
-      const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products NATURAL JOIN products`);
+      const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products NATURAL JOIN products WHERE user_ID = '1'`);
       const results = { 'results': (result) ? result.rows : null};
       res.render('pages/index', results );
       client.release();
