@@ -35,5 +35,5 @@ function removeProduct() {
 
 function myFunction() {
   var x = document.getElementById("expirysort").value;
-  window.location.replace("http://localhost:5000/expirysort");
+  window.location.replace("http://localhost:5000/?expirysort="+x);
 }
