@@ -8,24 +8,36 @@
 </head>
 <body>
   <div class="container">
-
-    <div class="search-box">
-      <input type="text" name="" class="search-txt" placeholder="Search..."/>
-      <a class="search-btn" href = "#"></a>
-    </div>
-    
   <font color = #ffffff >
+
+  	
+
+   
+     <div class = "search"> 
+     	 <span>
+            Would you like to add a new product?
+         </span>
+
+     <form class="search-box" method="get">
+        <input type="text" name="searchParam" class="search-txt" maxlength = "255" placeholder="Search..."/>
+        <br>
+        <input class="search-btn" type="submit" value="">
+   
+      </form>
+      <ul>
+        <% searchresults.forEach(function(r) { %>
+          <li>ID: <%= r.prod_id%></li>
+          <li>Name: <%= r.prod_name%></li>
+          <li>Type: <%= r.type%></li>
+          <li>Lifespan: <%= r.lifetime%></li>
+        <% }); %>
+      </ul>
+      
+ 	 </div>
+    
+  
   <h1> Hello User!</h1>
 
-  <p class="alignment">
-              <span>
-                  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                  &emsp;&emsp;&emsp;&emsp;&emsp;
-                  
-                  Would you like to add a new product?
-              </span>
-          </p>
 
           <h3>Today's Date: <span id="datetime"></span></h3>
           <script>
@@ -44,7 +56,7 @@
       <tr>
         <td><%= r.prod_name%></td>
         <td><%= r.type%></td>
-        <td><%= r.exp_dt.toLocaleString()%></td>
+        <td><%= r.exp_dt%></td>
         <td><%= r.qty%></td>
       </tr>
     <% }); %>
@@ -91,19 +103,9 @@
     <br>
     <br>
     
-    <a href="/db">Click here to go to the search page</a>
+    <a href="/searchProduct">Click here to go to the search page</a>
 
-    <!-- <br>
-    <br>
 
-    <form class="search" method="get">
-      <input class="form-control typeahead tt-query" type="text" name="searchParam" placeholder="Search">
-      <input class="btn btn-primary" type="submit" value="Submit">
-    </form>
-
-    <% results.forEach(function(r) { %>
-      <li><%= r.prod_id %> - <%= r.prod_name %></li>
-    <% }); %> -->
 
   </font>
 
