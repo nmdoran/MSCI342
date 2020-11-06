@@ -31,3 +31,9 @@ function removeProduct() {
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
   userRequest.send(JSON.stringify({'product':document.getElementById("removeProduct").value, 'quantity': document.getElementById("quantity").value}));
 }
+
+
+function myFunction() {
+  var x = document.getElementById("expirysort").value;
+  window.location.replace("http://localhost:5000/expirysort");
+}

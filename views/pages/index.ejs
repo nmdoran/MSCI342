@@ -13,7 +13,7 @@
       <input type="text" name="" class="search-txt" placeholder="Search..."/>
       <a class="search-btn" href = "#"></a>
     </div>
-    
+
   <font color = #ffffff >
   <h1> Hello User!</h1>
 
@@ -22,7 +22,7 @@
                   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                   &emsp;&emsp;&emsp;&emsp;&emsp;
-                  
+
                   Would you like to add a new product?
               </span>
           </p>
@@ -48,7 +48,34 @@
         <td><%= r.qty%></td>
       </tr>
     <% }); %>
+
+<!--Mirals changes for sort by function-->
+
   </table>
+  <h2>Here's what is in your fridge: </h2>
+  <table  border = 2 style="width:50%">
+    <tr>
+      <th>Products</th>
+      <th>Type</th>
+      <th> Date of Expiry <br>
+      <label for="expiry-date">
+        <select id= "expirysort" onchange = "myFunction()">
+          <option value = "">Sort by</option>
+        <option value = "Sort by closest">Sort by closest</option>
+        <option value = "Sort by farthest">Sort by farthest</option>
+        </th>
+      <th>Quantity</th>
+    </tr>
+    <% results.forEach(function(r) { %>
+      <tr>
+        <td><%= r.prod_name%></td>
+        <td><%= r.type%></td>
+        <td><%= r.exp_dt.toLocaleString()%></td>
+        <td><%= r.qty%></td>
+      </tr>
+    <% }); %>
+  </table>
+<br>
 
   <button type="button" class="button">Find out what's expiring soon -></button>
 
@@ -66,7 +93,7 @@
     </select>
     <br>
     <label for="name">Quantity</label>
-    <input type="number" id="quantity"/> 
+    <input type="number" id="quantity"/>
     <br>
     <button onclick="addProduct()">Add to Fridge</button>
 
@@ -90,7 +117,7 @@
 
     <br>
     <br>
-    
+
     <a href="/db">Click here to go to the search page</a>
 
     <!-- <br>

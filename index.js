@@ -41,6 +41,26 @@ express()
       res.send("Error " + err);
     }
   })
+
+
+  .get('/expirysort', (req, res) => res.render('pages/index'))
+  .post('/expirysort', jsonParser, async function(req, res) {
+    try {
+      const client = await pool.connect();
+      client.query(`SELECT p.prod_name, f.exp_dt, f.qty, p.type
+FROM fridge_products f
+INNER JOIN products p ON f.prod_ID = p.prod_ID
+WHERE user_ID = '1'
+ORDER BY exp_dt ASC`)
+      client.release();
+      res.send("Success! " + res);
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+
+
   .get('/addProduct', (req, res) => res.render('pages/addProduct'))
   .post('/addProduct', jsonParser, async function(req, res) {
     try {
@@ -111,15 +131,15 @@ express()
       try {
         const client = await pool.connect();
         client.query(`SELECT p.prod_name, f.qty, f.exp_date FROM fridge_products f
-          LEFT JOIN products p ON p.prod_ID = f.prod_ID 
+          LEFT JOIN products p ON p.prod_ID = f.prod_ID
           WHERE user_ID = '1'`); //query that will pull product name, quantity and expiry date from respective databaes
         client.release();
         res.send("Success! " + res); //if its successful
       } catch (err) {
-        console.error(err); //if there is an error 
+        console.error(err); //if there is an error
         res.send("Error " + err);
       }
-  
+
   })
 
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
