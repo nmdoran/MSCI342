@@ -32,23 +32,6 @@
               var dt = new Date();
               document.getElementById("datetime").innerHTML = dt.toLocaleString();</script>
 
-  <h2>Here's what is in your fridge: </h2>
-  <table  border = 2 style="width:50%">
-    <tr>
-      <th>Products</th>
-      <th>Type</th>
-      <th>Date of Expiry</th>
-      <th>Quantity</th>
-    </tr>
-    <% results.forEach(function(r) { %>
-      <tr>
-        <td><%= r.prod_name%></td>
-        <td><%= r.type%></td>
-        <td><%= r.exp_dt.toLocaleString()%></td>
-        <td><%= r.qty%></td>
-      </tr>
-    <% }); %>
-
 <!--Mirals changes for sort by function-->
 
   </table>
@@ -59,7 +42,7 @@
       <th>Type</th>
       <th> Date of Expiry <br>
       <label for="expiry-date">
-        <select id= "expirysort" onchange = "sortbyExpiry()">
+        <select id= "expirysort" class = "sortbyexpiry" onchange = "sortbyExpiry()">
           <option value = "">Sort by</option>
         <option value = "ASC">Soonest Expiry Date</option>
         <option value = "DESC">Latest Expiry Date</option>
