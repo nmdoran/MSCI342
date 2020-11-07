@@ -31,3 +31,15 @@ function removeProduct() {
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
   userRequest.send(JSON.stringify({'product':document.getElementById("removeProduct").value, 'quantity': document.getElementById("quantity").value}));
 }
+
+function addCustom() {
+  console.log("Adding a custom product...")
+  const userRequest = new XMLHttpRequest();
+  userRequest.open('post', '/addCustom');
+  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  userRequest.send(JSON.stringify({
+    'product_name':document.getElementById("prod_name").value
+    , 'type':document.getElementById("addType").value
+    , 'life':document.getElementById("prod_life").value
+    , 'quantity': document.getElementById("prod_qty").value}));
+}
