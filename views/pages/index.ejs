@@ -24,14 +24,15 @@
         <input class="search-btn" type="submit" value="">
    
       </form>
-      <ul>
+      <br>
+      <br>
+      
         <% searchresults.forEach(function(r) { %>
-          <li>ID: <%= r.prod_id%></li>
-          <li>Name: <%= r.prod_name%></li>
-          <li>Type: <%= r.type%></li>
-          <li>Lifespan: <%= r.lifetime%></li>
+         <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch()"> 
+          <%= r.prod_name%>
+         </button> 
         <% }); %>
-      </ul>
+        
       
  	 </div>
     
@@ -92,7 +93,7 @@
         <option value="peaches">Peach</option>
         <option value="muffins">Muffin</option>
         <option value="oranges">Orange</option>
-        <option value="eggs">Egg</option>
+        <option value="pie">Pie</option>
         <option value="bacon">Bacon</option>
         <option value="butter">Butter</option>
         <option value="celery">Celery</option>

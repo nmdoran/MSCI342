@@ -19,23 +19,23 @@ express()
   .set('view engine', 'ejs')
   .get('/', jsonParser, async (req, res) => {
     try {
-      const client = await pool.connect();
-      const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products NATURAL JOIN products`);
-      const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}')`);
-      const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
-      res.render('pages/index', results);
-      client.release();
+        const client = await pool.connect();
+        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products NATURAL JOIN products`);
+        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}')`);
+        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
+        res.render('pages/index', results);
+        client.release();
     } catch (err) {
       console.error(err);
       res.send("Error " + err);
     }
 })
-  .get('/searchProduct', jsonParser, async (req, res) => {
+  .get('/addProduct', jsonParser, async (req, res) => {
     try {
       const client = await pool.connect();
       const result = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}')`);
       const results = { 'results': (result) ? result.rows : null};
-      res.render('pages/db', results );
+      res.render('pages/addProduct', results );
       client.release();
     } catch (err) {
       console.error(err);
@@ -51,7 +51,7 @@ express()
                       ,(select prod_id from products where prod_name = '${req.body.product}')
                       ,current_date
                       ,current_date + (select lifetime from products where prod_name = '${req.body.product}')
-                      , ${req.body.quantity}
+                      , qty = 1
                       , 'each');`)
       client.release();
       res.send("Success! " + res);

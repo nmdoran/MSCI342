@@ -24,6 +24,14 @@ function addProduct() {
   userRequest.send(JSON.stringify({'product':document.getElementById("addProduct").value, 'quantity': document.getElementById("quantity").value}));
 }
 
+function addProductFromSearch() {
+  console.log("Adding a product...")
+  const userRequest = new XMLHttpRequest();
+  userRequest.open('post', '/addProduct');
+  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value}));
+}
+
 function removeProduct() {
   console.log("Removing a product...")
   const userRequest = new XMLHttpRequest();
