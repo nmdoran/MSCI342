@@ -29,7 +29,7 @@ function addProductFromSearch() {
   const userRequest = new XMLHttpRequest();
   userRequest.open('post', '/addProduct');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value}));
+  userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value, 'quantity': 1}));
 }
 
 function removeProduct() {
@@ -46,4 +46,4 @@ function removeProduct() {
   userRequest.open('post', '/db');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
   userRequest.send(JSON.stringify({'product':document.getElementById("addProduct").value}));
-/*
+*/
