@@ -122,21 +122,21 @@ express()
   
   })
 
-.get('/addCustom', (req, res) => res.render('pages/addCustom'))
+  .get('/addCustom', (req, res) => res.render('pages/addCustom'))
   .post('/addCustom', jsonParser, async function(req, res) {
     try {
       const client = await pool.connect();
       client.query(`insert into products
-                      values('2005'
+                      values('2010'
                       ,'${req.body.product_name}'
                       ,'${req.body.type}'
                       ,'${req.body.quantity}')`
       )
       client.query(`insert into fridge_products
                     values('1'
-                    ,(select prod_id from products where prod_name = '${req.body.product}')
+                    ,(select prod_id from products where prod_name = '${req.body.product_name}')
                     ,current_date
-                    ,current_date + (select lifetime from products where prod_name = '${req.body.product}')
+                    ,current_date + (select lifetime from products where prod_name = '${req.body.product_name}')
                     , ${req.body.quantity}
                     , 'each')`
       )
