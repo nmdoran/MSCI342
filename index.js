@@ -121,5 +121,5 @@ express()
       }
   
   })
-
+  .get('/signinpage', (req, res) => res.render('pages/signinpage'))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
