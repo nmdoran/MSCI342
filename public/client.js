@@ -3,13 +3,10 @@ console.log('Script file loaded successfully');
 function init() {
   gapi.load('auth2', function() {
     /* Ready. Make a call to gapi.auth2.init or some other API */
-    gapi.auth2.init({ client_id: "428407383068-nec4si48ja9r4pahl3ohp4rtq3cc8v7m.apps.googleusercontent.com" }).then(function(res) {
-      console.log(res);
-      var auth2 = gapi.auth2.getAuthInstance();
-      console.log(auth2);
-      console.log("Auth2:", auth2);
+    gapi.auth2.init({ client_id: "428407383068-nec4si48ja9r4pahl3ohp4rtq3cc8v7m.apps.googleusercontent.com" }).then(function(GoogleAuth) {
+      console.log(GoogleAuth);
       console.log("About to check if signed in:");
-      if (auth2.isSignedIn.get()) {
+      if (GoogleAuth.isSignedIn.get()) {
         var profile = auth2.currentUser.get().getBasicProfile();
         console.log('ID: ' + profile.getId());
         console.log('Full Name: ' + profile.getName());
@@ -17,9 +14,6 @@ function init() {
         console.log('Family Name: ' + profile.getFamilyName());
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
-      }
-      if (auth2) {
-        console.log(auth2.currentUser.get())
       }
     })
     
