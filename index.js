@@ -60,8 +60,8 @@ express()
     try {
       const client = await pool.connect();
       client.query(`UPDATE fridge_products
-SET qty = '${req.body.quantity}'
-WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}'`)
+        SET qty = '${req.body.quantity}'
+        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}'`)
       client.release();
       res.send("Success! " + res);
     } catch (err) {
