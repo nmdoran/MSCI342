@@ -14,6 +14,8 @@ function init() {
         console.log('Family Name: ' + profile.getFamilyName());
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log(id_token)
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/tokensignin');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
