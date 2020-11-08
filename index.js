@@ -130,7 +130,7 @@ express()
                       values('1'
                       ,'${req.body.product_name}'
                       ,'${req.body.type}'
-                      ,'${req.body.quantity}')`
+                      ,'${req.body.life}')`
       )
       client.query(`insert into fridge_products
                     values('1'
