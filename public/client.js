@@ -43,5 +43,5 @@ function editQuantity() {
   const userRequest = new XMLHttpRequest();
   userRequest.open('post', '/editQuantity');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("editQuantity").value, 'quantity2': document.getElementById("quantity2").value}));
+  userRequest.send(JSON.stringify({'product':document.getElementById("editQuantity").value, 'quantity': document.getElementById("quantity2").value}));
 }
