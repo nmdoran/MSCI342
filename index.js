@@ -23,15 +23,15 @@ express()
       if (req.query.type) {
         const client = await pool.connect();
         const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1') AND Type='${req.query.type}'`);
-        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0', '1')`);
+        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','1')`);
         const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
         res.render('pages/index', results );
         client.release();
       }
       else {
         const client = await pool.connect();
-        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1')`);
-        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0', '1')`);
+        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1') AND Type='${req.query.type}'`);
+        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','1')`);
         const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
         res.render('pages/index', results );
         client.release();
@@ -41,10 +41,11 @@ express()
       res.send("Error " + err);
     }
 })
+
   .get('/addProduct', jsonParser, async (req, res) => {
     try {
       const client = await pool.connect();
-      const result = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}')`);
+      const result = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}')AND user_ID IN ('0','1')`);
       const results = { 'results': (result) ? result.rows : null};
       res.render('pages/addProduct', results );
       client.release();

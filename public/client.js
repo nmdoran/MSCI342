@@ -40,6 +40,7 @@ function removeProduct() {
   userRequest.send(JSON.stringify({'product':document.getElementById("removeProduct").value, 'quantity': document.getElementById("quantity").value}));
 }
 
+
 function addCustom() {
   console.log("Adding a custom product...")
   const userRequest = new XMLHttpRequest();
@@ -51,6 +52,7 @@ function addCustom() {
     , 'life':document.getElementById("prod_life").value
     , 'quantity': document.getElementById("prod_qty").value}));
 }
+
 function filterbytype() {
   var x = document.getElementById("Types").value;
   if (window.location.hostname === "localhost") {
@@ -59,3 +61,4 @@ function filterbytype() {
     window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?type="+x);
   }
 }
+
