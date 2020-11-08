@@ -24,7 +24,7 @@ var transporter = nodemailer.createTransport (
     }
 );
 // email trigger - trigger set to send an alert email on Monday 12:20pm at time of demo 
-cron.schedule('01 20 12 * * Monday', () => {
+cron.schedule('01 30 12 * * Monday', () => {
     console.log('node email.js');
     transporter.sendMail(mailOptions, function(error,info){
         if(error) {
