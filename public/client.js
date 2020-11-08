@@ -35,7 +35,7 @@ function removeProduct() {
 
 function sortbyExpiry() {
   var x = document.getElementById("expirysort").value;
-  window.location.replace("http://localhost:5000/?expirysort="+x);
+  window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?expirysort="+x);
 }
 
 function editQuantity() {
