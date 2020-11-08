@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel = "stylesheet" href= "/stylesheets/main.css">
 <link rel = "stylesheet" href= "/stylesheets/search.css">
 <script src="/client.js"></script>
 <title>Main Page</title>
@@ -45,10 +46,18 @@
               document.getElementById("datetime").innerHTML = dt.toLocaleString();</script>
 
   <h2>Here's what is in your fridge: </h2>
-  <table  border = 2 style="width:50%">
+    <table  border = 2 style="width:50%">
     <tr>
       <th>Products</th>
-      <th>Type</th>
+      <th><select name="Types" id="Types" onchange="filterbytype()">
+        <option value="Type">Type</option>
+        <option value="baked goods">Baked Goods</option>
+        <option value="condiments">Condiments</option>
+        <option value="dairy">Dairy</option>
+        <option value="fruits">Fruits</option>
+        <option value="protein">Protein</option>
+        <option value="vegetables">Vegetables</option>
+        </select></th>
       <th>Date of Expiry</th>
       <th>Quantity</th>
     </tr>
