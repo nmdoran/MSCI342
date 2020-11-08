@@ -43,3 +43,11 @@ function addCustom() {
     , 'life':document.getElementById("prod_life").value
     , 'quantity': document.getElementById("prod_qty").value}));
 }
+function filterbytype() {
+  var x = document.getElementById("Types").value;
+  if (window.location.hostname === "localhost") {
+    window.location.replace("http://localhost:5000/?type="+x);
+  } else {
+    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?type="+x);
+  }
+}
