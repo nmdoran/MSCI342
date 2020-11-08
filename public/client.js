@@ -24,6 +24,14 @@ function addProduct() {
   userRequest.send(JSON.stringify({'product':document.getElementById("addProduct").value, 'quantity': document.getElementById("quantity").value}));
 }
 
+function addProductFromSearch() {
+  console.log("Adding a product...")
+  const userRequest = new XMLHttpRequest();
+  userRequest.open('post', '/addProduct');
+  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value, 'quantity': 1}));
+}
+
 function removeProduct() {
   console.log("Removing a product...")
   const userRequest = new XMLHttpRequest();
@@ -35,7 +43,11 @@ function removeProduct() {
 
 function sortbyExpiry() {
   var x = document.getElementById("expirysort").value;
-  window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?expirysort="+x);
+  if (window.location.hostname === "localhost") {
+    window.location.replace("http://localhost:5000/?expirysort="+x);
+  } else {
+    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?expirysort="+x);
+  }
 }
 
 function editQuantity() {
@@ -44,4 +56,13 @@ function editQuantity() {
   userRequest.open('post', '/editQuantity');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
   userRequest.send(JSON.stringify({'product':document.getElementById("editQuantity").value, 'quantity': document.getElementById("quantity2").value}));
+}
+  
+function filterbytype() {
+  var x = document.getElementById("Types").value;
+  if (window.location.hostname === "localhost") {
+    window.location.replace("http://localhost:5000/?type="+x);
+  } else {
+    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?type="+x);
+  }
 }
