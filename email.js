@@ -3,7 +3,7 @@ var nodemailer = require('nodemailer');
 
 var mailOptions = {
     from: 'whatscookinggoodlooking14@gmail.com',
-    to: 'palak04021999@gmail.com',
+    to: 'matthewsschneiders@gmail.com',
     subject:`'What's Cooking Good Looking Expiry Notification`,
     text:`
     Hello!
