@@ -51,7 +51,7 @@ express()
                       ,(select prod_id from products where prod_name = '${req.body.product}')
                       ,current_date
                       ,current_date + (select lifetime from products where prod_name = '${req.body.product}')
-                      , qty = 1
+                      , ${req.body.quantity}
                       , 'each');`)
       client.release();
       res.send("Success! " + res);
