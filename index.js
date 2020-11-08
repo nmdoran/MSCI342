@@ -122,5 +122,8 @@ express()
       }
   
   })
+  .post('/tokensignin', jsonParser, async function(req, res) {
+    console.log("Token Sign in:", req.body)
+  })
 
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
