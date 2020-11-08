@@ -59,10 +59,9 @@ express()
   .post('/editQuantity', jsonParser, async function(req, res) {
     try {
       const client = await pool.connect();
-      client.query(`UPDATE fridge_products f
-LEFT JOIN products p ON p.prod_ID = f.prod_ID
-SET f.qty = '${req.body.quantity}'
-WHERE p.prod_name = '${req.body.product}'`)
+      client.query(`UPDATE fridge_products
+        SET qty = '${req.body.quantity}'
+        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}')`)
       client.release();
       res.send("Success! " + res);
     } catch (err) {
