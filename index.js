@@ -24,7 +24,7 @@ express()
       const result = await client.query(`SELECT p.prod_name, f.exp_dt, f.qty, p.type
   FROM fridge_products f
   INNER JOIN products p ON f.prod_ID = p.prod_ID
-  WHERE user_ID = '1'
+  WHERE f.user_ID = '1'
   ORDER BY exp_dt ${req.query.expirysort}`)
   const results = { 'results': (result) ? result.rows : null};
   res.render('pages/index', results );
