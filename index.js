@@ -126,8 +126,8 @@ express()
   .post('/addCustom', jsonParser, async function(req, res) {
     try {
       const client = await pool.connect();
-      client.query(`insert into products
-                      values('2010'
+      client.query(`insert into products (user_ID, prod_name, type, lifetime)
+                      values('1'
                       ,'${req.body.product_name}'
                       ,'${req.body.type}'
                       ,'${req.body.quantity}')`
