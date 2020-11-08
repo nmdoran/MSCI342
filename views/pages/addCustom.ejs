@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/header.ejs %>
+    <!-- <script src="../../public/scripts/client.js"></script> -->
+    <script src="/client.js"></script>
+  </head>
+
+  <body>
+
+    <div class="container">
+        <h2>Add Custom Product</h2>
+
+        <!--Input product name-->
+        <label for="name">Product Name:</label>
+        <input type="text" id="prod_name"/> 
+        <br>
+
+        <!--Input product type-->
+        <label for="name">Product Type:</label>
+        <select name="addProduct" id="addType">
+            <option value="baked goods">Baked Goods</option>
+            <option value="condiments">Condiments</option>
+            <option value="fruits">Fruits</option>
+            <option value="protein">Protein</option>
+            <option value="dairy">Dairy</option>
+            <option value="vegetables">Vegetables</option>
+        </select>
+        <br>
+
+        <!--Input product lifetime-->
+        <label for="name">Product Lifetime (days):</label>
+        <input type="number" id="prod_life"/> 
+        <br>
+
+         <!--Input product quantity-->
+         <label for="name">Product Quantity:</label>
+         <input type="number" id="prod_qty"/> 
+         <br>
+        
+        <button onclick="addCustom()">Add Custom Product</button>
+
+        <br>
+
+    </div>
+
+  </body>
+</html>
