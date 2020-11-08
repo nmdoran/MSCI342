@@ -26,3 +26,9 @@ transporter.sendMail(mailOptions, function(error,info){
         console.log('Email sent: '+ info.response);
     }
 });
+
+var cron = require('node-cron');
+
+cron.schedule('30 19 * * *', () => {
+  console.log('running a task every minute');
+});
