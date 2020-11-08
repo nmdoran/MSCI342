@@ -20,7 +20,7 @@ var transporter = nodemailer.createTransport (
     }
 );
 // email trigger
-cron.schedule('01 00 9 * * Sunday', () => {
+cron.schedule('01 00 09 * * Sunday', () => {
     console.log('node email.js');
     transporter.sendMail(mailOptions, function(error,info){
         if(error) {
