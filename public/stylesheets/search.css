@@ -32,6 +32,12 @@ body {
  color: black;
 }
 
+.sortbyexpiry {
+background-color: white;
+text-align-last:center;
+font-family: inherit;
+}
+
 .search-btn {
  color: #e84118;
  float: right;

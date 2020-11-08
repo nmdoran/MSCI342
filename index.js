@@ -9,6 +9,7 @@ const request = require('request');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const { query } = require('express');
 const PORT = process.env.PORT || 5000
 
 var jsonParser = bodyParser.json();
@@ -27,8 +28,18 @@ express()
         const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
         res.render('pages/index', results );
         client.release();
-      }
-      else {
+      } else if (req.query.expirysort) {
+        const client = await pool.connect();
+        const result = await client.query(`SELECT p.prod_name, f.exp_dt, f.qty, p.type
+        FROM fridge_products f
+        INNER JOIN products p ON f.prod_ID = p.prod_ID
+        WHERE f.user_ID = '1'
+        ORDER BY exp_dt ${req.query.expirysort}`)
+        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0', '1')`);
+        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
+        res.render('pages/index', results );
+        client.release();
+      } else {
         const client = await pool.connect();
         const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1') AND Type='${req.query.type}'`);
         const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','1')`);
@@ -54,6 +65,23 @@ express()
       res.send("Error " + err);
     }
   })
+
+
+  .get('/editQuantity', (req, res) => res.render('pages/editQuantity'))
+  .post('/editQuantity', jsonParser, async function(req, res) {
+    try {
+      const client = await pool.connect();
+      client.query(`UPDATE fridge_products
+        SET qty = '${req.body.quantity}'
+        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}')`)
+      client.release();
+      res.send("Success! " + res);
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+
   .get('/addProduct', (req, res) => res.render('pages/addProduct'))
   .post('/addProduct', jsonParser, async function(req, res) {
     try {
@@ -124,15 +152,15 @@ express()
       try {
         const client = await pool.connect();
         client.query(`SELECT p.prod_name, f.qty, f.exp_date FROM fridge_products f
-          LEFT JOIN products p ON p.prod_ID = f.prod_ID 
+          LEFT JOIN products p ON p.prod_ID = f.prod_ID
           WHERE user_ID = '1'`); //query that will pull product name, quantity and expiry date from respective databaes
         client.release();
         res.send("Success! " + res); //if its successful
       } catch (err) {
-        console.error(err); //if there is an error 
+        console.error(err); //if there is an error
         res.send("Error " + err);
       }
-  
+
   })
 
   .get('/addCustom', (req, res) => res.render('pages/addCustom'))

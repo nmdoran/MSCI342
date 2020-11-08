@@ -41,6 +41,23 @@ function removeProduct() {
 }
 
 
+function sortbyExpiry() {
+  var x = document.getElementById("expirysort").value;
+  if (window.location.hostname === "localhost") {
+    window.location.replace("http://localhost:5000/?expirysort="+x);
+  } else {
+    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?expirysort="+x);
+  }
+}
+
+function editQuantity() {
+  console.log("Editing quantity...")
+  const userRequest = new XMLHttpRequest();
+  userRequest.open('post', '/editQuantity');
+  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  userRequest.send(JSON.stringify({'product':document.getElementById("editQuantity").value, 'quantity': document.getElementById("quantity2").value}));
+}
+  
 function addCustom() {
   console.log("Adding a custom product...")
   const userRequest = new XMLHttpRequest();
