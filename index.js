@@ -61,8 +61,8 @@ express()
       const client = await pool.connect();
       client.query(`UPDATE fridge_products f
 LEFT JOIN products p ON p.prod_ID = f.prod_ID
-SET f.qty = '${req.query.quantity}'
-WHERE p.prod_name = '${req.query.name}'`)
+SET f.qty = '${req.body.quantity}'
+WHERE p.prod_name = '${req.body.product}'`)
       client.release();
       res.send("Success! " + res);
     } catch (err) {
