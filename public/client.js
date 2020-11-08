@@ -33,6 +33,10 @@ function removeProduct() {
 }
 
 function filterbytype() {
-      var x = document.getElementById("Types").value;
-      location.replace("http://localhost:5000/?type="+x);
+  var x = document.getElementById("Types").value;
+  if (window.location.hostname === "localhost") {
+    window.location.replace("http://localhost:5000/?type="+x);
+  } else {
+    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?type="+x);
+  }
 }
