@@ -20,7 +20,10 @@ express()
   .get('/', jsonParser, async (req, res) => {
     try {
       const client = await pool.connect();
-      const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products NATURAL JOIN products`);
+      const result = await client.query(`select p.prod_name, p.type, f.exp_dt, f.qty
+        from fridge_products f 
+        left join products p on p.prod_id = f.prod_id
+        where user_id = '1'`);
       const results = { 'results': (result) ? result.rows : null};
       res.render('pages/index', results );
       client.release();
