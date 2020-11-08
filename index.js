@@ -19,12 +19,23 @@ express()
   .set('view engine', 'ejs')
   .get('/', jsonParser, async (req, res) => {
     try {
+      //console.log(req.query)
+      if (req.query.type) {
+        const client = await pool.connect();
+        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1') AND Type='${req.query.type}'`);
+        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0', '1')`);
+        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
+        res.render('pages/index', results );
+        client.release();
+      }
+      else {
         const client = await pool.connect();
         const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1')`);
         const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0', '1')`);
         const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
-        res.render('pages/index', results);
+        res.render('pages/index', results );
         client.release();
+      }
     } catch (err) {
       console.error(err);
       res.send("Error " + err);
