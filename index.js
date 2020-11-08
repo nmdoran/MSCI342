@@ -55,6 +55,21 @@ express()
   })
 
 
+  .get('/editQuantity', (req, res) => res.render('pages/editQuantity'))
+  .post('/editQuantity', jsonParser, async function(req, res) {
+    try {
+      const client = await pool.connect();
+      client.query(`UPDATE fridge_products f
+LEFT JOIN products p ON p.prod_ID = f.prod_ID
+SET f.qty = '${req.query.quantity}'
+WHERE p.prod_name = '${req.query.name}'`)
+      client.release();
+      res.send("Success! " + res);
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
 
   .get('/addProduct', (req, res) => res.render('pages/addProduct'))
   .post('/addProduct', jsonParser, async function(req, res) {

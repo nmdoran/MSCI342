@@ -37,3 +37,11 @@ function sortbyExpiry() {
   var x = document.getElementById("expirysort").value;
   window.location.replace("http://localhost:5000/?expirysort="+x);
 }
+
+function editQuantity() {
+  console.log("Editing quantity...")
+  const userRequest = new XMLHttpRequest();
+  userRequest.open('post', '/editQuantity');
+  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  userRequest.send(JSON.stringify({'product':document.getElementById("editQuantity").value, 'quantity': document.getElementById("quantity").value}));
+}
