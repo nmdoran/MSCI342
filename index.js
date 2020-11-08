@@ -57,7 +57,6 @@ express()
 
   .get('/editQuantity', (req, res) => res.render('pages/editQuantity'))
   .post('/editQuantity', jsonParser, async function(req, res) {
-    console.log(req.body)
     try {
       const client = await pool.connect();
       client.query(`UPDATE fridge_products
