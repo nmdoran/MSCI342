@@ -31,3 +31,8 @@ function removeProduct() {
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
   userRequest.send(JSON.stringify({'product':document.getElementById("removeProduct").value, 'quantity': document.getElementById("quantity").value}));
 }
+
+function filterbytype() {
+      var x = document.getElementById("Types").value;
+      location.replace("http://localhost:5000/?type="+x);
+}
