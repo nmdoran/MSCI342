@@ -21,7 +21,7 @@ express()
     try {
       const client = await pool.connect();
       const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products NATURAL JOIN products`);
-      const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}')`);
+      const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','1')`);
       const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
       res.render('pages/index', results);
       client.release();
@@ -33,7 +33,7 @@ express()
   .get('/searchProduct', jsonParser, async (req, res) => {
     try {
       const client = await pool.connect();
-      const result = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}')`);
+      const result = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','1')`);
       const results = { 'results': (result) ? result.rows : null};
       res.render('pages/db', results );
       client.release();
