@@ -1,14 +1,5 @@
-var nodemailer = require('nodemailer')
-
-var transporter = nodemailer.createTransport (
-    {
-        service: 'gmail',
-        auth:{
-            user: 'whatscookinggoodlooking14@gmail.com',
-            pass:'msci343g14wcgl'
-        }
-    }
-);
+var cron = require('node-cron');
+var nodemailer = require('nodemailer');
 
 var mailOptions = {
     from: 'whatscookinggoodlooking14@gmail.com',
@@ -19,16 +10,25 @@ var mailOptions = {
             This is what's expiring soon!`
 };
 
-transporter.sendMail(mailOptions, function(error,info){
-    if(error) {
-        console.log(error);
-    } else {
-        console.log('Email sent: '+ info.response);
+var transporter = nodemailer.createTransport (
+    {
+        service: 'gmail',
+        auth:{
+            user: 'whatscookinggoodlooking14@gmail.com',
+            pass:'msci343g14wcgl'
+        }
     }
-});
+);
+// email trigger
+cron.schedule('01 00 9 * * Sunday', () => {
+    console.log('node email.js');
+    transporter.sendMail(mailOptions, function(error,info){
+        if(error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: '+ info.response);
+        }
+    });
+  });
 
-var cron = require('node-cron');
 
-cron.schedule('30 19 * * *', () => {
-  console.log('running a task every minute');
-});
