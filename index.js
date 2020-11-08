@@ -22,14 +22,14 @@ express()
       //console.log(req.query)
       if (req.query.type) {
         const client = await pool.connect();
-        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products NATURAL JOIN products WHERE Type='${req.query.type}'`);
+        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1') AND Type='${req.query.type}'`);
         const results = { 'results': (result) ? result.rows : null};
         res.render('pages/index', results );
         client.release();
       }
       else {
         const client = await pool.connect();
-        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products NATURAL JOIN products`);
+        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1')`);
         const results = { 'results': (result) ? result.rows : null};
         res.render('pages/index', results );
         client.release();
