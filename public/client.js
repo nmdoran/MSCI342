@@ -7,7 +7,7 @@ function init() {
       console.log(GoogleAuth);
       console.log("About to check if signed in:");
       if (GoogleAuth.isSignedIn.get()) {
-        var profile = auth2.currentUser.get().getBasicProfile();
+        var profile = GoogleAuth.currentUser.get().getBasicProfile();
         console.log('ID: ' + profile.getId());
         console.log('Full Name: ' + profile.getName());
         console.log('Given Name: ' + profile.getGivenName());
