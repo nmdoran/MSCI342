@@ -5,10 +5,16 @@ body {
  font-family: Verdana, sans-serif;
 }
 
-.search-box {
+.search {
  position: absolute;
  top: 20%;
- left: 90%;
+ right: 10%;
+}
+
+.search-box {
+ margin-top: 50px;
+ margin-right: 20%;
+ margin-left: 90%
  transform: translate(-50%, -50%);
  background: #2f3640;
  height: 40px;
@@ -24,6 +30,12 @@ body {
 .search-box:hover > .search-btn {
  background: white;
  color: black;
+}
+
+.sortbyexpiry {
+background-color: white;
+text-align-last:center;
+font-family: inherit;
 }
 
 .search-btn {

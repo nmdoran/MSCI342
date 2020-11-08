@@ -9,28 +9,32 @@
   <body>
 
     <div class="container">
-      <h2>Database Results</h2>
+      <h2>Search Results</h2>
 
       <ul>
-          <% results.forEach(function(r) { %>
-              <li><%= r.prod_id %> - <%= r.prod_name %></li>
-          <% }); %>
+        <% results.forEach(function(r) { %>
+          <li>ID: <%= r.prod_id%></li>
+          <li>Name: <%= r.prod_name%></li>
+          <li>Type: <%= r.type%></li>
+          <li>Lifespan: <%= r.lifetime%></li>
+        <% }); %>
       </ul>
 
-      <label for="id">ID</label>
+      <!-- <label for="id">ID</label>
       <input type="text" id="id"/>
       <label for="name">Name</label>
       <input type="text" id="name"/> 
-      <!-- <label for="insert">Insert</label>
+      <label for="insert">Insert</label>
       <input type="radio" id="insert" name="queryType" value="insert">
       <label for="delete">Delete</label>
-      <input type="radio" id="delete" name="queryType" value="delete"> -->
+      <input type="radio" id="delete" name="queryType" value="delete">
 
       <button onclick="addRow()">Insert Row</button>
-      <button onclick="deleteRow()">Delete Row</button>
+      <button onclick="deleteRow()">Delete Row</button> -->
 
       <form class="search" method="get">
         <input class="form-control typeahead tt-query" type="text" name="searchParam" placeholder="Search">
+        <br>
         <input class="btn btn-primary" type="submit" value="Submit">
       </form>
 
