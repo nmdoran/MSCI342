@@ -25,9 +25,7 @@ express()
   }))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/auth', function(req, res) {
-    res.render('pages/auth');
-  })
+  
   .get('/', jsonParser, async (req, res) => {
     try {
       var userID = userProfile ? userProfile.id : 1; 
