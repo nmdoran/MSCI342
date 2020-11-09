@@ -1,32 +1,24 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.3.0",
-  "description": "A sample Node.js app using Express 4",
-  "engines": {
-    "node": "12.x"
-  },
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon -e ejs,js index.js",
-    "test": "node test.js"
-  },
+  "name": "express-google-oauth2-tutorial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
   "dependencies": {
-    "ejs": "^2.5.6",
-    "express": "^4.15.2",
-    "node-cron": "^2.0.3",
-    "nodemailer": "^6.4.15",
-    "pg": "^8.4.1",
-    "prompt-sync": "^4.2.0",
-    "request": "^2.88.2"
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "google-auth-library": "^4.2.2",
+    "googleapis": "^40.0.0",
+    "jsonwebtoken": "^8.5.1"
   },
-  "devDependencies": {
-    "got": "^11.3.0",
-    "nodemon": "^2.0.5",
-    "tape": "^4.7.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AidanLovelace/Express-Google-OAuth2-Tutorial.git"
   },
-  "keywords": [
-    "node",
-    "heroku",
-    "express"
-  ]
+  "author": "Aidan Lovelace",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AidanLovelace/Express-Google-OAuth2-Tutorial/issues"
+  },
+  "homepage": "https://github.com/AidanLovelace/Express-Google-OAuth2-Tutorial#readme"
 }
