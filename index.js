@@ -7,25 +7,35 @@ const pool = new Pool({
 });
 const request = require('request');
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const PORT = process.env.PORT || 5000
+const passport = require('passport');
 
+var userProfile;
 var jsonParser = bodyParser.json();
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
+  .use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: 'SECRET' 
+  }))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
+  .get('/auth', function(req, res) {
+    res.render('pages/auth');
+  })
   .get('/', jsonParser, async (req, res) => {
-    console.log(req)
-    console.log(req.body)
     try {
+      console.log(userProfile)
       if (req.query.type) {
         const client = await pool.connect();
         const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1') AND Type='${req.query.type}'`);
         const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','1')`);
-        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
+        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
       } else if (req.query.expirysort) {
@@ -36,14 +46,14 @@ express()
         WHERE f.user_ID = '1'
         ORDER BY exp_dt ${req.query.expirysort}`)
         const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0', '1')`);
-        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
+        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
       } else {
         const client = await pool.connect();
         const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1')`);
         const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','1')`);
-        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
+        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
       }
@@ -112,42 +122,7 @@ express()
       res.send("Error " + err);
     }
   })
-  .get('/signin', (req, res) => res.render('pages/signin'))
-  .get('/users', function(req, res) {
-    console.log("Requesting...")
-    request('https://jsonplaceholder.typicode.com/users', function(error, response, body) {
-        // console.log(error);
-        // console.log(response);
-        // console.log(body);
-        res.json(body)
-      });
-  })
-  .post('/addRow', jsonParser, async function(req, res) {
-    console.log(req.body)
-    console.log(req.body.id, req.body.name)
-    try {
-      const client = await pool.connect();
-      client.query(`INSERT into test_table values (${req.body.id}, '${req.body.name}')`);
-      client.release();
-      res.send("Success! " + res);
-    } catch (err) {
-      console.error(err);
-      res.send("Error " + err);
-    }
-  })
-  .post('/deleteRow', jsonParser, async function(req, res) {
-    console.log(req.body)
-    console.log(req.body.id)
-    try {
-      const client = await pool.connect();
-      client.query(`DELETE from test_table where id=${req.body.id}`);
-      client.release();
-      res.send("Success! " + res);
-    } catch (err) {
-      console.error(err);
-      res.send("Error " + err);
-    }
-})
+  
   .post('/checkfridge', jsonParser, async function(req, res) { //create a "post" method to check fridge products (product name, quantity, expiry date)
       console.log(req.body)
       console.log(req.body.id)
@@ -163,9 +138,6 @@ express()
         res.send("Error " + err);
       }
 
-  })
-  .post('/tokensignin', jsonParser, async function(req, res) {
-    console.log("Token Sign in:", req.body)
   })
 
   .get('/addCustom', (req, res) => res.render('pages/addCustom'))
@@ -195,5 +167,47 @@ express()
   })
 
   .get('/signinpage', (req, res) => res.render('pages/signinpage'))
+  
+  // login setup
 
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+  .use(passport.initialize())
+  .use(passport.session())
+
+  .get('/error', (req, res) => res.send("error logging in"))
+
+  .get('/auth/google', 
+    passport.authenticate('google', { scope : ['profile', 'email'] }))
+  
+  .get('/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/error' }),
+    function(req, res) {
+      // Successful authentication, redirect success.
+      res.redirect('/');
+    })
+
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
+
+  passport.serializeUser(function(user, cb) {
+    cb(null, user);
+  });
+
+  passport.deserializeUser(function(obj, cb) {
+    cb(null, obj);
+  });
+
+  // google authorization
+
+  const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+  const GOOGLE_CLIENT_ID = '428407383068-nec4si48ja9r4pahl3ohp4rtq3cc8v7m.apps.googleusercontent.com';
+  const GOOGLE_CLIENT_SECRET = 'bhdFRmNBMRdiO4BUozBvedZC';
+  passport.use(new GoogleStrategy({
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:5000/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+        userProfile=profile;
+        return done(null, userProfile);
+    }
+  ));
