@@ -19,6 +19,7 @@ express()
   .set('view engine', 'ejs')
   .get('/', jsonParser, async (req, res) => {
     console.log(req)
+    console.log(req.body)
     try {
       if (req.query.type) {
         const client = await pool.connect();
@@ -51,20 +52,6 @@ express()
       res.send("Error " + err);
     }
 })
-
-  .get('/addProduct', jsonParser, async (req, res) => {
-    try {
-      const client = await pool.connect();
-      const result = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}')AND user_ID IN ('0','1')`);
-      const results = { 'results': (result) ? result.rows : null};
-      res.render('pages/addProduct', results );
-      client.release();
-    } catch (err) {
-      console.error(err);
-      res.send("Error " + err);
-    }
-  })
-
 
   .get('/editQuantity', (req, res) => res.render('pages/editQuantity'))
   .post('/editQuantity', jsonParser, async function(req, res) {
