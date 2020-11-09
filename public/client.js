@@ -88,6 +88,15 @@ function editQuantity() {
   userRequest.send(JSON.stringify({'product':document.getElementById("editQuantity").value, 'quantity': document.getElementById("quantity2").value}));
 }
   
+function editExpiry() {
+  console.log("Editing expiry date...")
+  const userRequest = new XMLHttpRequest();
+  userRequest.open('post', '/editExpiry');
+  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  userRequest.send(JSON.stringify({'product':document.getElementById("editExpiry").value, 'expirydate': document.getElementById("expirydate").value}));
+}
+
+
 function addCustom() {
   console.log("Adding a custom product...")
   const userRequest = new XMLHttpRequest();

@@ -82,6 +82,21 @@ express()
     }
   })
 
+  .get('/editExpiry', (req, res) => res.render('pages/editQuantity'))
+  .post('/editExpiry', jsonParser, async function(req, res) {
+    try {
+      const client = await pool.connect();
+      client.query(`UPDATE fridge_products
+        SET exp_dt = '${req.body.expirydate}'
+        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}')`)
+      client.release();
+      res.send("Success! " + res);
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+
   .get('/addProduct', (req, res) => res.render('pages/addProduct'))
   .post('/addProduct', jsonParser, async function(req, res) {
     try {
