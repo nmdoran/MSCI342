@@ -25,11 +25,11 @@ function removeProduct() {
 }
 
 function sortbyExpiry() {
-  var x = document.getElementById("expirysort").value;
+  var x = document.getElementById("expirysort").value.length ? "?expirysort=" + document.getElementById("expirysort").value : "";
   if (window.location.hostname === "localhost") {
-    window.location.replace("http://localhost:5000/?expirysort="+x);
+    window.location.replace("http://localhost:5000/" + x);
   } else {
-    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?expirysort="+x);
+    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/" + x);
   }
 }
 
@@ -62,10 +62,10 @@ function addCustom() {
 }
 
 function filterByType() {
-  var x = document.getElementById("types").value;
+  var x = document.getElementById("types").value.length ? "?type=" + document.getElementById("types").value : "";
   if (window.location.hostname === "localhost") {
-    window.location.replace("http://localhost:5000/?type=" + x);
+    window.location.replace("http://localhost:5000/" + x);
   } else {
-    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?type=" + x);
+    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/" + x);
   }
 }

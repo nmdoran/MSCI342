@@ -30,11 +30,11 @@ express()
   })
   .get('/', jsonParser, async (req, res) => {
     try {
-      console.log(userProfile)
+      var userID = userProfile ? userProfile.id : 1; 
       if (req.query.type) {
         const client = await pool.connect();
-        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1') AND Type='${req.query.type}'`);
-        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','1')`);
+        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}') AND Type='${req.query.type}'`);
+        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','${userID}')`);
         const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
@@ -43,16 +43,16 @@ express()
         const result = await client.query(`SELECT p.prod_name, f.exp_dt, f.qty, p.type
         FROM fridge_products f
         INNER JOIN products p ON f.prod_ID = p.prod_ID
-        WHERE f.user_ID = '1'
+        WHERE f.user_ID = '${userID}'
         ORDER BY exp_dt ${req.query.expirysort}`)
-        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0', '1')`);
+        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0', '${userID}')`);
         const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
       } else {
         const client = await pool.connect();
-        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1')`);
-        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','1')`);
+        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}')`);
+        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','${userID}')`);
         const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
@@ -66,10 +66,11 @@ express()
   .get('/editQuantity', (req, res) => res.render('pages/editQuantity'))
   .post('/editQuantity', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
       client.query(`UPDATE fridge_products
         SET qty = '${req.body.quantity}'
-        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}')`)
+        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}') AND user_ID = '${userID}'`)
       client.release();
       res.send("Success! " + res);
     } catch (err) {
@@ -81,10 +82,11 @@ express()
   .get('/editExpiry', (req, res) => res.render('pages/editQuantity'))
   .post('/editExpiry', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
       client.query(`UPDATE fridge_products
         SET exp_dt = '${req.body.expirydate}'
-        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}')`)
+        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}') AND user_ID = '${userID}'`)
       client.release();
       res.send("Success! " + res);
     } catch (err) {
@@ -96,9 +98,10 @@ express()
   .get('/addProduct', (req, res) => res.render('pages/addProduct'))
   .post('/addProduct', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
       client.query(`insert into fridge_products
-                      values(1
+                      values('${userID}'
                       ,(select prod_id from products where prod_name = '${req.body.product}')
                       ,current_date
                       ,current_date + (select lifetime from products where prod_name = '${req.body.product}')
@@ -113,8 +116,9 @@ express()
   })
   .post('/removeProduct', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
-      client.query(`delete from fridge_products where user_ID = '1' AND prod_id=(select prod_id from products where prod_name = '${req.body.product}');`)
+      client.query(`delete from fridge_products where user_ID = '${userID}' AND prod_id=(select prod_id from products where prod_name = '${req.body.product}');`)
       client.release();
       res.send("Success! " + res);
     } catch (err) {
@@ -143,15 +147,16 @@ express()
   .get('/addCustom', (req, res) => res.render('pages/addCustom'))
   .post('/addCustom', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
       client.query(`insert into products (user_ID, prod_name, type, lifetime)
-                      values('1'
+                      values('${userID}'
                       ,'${req.body.product_name}'
                       ,'${req.body.type}'
                       ,'${req.body.life}')`
       )
       client.query(`insert into fridge_products
-                    values('1'
+                    values('${userID}'
                     ,(select prod_id from products where prod_name = '${req.body.product_name}')
                     ,current_date
                     ,current_date + (select lifetime from products where prod_name = '${req.body.product_name}')
@@ -184,6 +189,13 @@ express()
       // Successful authentication, redirect success.
       res.redirect('/');
     })
+
+  .get('/logout', function(req, res) {
+    req.logout();
+    userProfile = null;
+    res.redirect('/signinpage');
+  }) 
+  
 
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
