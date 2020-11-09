@@ -9,7 +9,6 @@ const request = require('request');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { query } = require('express');
 const PORT = process.env.PORT || 5000
 
 var jsonParser = bodyParser.json();
@@ -19,8 +18,8 @@ express()
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', jsonParser, async (req, res) => {
+    console.log(req)
     try {
-      //console.log(req.query)
       if (req.query.type) {
         const client = await pool.connect();
         const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1') AND Type='${req.query.type}'`);
