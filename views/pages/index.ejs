@@ -1,102 +1,129 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<link rel = "stylesheet" href= "/stylesheets/main.css">
-<link rel = "stylesheet" href= "/stylesheets/search.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="/client.js"></script>
-<title>Main Page</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/stylesheets/main.css">
+  <link rel="stylesheet" href="/stylesheets/search.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="/client.js"></script>
+  <title>Main Page</title>
 </head>
+
 <body>
   <div class="container">
-  <font color = #ffffff >
+    <font color=#ffffff>
 
 
-    <style>
-  div.scroll
-  {
-  Width-5px;
-  Height-10 px;
-  Overflow-x:scroll;
-  }
-  </style>
+      <style>
+        div.scroll {
+          Width-5px;
+          Height-10 px;
+          Overflow-x: scroll;
+        }
+      </style>
 
-     <div class = "search">
-     	 <span>
-            Would you like to add a new product?
-         </span>
+      <div class="search">
+        <span>
+          Would you like to add a new product?
+        </span>
 
-     <form class="search-box" method="get">
-        <input type="text" name="searchParam" class="search-txt" maxlength = "255" placeholder="Search..."/>
+        <form class="search-box" method="get">
+          <input type="text" name="searchParam" class="search-txt" maxlength="255" placeholder="Search..." />
+          <br>
+          <input class="search-btn" type="submit" value="">
+
+        </form>
+
         <br>
-        <input class="search-btn" type="submit" value="">
-
-      </form>
-
-      <br>
-      <br>
+        <br>
 
         <% searchresults.forEach(function(r) { %>
-         <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch()">
+        <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button"
+          onclick="addProductFromSearch()">
           <%= r.prod_name%>
-         </button>
+        </button>
         <% }); %>
- 	  </div>
+      </div>
 
 
 
-  <h1> Hello User!</h1>
+      <h1> Hello User!</h1>
 
 
-          <h3>Today's Date: <span id="datetime"></span></h3>
-          <script>
-              var dt = new Date();
-              document.getElementById("datetime").innerHTML = dt.toLocaleString();</script>
+      <h3>Today's Date: <span id="datetime"></span></h3>
+      <script>
+        var dt = new Date();
+        document.getElementById("datetime").innerHTML = dt.toLocaleString();</script>
 
-<!--Mirals changes for sort by function-->
-  <div class="table-scroll">
-  <table>
-  <h2>Here's what is in your fridge: </h2>
-    <table  border = 2 style="width:50%">
-    <tr>
-      <th>Products</th>
-      <th><select name="Types" id="Types" onchange="filterbytype()">
-        <option value="Type">Type</option>
-        <option value="baked goods">Baked Goods</option>
-        <option value="condiments">Condiments</option>
-        <option value="dairy">Dairy</option>
-        <option value="fruits">Fruits</option>
-        <option value="protein">Protein</option>
-        <option value="vegetables">Vegetables</option>
-        </select></th>
-      <th> Date of Expiry <br>
-        <label for="expiry-date">
-          <select id= "expirysort" class = "sortbyexpiry" onchange = "sortbyExpiry()">
-            <option value = "">Sort by</option>
-          <option value = "ASC">Soonest Expiry Date</option>
-          <option value = "DESC">Latest Expiry Date</option>
-          </th>
-      <th>Quantity</th>
-    </tr>
-    <% results.forEach(function(r) { %>
-      <tr>
-        <td><%= r.prod_name%></td>
-        <td><%= r.type%></td>
-        <td><%= r.exp_dt%></td>
-        <td><%= r.qty%></td>
-      </tr>
-    <% }); %>
-  </table>
-</div>
-<br>
+      <!--Mirals changes for sort by function-->
+      <div class="table-scroll">
+        <table>
+          <h2>Here's what is in your fridge: </h2>
+          <table border=2 style="width:50%">
+            <tr>
+              <th>Products</th>
+              <th><select name="Types" id="Types" onchange="filterbytype()">
+                  <option value="Type">Type</option>
+                  <option value="baked goods">Baked Goods</option>
+                  <option value="condiments">Condiments</option>
+                  <option value="dairy">Dairy</option>
+                  <option value="fruits">Fruits</option>
+                  <option value="protein">Protein</option>
+                  <option value="vegetables">Vegetables</option>
+                </select></th>
+              <th> Date of Expiry <br>
+                <label for="expiry-date">
+                  <select id="expirysort" class="sortbyexpiry" onchange="sortbyExpiry()">
+                    <option value="">Sort by</option>
+                    <option value="ASC">Soonest Expiry Date</option>
+                    <option value="DESC">Latest Expiry Date</option>
+              </th>
+              <th>Quantity</th>
+              <th>Edit</th>
+              <th>Delete</th>
+              <% results.forEach(function(r) { %>
+            <tr>
+              <td><%= r.prod_name%></td>
+              <td><%= r.type%></td>
+              <td><%= r.exp_dt%></td>
+              <td><%= r.qty%></td>
+              <td>
+                <div class="popup" onclick="myFunction()"><input type='button' value='Edit'>
+                  <span class="popuptext" id="myPopup">Edit Form</span>
+                </div>
+              </td>
+              <td>
+                <div class="popup" onclick="myFunction2()"><input type='button' value='Delete'>
+                  <span class="popuptext" id="myPopup">Delete Form</span>
+                </div>
+              </td>
+            
+            <% }); %>
+            </tr>
+          </table>
+      </div>
+      <br>
 
-  <button type="button" class="button">Find out what's expiring soon -></button>
+      <script>
+        function myFunction() {
+          var popup = document.getElementById("myPopup");
+          popup.classList.toggle("show");
+        }
+      </script>
 
-  <h2>Add Products to the Fridge</h2>
+      <script>
+        function myFunction2() {
+          var popup2 = document.getElementById("myPopup");
+          popup2.classList.toggle("show");
+        }
+      </script>
+      <button type="button" class="button">Find out what's expiring soon -></button>
 
-    <label for="name">Product Name:</label>
-    <select name="addProduct" id="addProduct">
+      <h2>Add Products to the Fridge</h2>
+
+      <label for="name">Product Name:</label>
+      <select name="addProduct" id="addProduct">
         <option value="peaches">Peach</option>
         <option value="muffins">Muffin</option>
         <option value="oranges">Orange</option>
@@ -104,25 +131,25 @@
         <option value="bacon">Bacon</option>
         <option value="butter">Butter</option>
         <option value="celery">Celery</option>
-    </select>
-    <br>
-    <label for="name">Quantity</label>
-    <input type="number" id="quantity"/>
-    <br>
-    <button onclick="addProduct()">Add to Fridge</button>
+      </select>
+      <br>
+      <label for="name">Quantity</label>
+      <input type="number" id="quantity" />
+      <br>
+      <button onclick="addProduct()">Add to Fridge</button>
 
-    <br>
-    <br>
+      <br>
+      <br>
 
-    <a href="/addCustom">Add a Custom Product</a>
+      <a href="/addCustom">Add a Custom Product</a>
 
-    <br>
-    <br>
+      <br>
+      <br>
 
-    <h2>Remove Products from the Fridge</h2>
+      <h2>Remove Products from the Fridge</h2>
 
-    <label for="name">Product Name:</label>
-    <select name="removeProduct" id="removeProduct">
+      <label for="name">Product Name:</label>
+      <select name="removeProduct" id="removeProduct">
         <option value="peaches">Peach</option>
         <option value="muffins">Muffin</option>
         <option value="oranges">Orange</option>
@@ -130,53 +157,54 @@
         <option value="bacon">Bacon</option>
         <option value="butter">Butter</option>
         <option value="celery">Celery</option>
-    </select>
-    <br>
-    <button onclick="removeProduct()">Remove from Fridge</button>
+      </select>
+      <br>
+      <button onclick="removeProduct()">Remove from Fridge</button>
 
-    <h2>Edit Quantity for Products</h2>
+      <h2>Edit Quantity for Products</h2>
 
-    <label for="name">Product Name:</label>
-    <select name="editQuantity" id="editQuantity">
+      <label for="name">Product Name:</label>
+      <select name="editQuantity" id="editQuantity">
         <option value="bread">Bread</option>
         <option value="muffins">Muffin</option>
         <option value="oranges">Orange</option>
         <option value="eggs">Egg</option>
         <option value="bacon">Bacon</option>
         <option value="butter">Butter</option>
-         <option value="celery">Celery</option>
-    </select>
-    <br>
-    <label for="name">Quantity</label>
-      <input type="number" id="quantity2"/>
+        <option value="celery">Celery</option>
+      </select>
       <br>
-    <button onclick="editQuantity()">Edit Quantity</button>
+      <label for="name">Quantity</label>
+      <input type="number" id="quantity2" />
+      <br>
+      <button onclick="editQuantity()">Edit Quantity</button>
 
 
 
-    <h2>Edit Expiry Date for Products</h2>
+      <h2>Edit Expiry Date for Products</h2>
 
-    <label for="name">Product Name:</label>
-    <select name="editExpiry" id="editExpiry">
+      <label for="name">Product Name:</label>
+      <select name="editExpiry" id="editExpiry">
         <option value="bread">Bread</option>
         <option value="muffins">Muffin</option>
         <option value="oranges">Orange</option>
         <option value="eggs">Egg</option>
         <option value="bacon">Bacon</option>
         <option value="butter">Butter</option>
-         <option value="celery">Celery</option>
-    </select>
-    <br>
-    <label for="name">Expiry Date</label>
-      <input type="date" id="expirydate"/>
+        <option value="celery">Celery</option>
+      </select>
       <br>
-    <button onclick="editExpiry()">Edit Expiry</button>
+      <label for="name">Expiry Date</label>
+      <input type="date" id="expirydate" />
+      <br>
+      <button onclick="editExpiry()">Edit Expiry</button>
 
-    <br>
-    <br>
+      <br>
+      <br>
 
 
-  </font>
+    </font>
 
 </body>
+
 </html>
