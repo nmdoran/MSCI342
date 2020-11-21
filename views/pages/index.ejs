@@ -34,8 +34,6 @@
         <% }); %>  
  	  </div>
 
-    
-  
   <h1> Hello User!</h1>
 
 
@@ -46,13 +44,15 @@
 
 <!--Mirals changes for sort by function-->
 
+  <a href="/editProfile">Edit Profile</a>
+
   </table>
   <h2>Here's what is in your fridge: </h2>
   <p> *Please note that expiry dates below are recommendations from the University of Nebraska-Lincoln* </p>      
-    <table  border = 2 style="width:50%">
+    <table border = 2 style="width:50%" id="fridge">
     <tr>
-      <th>Products</th>
-      <th><select name="Types" id="Types" onchange="filterbytype()">
+      <th onclick="sortTable(0)">Products</th>
+      <th><select name="Types" id="Types" onchange="filterbytype()" onclick="sortTable(1)">
         <option value="Type">Type</option>
         <option value="baked goods">Baked Goods</option>
         <option value="condiments">Condiments</option>

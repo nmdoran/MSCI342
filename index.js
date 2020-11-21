@@ -66,7 +66,6 @@ express()
     }
   })
 
-
   .get('/editQuantity', (req, res) => res.render('pages/editQuantity'))
   .post('/editQuantity', jsonParser, async function(req, res) {
     try {
@@ -195,6 +194,22 @@ express()
                     ,current_date + (select lifetime from products where prod_name = '${req.body.product_name}')
                     , ${req.body.quantity}
                     , 'each')`
+      )
+      client.release();
+      res.send("Success! " + res);
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+
+  .get('/editProfile', (req, res) => res.render('pages/editProfile'))
+  .post('/editProfile', jsonParser, async function(req, res) {
+    try {
+      const client = await pool.connect();
+      client.query(``
+      )
+      client.query(``
       )
       client.release();
       res.send("Success! " + res);
