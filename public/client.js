@@ -24,20 +24,24 @@ function addProduct() {
   userRequest.send(JSON.stringify({'product':document.getElementById("addProduct").value, 'quantity': document.getElementById("quantity").value}));
 }
 
-function addProductFromSearch() {
+function addProductFromSearch(e) {
   console.log("Adding a product...")
-  const userRequest = new XMLHttpRequest();
-  userRequest.open('post', '/addProduct');
-  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value, 'quantity' : document.getElementById("quantity").value}));
+  
   var q = document.getElementById("quantity").value;
   if (q==""){
     alert ("Please specify a quantity");
     return false;
   }
-  if (q<=0){
+  else if (q<=0){
     alert ("Invalid negative quantity");
     return false
+  }
+
+  else {
+    const userRequest = new XMLHttpRequest();
+  userRequest.open('post', '/addProduct');
+  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value, 'quantity' : e.target.value}));
   }
  
 }
