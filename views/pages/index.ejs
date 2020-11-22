@@ -6,6 +6,7 @@
 <link rel = "stylesheet" href= "/stylesheets/search.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="/client.js"></script>
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 <title>Main Page</title>
 </head>
 <body>
@@ -34,7 +35,13 @@
         <% }); %>  
  	  </div>
 
+<<<<<<< HEAD
   <h1> Hello User!</h1>
+=======
+    
+  
+  <h1> Hello <%= userProfile ? userProfile.displayName : "User" %>!</h1>
+>>>>>>> c2e9fca16bf6efb90d39469bb0ecb3d77ab809cd
 
 
           <h3>Today's Date: <span id="datetime"></span></h3>
@@ -51,15 +58,23 @@
   <p> *Please note that expiry dates below are recommendations from the University of Nebraska-Lincoln* </p>      
     <table border = 2 style="width:50%" id="fridge">
     <tr>
+<<<<<<< HEAD
       <th onclick="sortTable(0)">Products</th>
       <th><select name="Types" id="Types" onchange="filterbytype()" onclick="sortTable(1)">
         <option value="Type">Type</option>
+=======
+      <th>Products</th>
+      <th> Type <br>
+      <select name="types" id="types" onchange="filterByType()">
+        <option value="">Type</option>
+>>>>>>> c2e9fca16bf6efb90d39469bb0ecb3d77ab809cd
         <option value="baked goods">Baked Goods</option>
         <option value="condiments">Condiments</option>
         <option value="dairy">Dairy</option>
         <option value="fruits">Fruits</option>
         <option value="protein">Protein</option>
         <option value="vegetables">Vegetables</option>
+        <option value="">All</option>
         </select></th>
       <th> Date of Expiry <br>
         <label for="expiry-date">
@@ -67,6 +82,7 @@
             <option value = "">Sort by</option>
           <option value = "ASC">Soonest Expiry Date</option>
           <option value = "DESC">Latest Expiry Date</option>
+          <option value = "">Default Order</option>
           </th>
       <th>Quantity</th>
     </tr>
@@ -164,7 +180,11 @@
     
     <br>
     <br>
-    
+
+    <a class="btn btn-light" href="/logout" role="button" style="text-transform:none">
+      <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+      Click Here to Signout
+    </a>
 
   </font>
 

@@ -1,21 +1,5 @@
 console.log('Script file loaded successfully');
 
-function addRow() {
-  console.log("Adding a row...")
-  const userRequest = new XMLHttpRequest();
-  userRequest.open('post', '/addRow');
-  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'id':document.getElementById("id").value, 'name': document.getElementById("name").value}));
-}
-
-function deleteRow() {
-  console.log("Deleting a row...")
-  const userRequest = new XMLHttpRequest();
-  userRequest.open('post', '/deleteRow');
-  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'id':document.getElementById("id").value, 'name': document.getElementById("name").value}));
-}
-
 function addProduct() {
   console.log("Adding a product...")
   const userRequest = new XMLHttpRequest();
@@ -40,13 +24,12 @@ function removeProduct() {
   userRequest.send(JSON.stringify({'product':document.getElementById("removeProduct").value, 'quantity': document.getElementById("quantity").value}));
 }
 
-
 function sortbyExpiry() {
-  var x = document.getElementById("expirysort").value;
+  var x = document.getElementById("expirysort").value.length ? "?expirysort=" + document.getElementById("expirysort").value : "";
   if (window.location.hostname === "localhost") {
-    window.location.replace("http://localhost:5000/?expirysort="+x);
+    window.location.replace("http://localhost:5000/" + x);
   } else {
-    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?expirysort="+x);
+    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/" + x);
   }
 }
 
@@ -78,14 +61,15 @@ function addCustom() {
     , 'quantity': document.getElementById("prod_qty").value}));
 }
 
-function filterbytype() {
-  var x = document.getElementById("Types").value;
+function filterByType() {
+  var x = document.getElementById("types").value.length ? "?type=" + document.getElementById("types").value : "";
   if (window.location.hostname === "localhost") {
-    window.location.replace("http://localhost:5000/?type="+x);
+    window.location.replace("http://localhost:5000/" + x);
   } else {
-    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?type="+x);
+    window.location.replace("https://whatscookinggoodlooking.herokuapp.com/" + x);
   }
 }
+<<<<<<< HEAD
 
 function editProfile() {
   alert(":)!");
@@ -158,3 +142,5 @@ function sortTable(n) {
     }
   }
 }
+=======
+>>>>>>> c2e9fca16bf6efb90d39469bb0ecb3d77ab809cd

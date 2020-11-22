@@ -7,25 +7,33 @@ const pool = new Pool({
 });
 const request = require('request');
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { query } = require('express');
 const PORT = process.env.PORT || 5000
+const passport = require('passport');
 
+var userProfile;
 var jsonParser = bodyParser.json();
 
 express()
   .use(express.static(path.join(__dirname, 'public')))
+  .use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: 'SECRET' 
+  }))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
+  
   .get('/', jsonParser, async (req, res) => {
     try {
-      //console.log(req.query)
+      var userID = userProfile ? userProfile.id : 1; 
       if (req.query.type) {
         const client = await pool.connect();
-        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1') AND Type='${req.query.type}'`);
-        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','1')`);
-        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
+        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}') AND Type='${req.query.type}'`);
+        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','${userID}')`);
+        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
       } else if (req.query.expirysort) {
@@ -33,17 +41,17 @@ express()
         const result = await client.query(`SELECT p.prod_name, f.exp_dt, f.qty, p.type
         FROM fridge_products f
         INNER JOIN products p ON f.prod_ID = p.prod_ID
-        WHERE f.user_ID = '1'
+        WHERE f.user_ID = '${userID}'
         ORDER BY exp_dt ${req.query.expirysort}`)
-        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0', '1')`);
-        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
+        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0', '${userID}')`);
+        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
       } else {
         const client = await pool.connect();
-        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '1')`);
-        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','1')`);
-        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null};
+        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}')`);
+        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','${userID}')`);
+        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
       }
@@ -53,6 +61,7 @@ express()
     }
 })
 
+<<<<<<< HEAD
   .get('/addProduct', jsonParser, async (req, res) => {
     try {
       const client = await pool.connect();
@@ -66,13 +75,16 @@ express()
     }
   })
 
+=======
+>>>>>>> c2e9fca16bf6efb90d39469bb0ecb3d77ab809cd
   .get('/editQuantity', (req, res) => res.render('pages/editQuantity'))
   .post('/editQuantity', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
       client.query(`UPDATE fridge_products
         SET qty = '${req.body.quantity}'
-        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}')`)
+        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}') AND user_ID = '${userID}'`)
       client.release();
       res.send("Success! " + res);
     } catch (err) {
@@ -84,10 +96,11 @@ express()
   .get('/editExpiry', (req, res) => res.render('pages/editQuantity'))
   .post('/editExpiry', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
       client.query(`UPDATE fridge_products
         SET exp_dt = '${req.body.expirydate}'
-        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}')`)
+        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}') AND user_ID = '${userID}'`)
       client.release();
       res.send("Success! " + res);
     } catch (err) {
@@ -99,9 +112,10 @@ express()
   .get('/addProduct', (req, res) => res.render('pages/addProduct'))
   .post('/addProduct', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
       client.query(`insert into fridge_products
-                      values(1
+                      values('${userID}'
                       ,(select prod_id from products where prod_name = '${req.body.product}')
                       ,current_date
                       ,current_date + (select lifetime from products where prod_name = '${req.body.product}')
@@ -116,8 +130,9 @@ express()
   })
   .post('/removeProduct', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
-      client.query(`delete from fridge_products where user_ID = '1' AND prod_id=(select prod_id from products where prod_name = '${req.body.product}');`)
+      client.query(`delete from fridge_products where user_ID = '${userID}' AND prod_id=(select prod_id from products where prod_name = '${req.body.product}');`)
       client.release();
       res.send("Success! " + res);
     } catch (err) {
@@ -125,41 +140,7 @@ express()
       res.send("Error " + err);
     }
   })
-  .get('/users', function(req, res) {
-    console.log("Requesting...")
-    request('https://jsonplaceholder.typicode.com/users', function(error, response, body) {
-        // console.log(error);
-        // console.log(response);
-        // console.log(body);
-        res.json(body)
-      });
-  })
-  .post('/addRow', jsonParser, async function(req, res) {
-    console.log(req.body)
-    console.log(req.body.id, req.body.name)
-    try {
-      const client = await pool.connect();
-      client.query(`INSERT into test_table values (${req.body.id}, '${req.body.name}')`);
-      client.release();
-      res.send("Success! " + res);
-    } catch (err) {
-      console.error(err);
-      res.send("Error " + err);
-    }
-  })
-  .post('/deleteRow', jsonParser, async function(req, res) {
-    console.log(req.body)
-    console.log(req.body.id)
-    try {
-      const client = await pool.connect();
-      client.query(`DELETE from test_table where id=${req.body.id}`);
-      client.release();
-      res.send("Success! " + res);
-    } catch (err) {
-      console.error(err);
-      res.send("Error " + err);
-    }
-})
+  
   .post('/checkfridge', jsonParser, async function(req, res) { //create a "post" method to check fridge products (product name, quantity, expiry date)
       console.log(req.body)
       console.log(req.body.id)
@@ -180,15 +161,16 @@ express()
   .get('/addCustom', (req, res) => res.render('pages/addCustom'))
   .post('/addCustom', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
       client.query(`insert into products (user_ID, prod_name, type, lifetime)
-                      values('1'
+                      values('${userID}'
                       ,'${req.body.product_name}'
                       ,'${req.body.type}'
                       ,'${req.body.life}')`
       )
       client.query(`insert into fridge_products
-                    values('1'
+                    values('${userID}'
                     ,(select prod_id from products where prod_name = '${req.body.product_name}')
                     ,current_date
                     ,current_date + (select lifetime from products where prod_name = '${req.body.product_name}')
@@ -232,5 +214,54 @@ express()
   })
 
   .get('/signinpage', (req, res) => res.render('pages/signinpage'))
+  
+  // login setup
 
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+  .use(passport.initialize())
+  .use(passport.session())
+
+  .get('/error', (req, res) => res.send("error logging in"))
+
+  .get('/auth/google', 
+    passport.authenticate('google', { scope : ['profile', 'email'] }))
+  
+  .get('/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/error' }),
+    function(req, res) {
+      // Successful authentication, redirect success.
+      res.redirect('/');
+    })
+
+  .get('/logout', function(req, res) {
+    req.logout();
+    userProfile = null;
+    res.redirect('/signinpage');
+  }) 
+  
+
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
+
+  passport.serializeUser(function(user, cb) {
+    cb(null, user);
+  });
+
+  passport.deserializeUser(function(obj, cb) {
+    cb(null, obj);
+  });
+
+  // google authorization
+
+  const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+  const GOOGLE_CLIENT_ID = '428407383068-nec4si48ja9r4pahl3ohp4rtq3cc8v7m.apps.googleusercontent.com';
+  const GOOGLE_CLIENT_SECRET = 'bhdFRmNBMRdiO4BUozBvedZC';
+  passport.use(new GoogleStrategy({
+      clientID: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+      callbackURL: "/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+        userProfile=profile;
+        return done(null, userProfile);
+    }
+  ));
