@@ -181,21 +181,30 @@ express()
   .get('/addCustom', (req, res) => res.render('pages/addCustom'))
   .post('/addCustom', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
-      client.query(`insert into products (user_ID, prod_name, type, lifetime)
-                      values('1'
-                      ,'${req.body.product_name}'
-                      ,'${req.body.type}'
-                      ,'${req.body.life}')`
-      )
-      client.query(`insert into fridge_products
-                    values('1'
-                    ,(select prod_id from products where prod_name = '${req.body.product_name}')
-                    ,current_date
-                    ,current_date + (select lifetime from products where prod_name = '${req.body.product_name}')
-                    , ${req.body.quantity}
-                    , 'each')`
-      )
+      await client.query(`SELECT * FROM products WHERE user_id IN ('0', '${user_ID}') AND prod_name = '${req.body.product_name}'`, (err, data) => {
+        if (data.rowCount == 0) {
+          client.query(`insert into products (user_ID, prod_name, type, lifetime)
+            values('${user_ID}'
+            ,'${req.body.product_name}'
+            ,'${req.body.type}'
+            ,'${req.body.life}')`
+          )
+          client.query(`insert into fridge_products
+              values('${user_ID}'
+              ,(select prod_id from products where prod_name = '${req.body.product_name}')
+              ,current_date
+              ,current_date + (select lifetime from products where prod_name = '${req.body.product_name}')
+              , ${req.body.quantity}
+              , 'each')`
+          )
+         window.alert("Product Added Successfully");
+        } else {
+          console.log("Duplicate!")
+          window.alert("This product already exists. Please add it to your fridge using the search function on the main page.");
+        }
+      })
       client.release();
       res.send("Success! " + res);
     } catch (err) {
