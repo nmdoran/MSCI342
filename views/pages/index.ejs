@@ -30,14 +30,13 @@
     
   
         <% searchresults.forEach(function(r) { %>
+         <label for="name">Quantity</label>
+         <input type="number" id="quantity"/>
          <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch()"> 
           <%= r.prod_name%>
          </button> 
         <br>
-        <label for="name">Quantity</label>
-        <input type="number" id="quantity"/>
         <% }); %>  
-
 
  	  </div>
 

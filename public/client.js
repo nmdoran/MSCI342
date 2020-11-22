@@ -36,7 +36,7 @@ function addProductFromSearch() {
     return false;
   }
   if (q<=0){
-    alert ("invalid negative quantity");
+    alert ("Invalid negative quantity");
     return false
   }
  
@@ -105,7 +105,7 @@ function searchError(){
    //  return false
    // }
    if (s=="") {
-    alert ("search box must be filled out");
+    alert ("Please input a product name in the search box");
     return false;
    }
    if(isNaN(s)){
