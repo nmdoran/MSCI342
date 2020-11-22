@@ -29,7 +29,17 @@ function addProductFromSearch() {
   const userRequest = new XMLHttpRequest();
   userRequest.open('post', '/addProduct');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value, 'quantity': 1}));
+  userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value, 'quantity' : document.getElementById("quantity").value}));
+  var q = document.getElementById("quantity").value;
+  if (q==""){
+    alert ("Please specify a quantity");
+    return false;
+  }
+  if (q<=0){
+    alert ("invalid negative quantity");
+    return false
+  }
+ 
 }
 
 function removeProduct() {
@@ -87,4 +97,26 @@ function filterbytype() {
     window.location.replace("https://whatscookinggoodlooking.herokuapp.com/?type="+x);
   }
 }
+
+function searchError(){
+   var s = document.forms["Search"]["searchParam"].value;
+   // if (s!=prod_name){
+   //  alert("not found");
+   //  return false
+   // }
+   if (s=="") {
+    alert ("search box must be filled out");
+    return false;
+   }
+   if(isNaN(s)){
+    return addProductFromSearch()
+   }
+   else{
+    alert ("Please search by product name only")
+    return false
+
+   }
+}
+
+
 
