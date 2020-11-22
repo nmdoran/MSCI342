@@ -93,15 +93,15 @@ function editProfile() {
 
 function validate() {
   var a = document.forms["editProfile"]["name"].value;
-  var b = document.forms["editProfile"]["email"].value;
-  var c = document.forms["editProfile"]["postalcode"].value;
-  var d = document.forms["editProfile"]["emailfrequency"].value;
-  if (x == "") {
+  if (a == "") {
     alert("Can't be empty!");
     return false;
   } else {
     editProfile()
   }
+  var b = document.forms["editProfile"]["email"].value;
+  var c = document.forms["editProfile"]["postal_code"].value;
+  var d = document.forms["editProfile"]["email_freq"].value;
 }
 
 function sortTable(n) {

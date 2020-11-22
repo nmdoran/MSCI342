@@ -52,7 +52,13 @@ background-size: 1800% 1800%;
     100%{background-position:0% 82%}
 }
 
-label {
-  width:140px;
-  display:inline-block;
+label{
+    display: inline-block;
+    width: 150px;
+    text-align: left;
+}
+
+.x input {
+    display: inline-block;
+    margin-left: 100px;
 }

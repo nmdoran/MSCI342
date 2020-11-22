@@ -11,32 +11,38 @@
   <body>
     <div class="container">
         <h2>Edit Profile</h2>
-        <form name="editProfile" action="/editProfile" onsubmit="return validate()" method="post">
+        <form name="editProfile" action="/editProfile" onsubmit="return validate()" method="post"><br>
+
+<!--pattern="[A-Za-z] [A-Za-z]"-->
+
         	<!--Input name-->
-	        <label for="name">Name:</label>
-	        <input type="text" id="name" placeholder="First Last" pattern="[A-Za-z] [A-Za-z]" autofocus autocomplete="on"/> <br>
+	        <label for="name" >Name:</label>
+	        <% searchresults.forEach(function(r) { %> <input value="<%= r.name%>" disabled></input> <% }); %>
+	        <input type="text" id="name" placeholder="First Last" autofocus autocomplete="on"/> <br>
 	        <!--Input email-->
 	        <label for="name">Email:</label>
+	        <% searchresults.forEach(function(r) { %> <input value="<%= r.email%>" type="text" disabled></input> <% }); %>
 	        <input type="text" id="email" placeholder="email@gmail.com" pattern="[a-z0-9._%+-]+@gmail.com" autocomplete="on"/> <br>
 	        <!--Input postal code-->
 	        <label for="name">Postal Code:</label>
-	        <input type="text" id="postalcode" size="7" maxlength="7" placeholder="A0A 0A0" pattern="[A-Za-z][0-9][A-Za-z] [0-9][A-Za-z][0-9]" autocomplete="on"/> <br>
+	        <% searchresults.forEach(function(r) { %> <input value="<%= r.postal_code%>" disabled> <% }); %>
+	        <input type="text" id="postal_code" maxlength="7" placeholder="A0A 0A0" pattern="[A-Za-z][0-9][A-Za-z] [0-9][A-Za-z][0-9]" autocomplete="on"/> <br>
 	        <!--Input email frequency-->
 	        <label for="name">Email Frequency:</label>
-	        <input list="emailfrequency" placeholder="Select"/> <br>
-	        	<datalist id="emailfrequency">
+	        <% searchresults.forEach(function(r) { %> <input value="<%= r.email_freq%>" disabled><% }); %>
+	        <input list="email_freq" placeholder="Select"/> <br>
+	        	<datalist id="email_freq">
+	        		<option value="0">
 				    <option value="1">
 				    <option value="2">
 				    <option value="3">
 				    <option value="4">
 				    <option value="5">
 				</datalist>
-			<!--button-->
-	        <input type="submit" name="submit" value="Edit Profile">
-
-
-
+	        <!--button-->
+	        <br><input type="submit" name="submit" value="Edit Profile" >	       
     	</form>
+    	<br><button onclick="/">Back</button>
     </div>
   </body>
 </html>

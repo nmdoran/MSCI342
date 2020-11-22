@@ -203,14 +203,26 @@ express()
     }
   })
 
-  .get('/editProfile', (req, res) => res.render('pages/editProfile'))
+  .get('/editProfile', jsonParser, async (req, res) => {
+    try {
+      //var userID = userProfile ? userProfile.id : 1;
+      //const client = await pool.connect();
+      //const result = await client.query(`SELECT name, email, postal_code, email_freq FROM Users where user_ID = '${userID}'`);
+      const client = await pool.connect();
+      const result = await client.query(`SELECT name, email, postal_code, email_freq FROM Users where user_ID IN ('1')`);
+      const results = { 'results': (result) ? result.rows : null, 'searchresults': (result) ? result.rows : null};
+      res.render('pages/editProfile', results );
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
   .post('/editProfile', jsonParser, async function(req, res) {
     try {
       const client = await pool.connect();
-      client.query(``
-      )
-      client.query(``
-      )
+      client.query(``)
+      client.query(``)
       client.release();
       res.send("Success! " + res);
     } catch (err) {
