@@ -38,7 +38,7 @@ function addProductFromSearch(e) {
   }
 
   else {
-    const userRequest = new XMLHttpRequest();
+  const userRequest = new XMLHttpRequest();
   userRequest.open('post', '/addProduct');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
   userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value, 'quantity' : e.target.value}));
@@ -104,22 +104,14 @@ function filterbytype() {
 
 function searchError(){
    var s = document.forms["Search"]["searchParam"].value;
-   // if (s!=prod_name){
-   //  alert("not found");
-   //  return false
-   // }
    if (s=="") {
     alert ("Please input a product name in the search box");
     return false;
    }
-   if(isNaN(s)){
-    return addProductFromSearch()
-   }
    else{
-    alert ("Please search by product name only")
-    return false
-
+    return true;
    }
+
 }
 
 
