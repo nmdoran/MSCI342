@@ -41,7 +41,7 @@ font-family: inherit;
 
 .table-scroll {
   height:370px;
-  width: 590px;
+  width: 580px;
   overflow:auto;
   margin-top:10px;
   direction: ltr;
@@ -91,55 +91,68 @@ font-family: inherit;
         margin-left: 15px;
     }
 
-    /* Popup container */
-.popup {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-  }
-  
-  /* The actual popup (appears on top) */
-  .popup .popuptext {
-    visibility: hidden;
-    width: 160px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 8px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -80px;
-  }
-  
-  /* Popup arrow */
-  .popup .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-  }
-  
-  /* Toggle this class when clicking on the popup container (hide and show the popup) */
-  .popup .show {
-    visibility: visible;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s
-  }
-  
-  /* Add animation (fade in the popup) */
-  @-webkit-keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-  }
-  
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity:1 ;}
-  }
+  body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;} */
+
+/* Button to open the contact form */
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/* Popup form */
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* form container */
+.form-container {
+  max-width: 400px;
+  padding: 10px;
+  background-color: rgb(5, 5, 5);
+}
+
+/*input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 60%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #642323;
+}
+
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: rgb(95, 86, 86);
+  outline: none;
+}
+
+/*Done Button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+/* Cancel Button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Hover effects for buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}

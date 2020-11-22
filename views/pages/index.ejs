@@ -89,35 +89,61 @@
               <td><%= r.exp_dt%></td>
               <td><%= r.qty%></td>
               <td>
-                <div class="popup" onclick="myFunction()"><input type='button' value='Edit'>
-                  <span class="popuptext" id="myPopup">Edit Form</span>
+                <!-- Edit Pop Out Form -->
+                <button class="open-button" onclick="openForm()">Edit</button>
+
+                <div class="form-popup" id="myForm">
+                  <form action="/action_page.php" class="form-container">
+                    <h1>Edit Products</h1>
+
+                    <label for="pname"><p>Product Name</label>
+                    <input type="text" placeholder="Enter Product Name" name="pname" required></p>
+
+                    <label for="ptype"><p>Product Type</label>
+                    <select name="Types" id="Types">
+                      <option value="baked goods">Baked Goods</option>
+                      <option value="condiments">Condiments</option>
+                      <option value="dairy">Dairy</option>
+                      <option value="fruits">Fruits</option>
+                      <option value="protein">Protein</option>
+                      <option value="vegetables">Vegetables</option>
+                    </select> </p>
+
+                    <label for="expirydate"><p>Expiry Date</label>
+                    <input type="date" placeholder="Edit Expiry Date" name="expirydate" required></p>
+
+
+                    <label for="pquantiy"><p>Quantity</label>
+                    <input type="number" onkeypress="return event.charCode >= 48" min="1"
+                      placeholder="Enter Product Quantity" name="pquantity" required></p>
+
+                    <button type="submit" class="btn">Done</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                  </form>
                 </div>
               </td>
+
               <td>
-                <div class="popup" onclick="myFunction2()"><input type='button' value='Delete'>
-                  <span class="popuptext" id="myPopup">Delete Form</span>
+                <div><input type='button' value='Delete'>
                 </div>
               </td>
-            
-            <% }); %>
+
+              <% }); %>
             </tr>
           </table>
       </div>
       <br>
 
       <script>
-        function myFunction() {
-          var popup = document.getElementById("myPopup");
-          popup.classList.toggle("show");
+        function openForm() {
+          document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+          document.getElementById("myForm").style.display = "none";
         }
       </script>
 
-      <script>
-        function myFunction2() {
-          var popup2 = document.getElementById("myPopup");
-          popup2.classList.toggle("show");
-        }
-      </script>
       <button type="button" class="button">Find out what's expiring soon -></button>
 
       <h2>Add Products to the Fridge</h2>
