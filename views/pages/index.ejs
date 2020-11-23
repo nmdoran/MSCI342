@@ -91,9 +91,9 @@
               <td><%= r.qty%></td>
               <td>
                 <!-- Edit Pop Out Form -->
-                <button class="open-button" onclick="openForm()">Edit</button>
+                <button class="open-button" onclick="openForm(event)" value='<%= r.prod_name%>'>Edit</button>
 
-                <div class="form-popup" id="myForm">
+                <div class="form-popup" id='<%= r.prod_name%>'>
                   <div class="form-container">
                     <h1>Edit Products</h1>
 
@@ -113,15 +113,15 @@
                     </select> </p> -->
 
                     <label for="expirydate"><p>Expiry Date</label>
-                    <input type="date" placeholder="Edit Expiry Date" name="expirydate" id="editExpiryDate"></p>
+                    <input type="date" placeholder="Edit Expiry Date" name="expirydate" id="<%= r.prod_name%>EditExpiryDate"></p>
 
 
                     <label for="pquantity"><p>Quantity</label>
                     <input type="number" onkeypress="return event.charCode >= 48" min="1"
-                      placeholder="Enter Product Quantity" name="pquantity" id="editQuantity" required></p>
+                      placeholder="Enter Product Quantity" name="pquantity" id="<%= r.prod_name%>EditQuantity" required></p>
 
                     <button class="btn" onclick="editFridgeItem(event)" value='<%= r.prod_name%>'>Done</button>
-                    <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                    <button type="button" class="btn cancel" onclick="closeForm(event)" value='<%= r.prod_name%>'>Cancel</button>
                   </div>
                 </div>
               </td>

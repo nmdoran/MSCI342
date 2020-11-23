@@ -41,8 +41,8 @@ function sortbyExpiry() {
 function editFridgeItem(event) {
   console.log("Editing item details...")
   console.log(event.target.value)
-  console.log(document.getElementById("editQuantity").value)
-  console.log(document.getElementById("editExpiryDate").value)
+  console.log(document.getElementById(event.target.value + "EditQuantity").value)
+  console.log(document.getElementById(event.target.value + "EditExpiryDate").value)
 
   const userRequest = new XMLHttpRequest();
   userRequest.onreadystatechange = function() {
@@ -52,7 +52,7 @@ function editFridgeItem(event) {
   };
   userRequest.open('post', '/editFridgeItem');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product': event.target.value, 'quantity': document.getElementById("editQuantity").value, 'expirydate': document.getElementById("editExpiryDate").value}));
+  userRequest.send(JSON.stringify({'product': event.target.value, 'quantity': document.getElementById(event.target.value + "EditQuantity").value, 'expirydate': document.getElementById(event.target.value + "EditExpiryDate").value}));
 }
 
 function addCustom() {
@@ -76,10 +76,10 @@ function filterByType() {
   }
 }
 
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
+function openForm(event) {
+  document.getElementById(event.target.value).style.display = "block";
 }
 
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
+function closeForm(event) {
+  document.getElementById(event.target.value).style.display = "none";
 }
