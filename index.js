@@ -201,14 +201,13 @@ express()
               , 'each')`
           )
           console.log("Success!")
-          //res.send("success")
+          res.send("success")
         } else {
           console.log("Duplicate!")
-          //res.send("duplicate")
+          res.send("duplicate")
         }
       })
       client.release();
-      res.send("Success! " + res);
     } catch (err) {
       console.error(err);
       res.send("Error " + err);
