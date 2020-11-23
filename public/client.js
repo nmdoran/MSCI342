@@ -70,17 +70,17 @@ function filterByType() {
   }
 }
 
-function editProfile() {
-  console.log("Editing user profile...")
-  const userRequest = new XMLHttpRequest();
-  userRequest.open('post', '/editProfile');
-  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'username':document.forms["editProfile"]["name"].value
-                                    , 'email':document.forms["editProfile"]["email"].value
-                                    , 'postal_code':document.forms["editProfile"]["postal_code"].value
-                                    , 'email_freq':document.forms["editProfile"]["email_freq"].value
-                                  }));
-}
+// function editProfile() {
+//   console.log("Editing user profile...")
+//   const userRequest = new XMLHttpRequest();
+//   userRequest.open('post', '/editProfile');
+//   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+//   userRequest.send(JSON.stringify({'username':document.forms["editProfile"]["name"].value
+//                                     , 'email':document.forms["editProfile"]["email"].value
+//                                     , 'postal_code':document.forms["editProfile"]["postal_code"].value
+//                                     , 'email_freq':document.forms["editProfile"]["email_freq"].value
+//                                   }));
+// }
 
 function validate() {
   console.log("Test")
@@ -94,7 +94,7 @@ function validate() {
     return false;
   } else {
     console.log("Passed validation")
-    editProfile()
+    //editProfile()
   }
   
 }

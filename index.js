@@ -185,18 +185,18 @@ express()
     }
   })
 
-  .post('/editProfile', jsonParser, async function(req, res) {
-    try {
-      var userID = userProfile ? userProfile.id : 1; 
-      const client = await pool.connect();
-      client.query(`update users set name = '${req.body.username}', email = '${req.body.email}', postal_code = '${req.body.postal_code}', email_freq = '${req.body.email_freq}' where user_ID = '${userID}'`)
-      client.release();
-      res.send("Success! " + res);
-    } catch (err) {
-      console.error(err);
-      res.send("Error " + err);
-    }
-  })
+  // .post('/editProfile', jsonParser, async function(req, res) {
+  //   try {
+  //     var userID = userProfile ? userProfile.id : 1; 
+  //     const client = await pool.connect();
+  //     client.query(`update users set name = '${req.body.username}', email = '${req.body.email}', postal_code = '${req.body.postal_code}', email_freq = '${req.body.email_freq}' where user_ID = '${userID}'`)
+  //     client.release();
+  //     res.send("Success! " + res);
+  //   } catch (err) {
+  //     console.error(err);
+  //     res.send("Error " + err);
+  //   }
+  // })
 
   .get('/editProfileTest', (req, res) => res.render('pages/editProfileTest'))
   .post('/editProfileName', jsonParser, async function(req, res) {
