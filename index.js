@@ -125,12 +125,18 @@ express()
                       ,current_date
                       ,current_date + (select lifetime from products where prod_name = '${req.body.product}')
                       , ${req.body.quantity}
-                      , 'each');`)
+                      , 'each');`, function(err, data) {
+                        if (err && err.code == '23505') {
+                          res.send("error: duplicate product");
+                        } else if (err) {
+                          res.send("error: unknown")
+                        } else {
+                          res.send("successfully added")
+                        }
+                      })
       client.release();
-      res.send("Success! " + res);
     } catch (err) {
-      console.error(err);
-      res.send("Error " + err);
+      res.send(err);
     }
   })
   .post('/removeProduct', jsonParser, async function(req, res) {
