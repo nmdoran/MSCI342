@@ -169,7 +169,7 @@ express()
       var userID = userProfile ? userProfile.id : 1; 
       //var userID = '1'
       const client = await pool.connect();
-      await client.query(`SELECT * FROM products WHERE user_id = '${userID}' AND prod_name = '${req.body.product_name}'`, (err, data) => {
+      await client.query(`SELECT * FROM products WHERE user_id IN ('0', '${userID}') AND prod_name = '${req.body.product_name}'`, (err, data) => {
         if (data.rowCount == 0) {
           client.query(`insert into products (user_ID, prod_name, type, lifetime)
             values('${userID}'
