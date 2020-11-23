@@ -50,15 +50,34 @@ function editExpiry() {
 }
 
 function addCustom() {
-  console.log("Adding a custom product...")
-  const userRequest = new XMLHttpRequest();
-  userRequest.open('post', '/addCustom');
-  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({
-    'product_name':document.getElementById("prod_name").value
-    , 'type':document.getElementById("addType").value
-    , 'life':document.getElementById("prod_life").value
-    , 'quantity': document.getElementById("prod_qty").value}));
+  n = document.getElementById("prod_name").value;
+  t = document.getElementById("addType").value;
+  l = document.getElementById("prod_life").value;
+  q = document.getElementById("prod_qty").value;
+
+  if(n == "" || t == "" || l == "" || q == ""){
+    window.alert("Please add values for all fields")
+  } else { 
+    console.log("Adding a custom product...")
+    const userRequest = new XMLHttpRequest();
+    userRequest.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        if (this.response == "duplicate") {
+          alert("This product has already been added. Please add it to your fridge using the search function on the main page.")
+        } else if (this.response == "success") {
+          alert("Successfully added!")
+        }
+      }
+    };      
+    userRequest.open('post', '/addCustom');
+    userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+    userRequest.send(JSON.stringify({
+      'product_name':document.getElementById("prod_name").value
+      , 'type':document.getElementById("addType").value
+      , 'life':document.getElementById("prod_life").value
+      , 'quantity': document.getElementById("prod_qty").value}));
+
+  }
 }
 
 function filterByType() {

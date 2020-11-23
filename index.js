@@ -146,23 +146,33 @@ express()
   .post('/addCustom', jsonParser, async function(req, res) {
     try {
       var userID = userProfile ? userProfile.id : 1; 
+      //var userID = '1'
       const client = await pool.connect();
-      client.query(`insert into products (user_ID, prod_name, type, lifetime)
-                      values('${userID}'
-                      ,'${req.body.product_name}'
-                      ,'${req.body.type}'
-                      ,'${req.body.life}')`
-      )
-      client.query(`insert into fridge_products
-                    values('${userID}'
-                    ,(select prod_id from products where prod_name = '${req.body.product_name}')
-                    ,current_date
-                    ,current_date + (select lifetime from products where prod_name = '${req.body.product_name}')
-                    , ${req.body.quantity}
-                    , 'each')`
-      )
+      await client.query(`SELECT * FROM products WHERE user_id = '${userID}' AND prod_name = '${req.body.product_name}'`, (err, data) => {
+        if (data.rowCount == 0) {
+          client.query(`insert into products (user_ID, prod_name, type, lifetime)
+            values('${userID}'
+            ,'${req.body.product_name}'
+            ,'${req.body.type}'
+            ,'${req.body.life}')`
+        )
+          client.query(`insert into fridge_products
+              values('${userID}'
+              ,(select prod_id from products where prod_name = '${req.body.product_name}')
+              ,current_date
+              ,current_date + (select lifetime from products where prod_name = '${req.body.product_name}')
+              , ${req.body.quantity}
+              , 'each')`
+          )
+          console.log("Success!")
+          res.send("success")
+        } else {
+          console.log("Duplicate!")
+          res.send("duplicate")
+        }
+      })
+
       client.release();
-      res.send("Success! " + res);
     } catch (err) {
       console.error(err);
       res.send("Error " + err);
