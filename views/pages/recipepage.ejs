@@ -4,12 +4,21 @@
     <% include ../partials/header.ejs %>
     <!-- <script src="../../public/scripts/client.js"></script> -->
     <script src="/client.js"></script>
+    <link rel = "stylesheet" href= "/stylesheets/recipes.css">
   </head>
-  <h1>What's Cooking, Good Looking?</h1>
-  <h2> Here are some recipe suggestions for you! </h2>
+  <div class="header">
+    <h1>What's Cooking, Good Looking?</h1>
+    <h2> Here are some recipe suggestions for you! </h2>
+  </div>
   <br>
-  
+  <a href="/">Click here to go back to your fridge.</a>
+  </br>
+  </br>
+
+  <button onclick="generateRecipes()" class="generateRecipes">Click here to generate some recipe ideas:</button>
+
+  <div id="recipes"></div>
+  <h4 id="noIngredients">There's nothing in your fridge! You'll need some ingredients first before we can find any recipes.</h4>
 
   <br>
-  <p>"You are what you eat!"</p>
 </html>
