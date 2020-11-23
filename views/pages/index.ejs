@@ -35,14 +35,8 @@
         <% }); %>  
  	  </div>
 
-<<<<<<< HEAD
-  <h1> Hello User!</h1>
-=======
-    
-  
-  <h1> Hello <%= userProfile ? userProfile.displayName : "User" %>!</h1>
->>>>>>> c2e9fca16bf6efb90d39469bb0ecb3d77ab809cd
 
+  <h1> Hello <%= userProfile ? userProfile.displayName : "User" %>!</h1>
 
           <h3>Today's Date: <span id="datetime"></span></h3>
           <script>
@@ -58,16 +52,10 @@
   <p> *Please note that expiry dates below are recommendations from the University of Nebraska-Lincoln* </p>      
     <table border = 2 style="width:50%" id="fridge">
     <tr>
-<<<<<<< HEAD
+
       <th onclick="sortTable(0)">Products</th>
       <th><select name="Types" id="Types" onchange="filterbytype()" onclick="sortTable(1)">
         <option value="Type">Type</option>
-=======
-      <th>Products</th>
-      <th> Type <br>
-      <select name="types" id="types" onchange="filterByType()">
-        <option value="">Type</option>
->>>>>>> c2e9fca16bf6efb90d39469bb0ecb3d77ab809cd
         <option value="baked goods">Baked Goods</option>
         <option value="condiments">Condiments</option>
         <option value="dairy">Dairy</option>

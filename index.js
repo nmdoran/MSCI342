@@ -61,7 +61,6 @@ express()
     }
 })
 
-<<<<<<< HEAD
   .get('/addProduct', jsonParser, async (req, res) => {
     try {
       const client = await pool.connect();
@@ -75,8 +74,6 @@ express()
     }
   })
 
-=======
->>>>>>> c2e9fca16bf6efb90d39469bb0ecb3d77ab809cd
   .get('/editQuantity', (req, res) => res.render('pages/editQuantity'))
   .post('/editQuantity', jsonParser, async function(req, res) {
     try {
@@ -187,12 +184,12 @@ express()
 
   .get('/editProfile', jsonParser, async (req, res) => {
     try {
-      //var userID = userProfile ? userProfile.id : 1;
-      //const client = await pool.connect();
-      //const result = await client.query(`SELECT name, email, postal_code, email_freq FROM Users where user_ID = '${userID}'`);
+      var userID = userProfile ? userProfile.id : 1;
       const client = await pool.connect();
-      const result = await client.query(`SELECT name, email, postal_code, email_freq FROM Users where user_ID IN ('1')`);
-      const results = { 'results': (result) ? result.rows : null, 'searchresults': (result) ? result.rows : null};
+      const result = await client.query(`SELECT name, email, postal_code, email_freq FROM Users where user_ID = '${userID}'`);
+      //const client = await pool.connect();
+      //const result = await client.query(`SELECT name, email, postal_code, email_freq FROM Users where user_ID IN ('1')`);
+      //const results = { 'results': (result) ? result.rows : null, 'searchresults': (result) ? result.rows : null};
       res.render('pages/editProfile', results );
       client.release();
     } catch (err) {
