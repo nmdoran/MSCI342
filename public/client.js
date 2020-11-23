@@ -81,7 +81,7 @@ function addCustom() {
     userRequest.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         if (this.response == "duplicate") {
-          alert("This product has already been added. Please try a different product.")
+          alert("This product has already been added. Please add it to your fridge using the search function on the main page.")
         } else if (this.response == "success") {
           alert("Successfully added!")
         }
