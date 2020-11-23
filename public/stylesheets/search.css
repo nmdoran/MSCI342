@@ -38,6 +38,15 @@ text-align-last:center;
 font-family: inherit;
 }
 
+
+.table-scroll {
+  height:370px;
+  width: 500px;
+  overflow:auto;
+  margin-top:10px;
+  direction: ltr;
+}
+
 .search-btn {
  color: #e84118;
  float: right;

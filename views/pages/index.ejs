@@ -12,8 +12,18 @@
 <body>
   <div class="container">
   <font color = #ffffff >
-   
-     <div class = "search"> 
+
+
+    <style>
+  div.scroll
+  {
+  Width-5px;
+  Height-10 px;
+  Overflow-x:scroll;
+  }
+  </style>
+
+     <div class = "search">
      	 <span>
             Would you like to add a new product?
          </span>
@@ -22,19 +32,18 @@
         <input type="text" name="searchParam" class="search-txt" maxlength = "255" placeholder="Search..."/>
         <br>
         <input class="search-btn" type="submit" value="">
-   
+
       </form>
 
       <br>
       <br>
-      
-        <% searchresults.forEach(function(r) { %>
-         <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch()"> 
-          <%= r.prod_name%>
-         </button> 
-        <% }); %>  
- 	  </div>
 
+        <% searchresults.forEach(function(r) { %>
+         <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch()">
+          <%= r.prod_name%>
+         </button>
+        <% }); %>
+ 	  </div>
 
   <h1> Hello <%= userProfile ? userProfile.displayName : "User" %>!</h1>
 
@@ -45,12 +54,15 @@
 
 <!--Mirals changes for sort by function-->
 
-  <a href="/editProfile">Edit Profile</a>
 
-  </table>
+  <a href="/editProfile">Edit Profile</a>
+  <div class="table-scroll">
+  <table>
   <h2>Here's what is in your fridge: </h2>
   <p> *Please note that expiry dates below are recommendations from the University of Nebraska-Lincoln* </p>      
     <table border = 2 style="width:50%" id="fridge">
+    <table  border = 2 style="width:50%">
+
     <tr>
 
       <th onclick="sortTable(0)">Products</th>
@@ -83,6 +95,7 @@
       </tr>
     <% }); %>
   </table>
+</div>
 <br>
 
   <button type="button" class="button">Find out what's expiring soon -></button>
@@ -129,7 +142,7 @@
     <button onclick="removeProduct()">Remove from Fridge</button>
 
     <h2>Edit Quantity for Products</h2>
-    
+
     <label for="name">Product Name:</label>
     <select name="editQuantity" id="editQuantity">
         <option value="bread">Bread</option>
@@ -149,7 +162,7 @@
 
 
     <h2>Edit Expiry Date for Products</h2>
-    
+
     <label for="name">Product Name:</label>
     <select name="editExpiry" id="editExpiry">
         <option value="bread">Bread</option>
@@ -165,7 +178,7 @@
       <input type="date" id="expirydate"/>
       <br>
     <button onclick="editExpiry()">Edit Expiry</button>
-    
+
     <br>
     <br>
 
