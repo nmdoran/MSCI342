@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
 <link rel = "stylesheet" href= "/stylesheets/main.css">
@@ -9,24 +10,24 @@
 <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 <title>Main Page</title>
 </head>
+
 <body>
   <div class="container">
-  <font color = #ffffff >
+    <font color=#ffffff>
 
 
-    <style>
-  div.scroll
-  {
-  Width-5px;
-  Height-10 px;
-  Overflow-x:scroll;
-  }
-  </style>
+      <style>
+        div.scroll {
+          Width-5px;
+          Height-10 px;
+          Overflow-x: scroll;
+        }
+      </style>
 
-     <div class = "search">
-     	 <span>
-            Would you like to add a new product?
-         </span>
+      <div class="search">
+        <span>
+          Would you like to add a new product?
+        </span>
 
      <form class="search-box" name ="Search" onsubmit = "return searchError()" method="get">
         <input type="text" name="searchParam" class="search-txt" maxlength = "255" placeholder="Search..."/>
@@ -34,171 +35,146 @@
 
         <input class="search-btn" type="submit"  value="">
 
-      </form>
+        </form>
 
+        <br>
+        <br>
+
+      <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
+        <p>No results found</p>
+      <% } else if (searchresults.length > 0 && searchresults != "nosearch") { %>
+
+        <label for="name">Quantity</label>
+        <input type="number" id="quantity"/>
+        <br>
+        
+        <% searchresults.forEach(function(r) { %>
+
+        <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch(event)"> 
+          <%= r.prod_name%>
+        </button> 
+        <br>
+        <% })}; %>  
+
+      </div>
+
+      <h1> Hello <%= userProfile ? userProfile.displayName : "User" %>!</h1>
+
+
+      <h3>Today's Date: <span id="datetime"></span></h3>
+      <script>
+        var dt = new Date();
+        document.getElementById("datetime").innerHTML = dt.toLocaleString();</script>
+
+      <!--Mirals changes for sort by function-->
+      <div class="table-scroll">
+        <table>
+          <h2>Here's what is in your fridge: </h2>
+          <table border=2 style="width:50%">
+            <tr>
+              <th>Products</th>
+              <th><select name="Types" id="Types" onchange="filterbytype()">
+                  <option value="Type">Type</option>
+                  <option value="baked goods">Baked Goods</option>
+                  <option value="condiments">Condiments</option>
+                  <option value="dairy">Dairy</option>
+                  <option value="fruits">Fruits</option>
+                  <option value="protein">Protein</option>
+                  <option value="vegetables">Vegetables</option>
+                </select></th>
+              <th> Date of Expiry <br>
+                <label for="expiry-date">
+                  <select id="expirysort" class="sortbyexpiry" onchange="sortbyExpiry()">
+                    <option value="">Sort by</option>
+                    <option value="ASC">Soonest Expiry Date</option>
+                    <option value="DESC">Latest Expiry Date</option>
+              </th>
+              <th>Quantity</th>
+              <th>Edit</th>
+              <th>Delete</th>
+              <% results.forEach(function(r) { %>
+            <tr>
+              <td><%= r.prod_name%></td>
+              <td><%= r.type%></td>
+              <td><%= r.exp_dt%></td>
+              <td><%= r.qty%></td>
+              <td>
+                <!-- Edit Pop Out Form -->
+                <button class="open-button" onclick="openForm(event)" value='<%= r.prod_name%>'>Edit</button>
+
+                <div class="form-popup" id='<%= r.prod_name%>'>
+                  <div class="form-container">
+                    <h1>Edit Products</h1>
+
+                    <!-- Change in next sprint- Allow the form to show product name of the product being edited
+                      <label for="pname"><p>Product Name</label>
+                    <input type="text" placeholder="Enter Product Name" name="pname" required></p> -->
+
+                    <!-- Change in next sprint - Only allow users to change product type of Custom Products
+                      <label for="ptype"><p>Product Type</label>
+                    <select name="Types" id="Types" required>
+                      <option value="baked goods">Baked Goods</option>
+                      <option value="condiments">Condiments</option>
+                      <option value="dairy">Dairy</option>
+                      <option value="fruits">Fruits</option>
+                      <option value="protein">Protein</option>
+                      <option value="vegetables">Vegetables</option>
+                    </select> </p> -->
+
+                    <label for="expirydate"><p>Expiry Date</label>
+                    <input type="date" placeholder="Edit Expiry Date" name="expirydate" id="<%= r.prod_name%>EditExpiryDate"></p>
+
+
+                    <label for="pquantity"><p>Quantity</label>
+                    <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1"
+                      placeholder="Enter Product Quantity" name="pquantity" id="<%= r.prod_name%>EditQuantity" required></p>
+
+                    <button class="btn" onclick="editFridgeItem(event)" value='<%= r.prod_name%>'>Done</button>
+                    <button type="button" class="btn cancel" onclick="closeForm(event)" value='<%= r.prod_name%>'>Cancel</button>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <button onclick="removeProduct(event)" value='<%=r.prod_name%>'>Delete</button>
+              </td>
+
+              <% }); %>
+            </tr>
+          </table>
+      </div>
       <br>
-      <br>
 
+<h2>Add Products to the Fridge</h2>
 
-        <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
-          <p>No results found</p>
-        <% } else if (searchresults.length > 0 && searchresults != "nosearch") { %>
-      
-          <label for="name">Quantity</label>
-          <input type="number" id="quantity"/>
-          <br>
-          
-          <% searchresults.forEach(function(r) { %>
-
-          <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch(event)"> 
-            <%= r.prod_name%>
-          </button> 
-          <br>
-          <% })}; %>  
-
- 	  </div>
-
-  <h1> Hello <%= userProfile ? userProfile.displayName : "User" %>!</h1>
-
-          <h3>Today's Date: <span id="datetime"></span></h3>
-          <script>
-              var dt = new Date();
-              document.getElementById("datetime").innerHTML = dt.toLocaleString();</script>
-
-<!--Mirals changes for sort by function-->
-
-
-  <a href="/editProfile">Edit Profile</a>
-  <div class="table-scroll">
-  <table>
-  <h2>Here's what is in your fridge: </h2>
-  <p> *Please note that expiry dates below are recommendations from the University of Nebraska-Lincoln* </p>      
-    <table border = 2 style="width:50%" id="fridge">
-
-    <tr>
-      <th onclick="sortTable(0)">Products</th>
-      <th><select name="Types" id="Types" onchange="filterbytype()" onclick="sortTable(1)">
-            <option value="Type">Type</option>
-            <option value="baked goods">Baked Goods</option>
-            <option value="condiments">Condiments</option>
-            <option value="dairy">Dairy</option>
-            <option value="fruits">Fruits</option>
-            <option value="protein">Protein</option>
-            <option value="vegetables">Vegetables</option>
-            <option value="">All</option>
-        </select></th>
-      <th> Date of Expiry <br>
-        <label for="expiry-date">
-          <select id= "expirysort" class = "sortbyexpiry" onchange = "sortbyExpiry()">
-          <option value = "">Sort by</option>
-          <option value = "ASC">Soonest Expiry Date</option>
-          <option value = "DESC">Latest Expiry Date</option>
-          <option value = "">Default Order</option>
-          </th>
-      <th>Quantity</th>
-    </tr>
-    <% results.forEach(function(r) { %>
-      <tr>
-        <td><%= r.prod_name%></td>
-        <td><%= r.type%></td>
-        <td><%= r.exp_dt%></td>
-        <td><%= r.qty%></td>
-      </tr>
-    <% }); %>
-  </table>
-</div>
+<label for="name">Product Name:</label>
+<select name="addProduct" id="addProduct">
+    <option value="peaches">Peach</option>
+    <option value="muffins">Muffin</option>
+    <option value="oranges">Orange</option>
+    <option value="eggs">Egg</option>
+    <option value="bacon">Bacon</option>
+    <option value="butter">Butter</option>
+    <option value="celery">Celery</option>
+</select>
 <br>
+<label for="name">Quantity</label>
+<input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1" id="quantity"/>
+<br>
+<button onclick="addProduct()">Add to Fridge</button>
 
-  <button type="button" class="button">Find out what's expiring soon -></button>
-
-  <h2>Add Products to the Fridge</h2>
-
-    <label for="name">Product Name:</label>
-    <select name="addProduct" id="addProduct">
-        <option value="peaches">Peach</option>
-        <option value="muffins">Muffin</option>
-        <option value="oranges">Orange</option>
-        <option value="eggs">Egg</option>
-        <option value="bacon">Bacon</option>
-        <option value="butter">Butter</option>
-        <option value="celery">Celery</option>
-    </select>
-    <br>
-    <label for="name">Quantity</label>
-    <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1" id="quantity"/>
-    <br>
-    <button onclick="addProduct()">Add to Fridge</button>
-
-    <br>
-    <br>
-
-    <a href="/addCustom">Add a Custom Product</a>
-
-    <br>
-    <br>
-
-    <h2>Remove Products from the Fridge</h2>
-
-    <label for="name">Product Name:</label>
-    <select name="removeProduct" id="removeProduct">
-        <option value="peaches">Peach</option>
-        <option value="muffins">Muffin</option>
-        <option value="oranges">Orange</option>
-        <option value="pie">Pie</option>
-        <option value="bacon">Bacon</option>
-        <option value="butter">Butter</option>
-        <option value="celery">Celery</option>
-    </select>
-    <br>
-    <button onclick="removeProduct()">Remove from Fridge</button>
-
-    <h2>Edit Quantity for Products</h2>
-
-    <label for="name">Product Name:</label>
-    <select name="editQuantity" id="editQuantity">
-        <option value="bread">Bread</option>
-        <option value="muffins">Muffin</option>
-        <option value="oranges">Orange</option>
-        <option value="eggs">Egg</option>
-        <option value="bacon">Bacon</option>
-        <option value="butter">Butter</option>
-         <option value="celery">Celery</option>
-    </select>
-    <br>
-    <label for="name">Quantity</label>
-      <input type="number" id="quantity2"/>
       <br>
-    <button onclick="editQuantity()">Edit Quantity</button>
-
-
-
-    <h2>Edit Expiry Date for Products</h2>
-
-    <label for="name">Product Name:</label>
-    <select name="editExpiry" id="editExpiry">
-        <option value="bread">Bread</option>
-        <option value="muffins">Muffin</option>
-        <option value="oranges">Orange</option>
-        <option value="eggs">Egg</option>
-        <option value="bacon">Bacon</option>
-        <option value="butter">Butter</option>
-         <option value="celery">Celery</option>
-    </select>
-    <br>
-    <label for="name">Expiry Date</label>
-      <input type="date" id="expirydate"/>
       <br>
-    <button onclick="editExpiry()">Edit Expiry</button>
 
-    <br>
-    <br>
+      <a href="/addCustom">Add a Custom Product</a>
 
     <a class="btn btn-light" href="/logout" role="button" style="text-transform:none">
       <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
       Click Here to Signout
     </a>
 
-  </font>
+    </font>
 
 </body>
+
 </html>

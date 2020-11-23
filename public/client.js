@@ -30,12 +30,17 @@ function addProductFromSearch(e) {
  
 }
 
-function removeProduct() {
-  console.log("Removing a product...")
+function removeProduct(event) {
+  console.log("Removing a product...", event.target.value)
   const userRequest = new XMLHttpRequest();
+  userRequest.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      location.reload();
+    }
+  };
   userRequest.open('post', '/removeProduct');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("removeProduct").value, 'quantity': document.getElementById("quantity").value}));
+  userRequest.send(JSON.stringify({'product': event.target.value}));
 }
 
 function sortbyExpiry() {
@@ -47,20 +52,21 @@ function sortbyExpiry() {
   }
 }
 
-function editQuantity() {
-  console.log("Editing quantity...")
+function editFridgeItem(event) {
+  console.log("Editing item details...")
+  console.log(event.target.value)
+  console.log(document.getElementById(event.target.value + "EditQuantity").value)
+  console.log(document.getElementById(event.target.value + "EditExpiryDate").value)
+
   const userRequest = new XMLHttpRequest();
-  userRequest.open('post', '/editQuantity');
+  userRequest.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      location.reload();
+    }
+  };
+  userRequest.open('post', '/editFridgeItem');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("editQuantity").value, 'quantity': document.getElementById("quantity2").value}));
-}
-  
-function editExpiry() {
-  console.log("Editing expiry date...")
-  const userRequest = new XMLHttpRequest();
-  userRequest.open('post', '/editExpiry');
-  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("editExpiry").value, 'expirydate': document.getElementById("expirydate").value}));
+  userRequest.send(JSON.stringify({'product': event.target.value, 'quantity': document.getElementById(event.target.value + "EditQuantity").value, 'expirydate': document.getElementById(event.target.value + "EditExpiryDate").value}));
 }
 
 function addCustom() {
@@ -103,6 +109,13 @@ function filterByType() {
   }
 }
 
+function openForm(event) {
+  document.getElementById(event.target.value).style.display = "block";
+}
+
+function closeForm(event) {
+  document.getElementById(event.target.value).style.display = "none";
+}
 function searchError(){
    var s = document.forms["Search"]["searchParam"].value;
    if (s=="") {
