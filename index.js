@@ -275,7 +275,18 @@ express()
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/callback"
     },
-    function(accessToken, refreshToken, profile, done) {
+    async function(accessToken, refreshToken, profile, done) {
+        const client = await pool.connect();
+        // Checks if the user who just signed in has been registered. If they have not, register them in the users table
+        client.query(`SELECT * FROM users WHERE user_id = '${profile.id}'`, function (err, data) {
+          if (data.rowCount == 0) {
+            console.log("Registering a new user with ID " + profile.id);
+            client.query(`INSERT into users values('${profile.id}', '${profile.displayName}', '${profile.emails[0].value}', 'A1A1A1', 0)`);
+          } else {
+            console.log("Recognized user signing in with ID " + profile.id);
+          }
+        }); 
+        client.release();
         userProfile=profile;
         return done(null, userProfile);
     }
