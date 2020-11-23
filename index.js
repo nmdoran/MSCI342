@@ -181,8 +181,8 @@ express()
   .get('/addCustom', (req, res) => res.render('pages/addCustom'))
   .post('/addCustom', jsonParser, async function(req, res) {
     try {
-      //var userID = userProfile ? userProfile.id : 1; 
-      var userID = '1'
+      var userID = userProfile ? userProfile.id : 1; 
+      //var userID = '1'
       const client = await pool.connect();
       await client.query(`SELECT * FROM products WHERE user_id = '${userID}' AND prod_name = '${req.body.product_name}'`, (err, data) => {
         if (data.rowCount == 0) {
