@@ -235,6 +235,16 @@ express()
   })
 
   .get('/signinpage', (req, res) => res.render('pages/signinpage'))
+
+  .get('/recipePage', (req, res) => res.render('pages/recipePage'))
+
+  .post('/getProducts', jsonParser, async (req, res) => {
+    var userID = userProfile ? userProfile.id : 1; 
+    const client = await pool.connect();
+    await client.query(`SELECT json_agg(prod_name) FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}')`, function(err, data) {
+      res.send(data.rows);
+    });
+  })
   
   // login setup
 

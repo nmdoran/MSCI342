@@ -1,0 +1,30 @@
+body {
+    font-family: Verdana, sans-serif;
+}
+
+.header {
+    color: white;
+}
+
+.generateRecipes {
+    margin-bottom: 16px;
+}
+
+#noIngredients {
+    display: none;
+}
+
+.foodItemsLabel {
+    display: block;
+    color: white;
+}
+
+.recipeLabel {
+    font-size: 24px;
+    display: block;
+}
+
+.recipeImage {
+    display: block;
+    margin-bottom: 15px;
+}

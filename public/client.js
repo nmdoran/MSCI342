@@ -120,6 +120,67 @@ function filterByType() {
   }
 }
 
+function generateRecipes() {
+  const recipeID = "96ed8d10";
+  const recipeKey = "8d864561b07870cc4021658590483b25"; 
+  const getProducts = new XMLHttpRequest();
+  getProducts.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var fridgeProducts = JSON.parse(this.response)[0].json_agg;
+      if (fridgeProducts == null) {
+        // if the user's fridge is empty, show the messaging telling them so
+        document.getElementById("noIngredients").style.display = "block";
+      } else {
+        // if the user's fridge is not empty
+        const getRecipes = new XMLHttpRequest();
+        if (fridgeProducts.length > 1) {
+        var foodItem1 = fridgeProducts[Math.floor(Math.random() * fridgeProducts.length)];
+        var foodItem2 = fridgeProducts[Math.floor(Math.random() * fridgeProducts.length)];
+        getRecipes.open('get', `https://api.edamam.com/search?q=${foodItem1}+${foodItem2}&app_id=${recipeID}&app_key=${recipeKey}`);
+        } else if (fridgeProducts.length == 1) {
+          var foodItem1 = fridgeProducts[0];
+          getRecipes.open('get', `https://api.edamam.com/search?q=${foodItem1}&app_id=${recipeID}&app_key=${recipeKey}`);
+        }
+        getRecipes.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        getRecipes.send();
+        getRecipes.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var recipes = [];
+            JSON.parse(this.response).hits.forEach((hit) => recipes.push(hit.recipe));
+            
+            var foodItems = document.createElement("h2");
+            if (fridgeProducts.length == 1) {
+              foodItems.innerHTML = `With ${foodItem1} you can make:`;
+            } else {
+              foodItems.innerHTML = `With ${foodItem1} and ${foodItem2} you can make:`;
+            }
+
+            foodItems.classList.add("foodItemsLabel");
+            document.getElementById("recipes").appendChild(foodItems);
+            
+            recipes.forEach((function(recipe) {
+              var title = document.createElement("a");
+              title.innerHTML = recipe.label;
+              title.href = recipe.url;
+              title.target = "_blank";
+              title.classList.add("recipeLabel");
+              document.getElementById("recipes").appendChild(title);
+
+              var image = document.createElement("img");
+              image.src = recipe.image;
+              image.classList.add("recipeImage");
+              document.getElementById("recipes").appendChild(image);
+            }));
+          }
+        }
+      }
+    };      
+  }
+  getProducts.open('post', '/getProducts');
+  getProducts.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  getProducts.send();
+}
+
 function openForm(event) {
   document.getElementById(event.target.value).style.display = "block";
 }
