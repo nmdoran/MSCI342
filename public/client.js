@@ -138,7 +138,12 @@ function generateRecipes() {
             JSON.parse(this.response).hits.forEach((hit) => recipes.push(hit.recipe));
             
             var foodItems = document.createElement("h2");
-            foodItems.innerHTML = `With ${foodItem1} ${foodItem2 ? "and " + foodItem2 : ""} you can make:`;
+            if (fridgeProducts.length == 1) {
+              foodItems.innerHTML = `With ${foodItem1} you can make:`;
+            } else {
+              foodItems.innerHTML = `With ${foodItem1} and ${foodItem2} you can make:`;
+            }
+
             foodItems.classList.add("foodItemsLabel");
             document.getElementById("recipes").appendChild(foodItems);
             
