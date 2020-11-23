@@ -30,12 +30,12 @@
 
         <!--Input product lifetime-->
         <label for="name">Product Lifetime (days):</label>
-        <input type="number" id="prod_life"/> 
+        <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1" id="prod_life"/> 
         <br>
 
          <!--Input product quantity-->
          <label for="name">Product Quantity:</label>
-         <input type="number" id="prod_qty"/> 
+         <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1" id="prod_qty"/> 
          <br>
         
         <button onclick="addCustom()">Add Custom Product</button>

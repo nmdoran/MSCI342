@@ -32,7 +32,7 @@ express()
       if (req.query.type) {
         const client = await pool.connect();
         const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}') AND Type='${req.query.type}'`);
-        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','${userID}')`);
+        const searchresult = await client.query(`SELECT * FROM products WHERE upper(prod_name) LIKE upper('${req.query.searchParam}') AND user_ID IN ('0','${userID}')`);
         const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
@@ -50,8 +50,8 @@ express()
       } else {
         const client = await pool.connect();
         const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}')`);
-        const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0','${userID}')`);
-        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
+        const searchresult = await client.query(`SELECT * FROM products where prod_name ILIKE upper('%${req.query.searchParam}%') AND user_ID IN ('0','${userID}')`);
+        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult && req.query.searchParam) ? searchresult.rows : "nosearch", 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
       }
@@ -81,7 +81,6 @@ express()
       res.send("Error " + err);
     }
   })
-
 
   .get('/editQuantity', (req, res) => res.render('pages/editQuantity'))
   .post('/editQuantity', jsonParser, async function(req, res) {
@@ -168,21 +167,59 @@ express()
   .post('/addCustom', jsonParser, async function(req, res) {
     try {
       var userID = userProfile ? userProfile.id : 1; 
+      //var userID = '1'
       const client = await pool.connect();
-      client.query(`insert into products (user_ID, prod_name, type, lifetime)
-                      values('${userID}'
-                      ,'${req.body.product_name}'
-                      ,'${req.body.type}'
-                      ,'${req.body.life}')`
-      )
-      client.query(`insert into fridge_products
-                    values('${userID}'
-                    ,(select prod_id from products where prod_name = '${req.body.product_name}')
-                    ,current_date
-                    ,current_date + (select lifetime from products where prod_name = '${req.body.product_name}')
-                    , ${req.body.quantity}
-                    , 'each')`
-      )
+      await client.query(`SELECT * FROM products WHERE user_id = '${userID}' AND prod_name = '${req.body.product_name}'`, (err, data) => {
+        if (data.rowCount == 0) {
+          client.query(`insert into products (user_ID, prod_name, type, lifetime)
+            values('${userID}'
+            ,'${req.body.product_name}'
+            ,'${req.body.type}'
+            ,'${req.body.life}')`
+        )
+          client.query(`insert into fridge_products
+              values('${userID}'
+              ,(select prod_id from products where prod_name = '${req.body.product_name}')
+              ,current_date
+              ,current_date + (select lifetime from products where prod_name = '${req.body.product_name}')
+              , ${req.body.quantity}
+              , 'each')`
+          )
+          console.log("Success!")
+          res.send("success")
+        } else {
+          console.log("Duplicate!")
+          res.send("duplicate")
+        }
+      })
+
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+
+  .get('/editProfile', jsonParser, async (req, res) => {
+    try {
+      var userID = userProfile ? userProfile.id : 1;
+      const client = await pool.connect();
+      const result = await client.query(`SELECT name, email, postal_code, email_freq FROM Users where user_ID = '${userID}'`);
+      //const client = await pool.connect();
+      //const result = await client.query(`SELECT name, email, postal_code, email_freq FROM Users where user_ID IN ('1')`);
+      const results = { 'results': (result) ? result.rows : null, 'searchresults': (result) ? result.rows : null};
+      res.render('pages/editProfile', results );
+      client.release();
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+  .post('/editProfile', jsonParser, async function(req, res) {
+    try {
+      const client = await pool.connect();
+      client.query(``)
+      client.query(``)
       client.release();
       res.send("Success! " + res);
     } catch (err) {

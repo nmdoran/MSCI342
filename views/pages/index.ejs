@@ -29,27 +29,36 @@
           Would you like to add a new product?
         </span>
 
-        <form class="search-box" method="get">
-          <input type="text" name="searchParam" class="search-txt" maxlength="255" placeholder="Search..." />
-          <br>
-          <input class="search-btn" type="submit" value="">
+     <form class="search-box" name ="Search" onsubmit = "return searchError()" method="get">
+        <input type="text" name="searchParam" class="search-txt" maxlength = "255" placeholder="Search..."/>
+        <br>
+
+        <input class="search-btn" type="submit"  value="">
 
         </form>
 
         <br>
         <br>
 
+      <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
+        <p>No results found</p>
+      <% } else if (searchresults.length > 0 && searchresults != "nosearch") { %>
+
+        <label for="name">Quantity</label>
+        <input type="number" id="quantity"/>
+        <br>
+        
         <% searchresults.forEach(function(r) { %>
-        <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button"
-          onclick="addProductFromSearch()">
+
+        <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch(event)"> 
           <%= r.prod_name%>
-        </button>
-        <% }); %>
+        </button> 
+        <br>
+        <% })}; %>  
+
       </div>
 
-
-
-      <h1> Hello User!</h1>
+      <h1> Hello <%= userProfile ? userProfile.displayName : "User" %>!</h1>
 
 
       <h3>Today's Date: <span id="datetime"></span></h3>
@@ -117,7 +126,7 @@
 
 
                     <label for="pquantity"><p>Quantity</label>
-                    <input type="number" onkeypress="return event.charCode >= 48" min="1"
+                    <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1"
                       placeholder="Enter Product Quantity" name="pquantity" id="<%= r.prod_name%>EditQuantity" required></p>
 
                     <button class="btn" onclick="editFridgeItem(event)" value='<%= r.prod_name%>'>Done</button>
@@ -136,23 +145,23 @@
       </div>
       <br>
 
-      <h2>Add Products to the Fridge</h2>
+<h2>Add Products to the Fridge</h2>
 
-      <label for="name">Product Name:</label>
-      <select name="addProduct" id="addProduct">
-        <option value="peaches">Peach</option>
-        <option value="muffins">Muffin</option>
-        <option value="oranges">Orange</option>
-        <option value="eggs">Egg</option>
-        <option value="bacon">Bacon</option>
-        <option value="butter">Butter</option>
-        <option value="celery">Celery</option>
-      </select>
-      <br>
-      <label for="name">Quantity</label>
-      <input type="number" id="quantity" />
-      <br>
-      <button onclick="addProduct()">Add to Fridge</button>
+<label for="name">Product Name:</label>
+<select name="addProduct" id="addProduct">
+    <option value="peaches">Peach</option>
+    <option value="muffins">Muffin</option>
+    <option value="oranges">Orange</option>
+    <option value="eggs">Egg</option>
+    <option value="bacon">Bacon</option>
+    <option value="butter">Butter</option>
+    <option value="celery">Celery</option>
+</select>
+<br>
+<label for="name">Quantity</label>
+<input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1" id="quantity"/>
+<br>
+<button onclick="addProduct()">Add to Fridge</button>
 
       <br>
       <br>
