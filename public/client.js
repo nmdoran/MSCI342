@@ -8,12 +8,26 @@ function addProduct() {
   userRequest.send(JSON.stringify({'product':document.getElementById("addProduct").value, 'quantity': document.getElementById("quantity").value}));
 }
 
-function addProductFromSearch() {
+function addProductFromSearch(e) {
   console.log("Adding a product...")
+  
+  var q = document.getElementById("quantity").value;
+  if (q==""){
+    alert ("Please specify a quantity");
+    return false;
+  }
+  else if (q<=0){
+    alert ("Invalid negative quantity");
+    return false
+  }
+
+  else {
   const userRequest = new XMLHttpRequest();
   userRequest.open('post', '/addProduct');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value, 'quantity': 1}));
+  userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value, 'quantity' : e.target.value}));
+  }
+ 
 }
 
 function removeProduct() {
@@ -88,7 +102,18 @@ function filterByType() {
     window.location.replace("https://whatscookinggoodlooking.herokuapp.com/" + x);
   }
 }
-<<<<<<< HEAD
+
+function searchError(){
+   var s = document.forms["Search"]["searchParam"].value;
+   if (s=="") {
+    alert ("Please input a product name in the search box");
+    return false;
+   }
+   else{
+    return true;
+   }
+
+}
 
 function editProfile() {
   alert(":)!");
@@ -161,5 +186,3 @@ function sortTable(n) {
     }
   }
 }
-=======
->>>>>>> c2e9fca16bf6efb90d39469bb0ecb3d77ab809cd

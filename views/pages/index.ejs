@@ -28,21 +28,34 @@
             Would you like to add a new product?
          </span>
 
-     <form class="search-box" method="get">
+     <form class="search-box" name ="Search" onsubmit = "return searchError()" method="get">
         <input type="text" name="searchParam" class="search-txt" maxlength = "255" placeholder="Search..."/>
         <br>
-        <input class="search-btn" type="submit" value="">
+
+        <input class="search-btn" type="submit"  value="">
 
       </form>
 
       <br>
       <br>
 
-        <% searchresults.forEach(function(r) { %>
-         <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch()">
-          <%= r.prod_name%>
-         </button>
-        <% }); %>
+
+        <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
+          <p>No results found</p>
+        <% } else if (searchresults.length > 0 && searchresults != "nosearch") { %>
+      
+          <label for="name">Quantity</label>
+          <input type="number" id="quantity"/>
+          <br>
+          
+          <% searchresults.forEach(function(r) { %>
+
+          <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch(event)"> 
+            <%= r.prod_name%>
+          </button> 
+          <br>
+          <% })}; %>  
+
  	  </div>
 
   <h1> Hello <%= userProfile ? userProfile.displayName : "User" %>!</h1>
