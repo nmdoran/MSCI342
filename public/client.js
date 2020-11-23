@@ -32,12 +32,12 @@ function addProductFromSearch() {
   userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value, 'quantity': 1}));
 }
 
-function removeProduct() {
-  console.log("Removing a product...")
+function removeProduct(event) {
+  console.log("Removing a product...", event.target.value)
   const userRequest = new XMLHttpRequest();
   userRequest.open('post', '/removeProduct');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("removeProduct").value, 'quantity': document.getElementById("quantity").value}));
+  userRequest.send(JSON.stringify({'product': event.target.value}));
 }
 
 
