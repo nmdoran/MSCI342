@@ -11,7 +11,7 @@
   <body>
     <div class="container">
         <h2>Edit Profile</h2>
-        <form name="editProfile" action="/editProfile" onsubmit="validate()" method="post"><br>
+        <form name="editProfile" action="/editProfile" onsubmit="return validate()" method="post"><br>
 
         	<!--Input name-->
 	        <label for="name" >Name:</label>
@@ -42,7 +42,7 @@
 	        <!--button-->
 	        <br><input type="submit" name="submit" value="Edit Profile" >	       
     	</form>
-    	<!-- <br><button onclick="/">Back</button>
+    	<!-- <br><button onclick="/">Back</button> -->
     </div>
   </body>
 </html>

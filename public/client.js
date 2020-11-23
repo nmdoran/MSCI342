@@ -94,7 +94,7 @@ function validate() {
     return false;
   } else {
     console.log("Passed validation")
-    //editProfile()
+    editProfile()
   }
   
 }
