@@ -35,6 +35,11 @@ function addProductFromSearch() {
 function removeProduct(event) {
   console.log("Removing a product...", event.target.value)
   const userRequest = new XMLHttpRequest();
+  userRequest.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      location.reload();
+    }
+  };
   userRequest.open('post', '/removeProduct');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
   userRequest.send(JSON.stringify({'product': event.target.value}));
@@ -67,23 +72,6 @@ function editFridgeItem(event) {
   userRequest.send(JSON.stringify({'product': event.target.value, 'quantity': document.getElementById("editQuantity").value, 'expirydate': document.getElementById("editExpiryDate").value}));
 }
 
-function editQuantity() {
-  console.log("Editing quantity...")
-  const userRequest = new XMLHttpRequest();
-  userRequest.open('post', '/editQuantity');
-  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("editQuantity").value, 'quantity': document.getElementById("quantity2").value}));
-}
-  
-function editExpiry() {
-  console.log("Editing expiry date...")
-  const userRequest = new XMLHttpRequest();
-  userRequest.open('post', '/editExpiry');
-  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("editExpiry").value, 'expirydate': document.getElementById("expirydate").value}));
-}
-
-
 function addCustom() {
   console.log("Adding a custom product...")
   const userRequest = new XMLHttpRequest();
@@ -105,3 +93,10 @@ function filterbytype() {
   }
 }
 
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
