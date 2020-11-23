@@ -12,8 +12,18 @@
 <body>
   <div class="container">
   <font color = #ffffff >
-   
-     <div class = "search"> 
+
+
+    <style>
+  div.scroll
+  {
+  Width-5px;
+  Height-10 px;
+  Overflow-x:scroll;
+  }
+  </style>
+
+     <div class = "search">
      	 <span>
             Would you like to add a new product?
          </span>
@@ -21,12 +31,14 @@
      <form class="search-box" name ="Search" onsubmit = "return searchError()" method="get">
         <input type="text" name="searchParam" class="search-txt" maxlength = "255" placeholder="Search..."/>
         <br>
+
         <input class="search-btn" type="submit"  value="">
-   
+
       </form>
 
       <br>
       <br>
+
 
         <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
           <p>No results found</p>
@@ -44,13 +56,9 @@
           <br>
           <% })}; %>  
 
-        
  	  </div>
 
-    
-  
   <h1> Hello <%= userProfile ? userProfile.displayName : "User" %>!</h1>
-
 
           <h3>Today's Date: <span id="datetime"></span></h3>
           <script>
@@ -59,27 +67,30 @@
 
 <!--Mirals changes for sort by function-->
 
-  </table>
+
+  <a href="/editProfile">Edit Profile</a>
+  <div class="table-scroll">
+  <table>
   <h2>Here's what is in your fridge: </h2>
   <p> *Please note that expiry dates below are recommendations from the University of Nebraska-Lincoln* </p>      
-    <table  border = 2 style="width:50%">
+    <table border = 2 style="width:50%" id="fridge">
+
     <tr>
-      <th>Products</th>
-      <th> Type <br>
-      <select name="types" id="types" onchange="filterByType()">
-        <option value="">Type</option>
-        <option value="baked goods">Baked Goods</option>
-        <option value="condiments">Condiments</option>
-        <option value="dairy">Dairy</option>
-        <option value="fruits">Fruits</option>
-        <option value="protein">Protein</option>
-        <option value="vegetables">Vegetables</option>
-        <option value="">All</option>
+      <th onclick="sortTable(0)">Products</th>
+      <th><select name="Types" id="Types" onchange="filterbytype()" onclick="sortTable(1)">
+            <option value="Type">Type</option>
+            <option value="baked goods">Baked Goods</option>
+            <option value="condiments">Condiments</option>
+            <option value="dairy">Dairy</option>
+            <option value="fruits">Fruits</option>
+            <option value="protein">Protein</option>
+            <option value="vegetables">Vegetables</option>
+            <option value="">All</option>
         </select></th>
       <th> Date of Expiry <br>
         <label for="expiry-date">
           <select id= "expirysort" class = "sortbyexpiry" onchange = "sortbyExpiry()">
-            <option value = "">Sort by</option>
+          <option value = "">Sort by</option>
           <option value = "ASC">Soonest Expiry Date</option>
           <option value = "DESC">Latest Expiry Date</option>
           <option value = "">Default Order</option>
@@ -95,6 +106,7 @@
       </tr>
     <% }); %>
   </table>
+</div>
 <br>
 
   <button type="button" class="button">Find out what's expiring soon -></button>
@@ -113,7 +125,7 @@
     </select>
     <br>
     <label for="name">Quantity</label>
-    <input type="number" id="quantity"/>
+    <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1" id="quantity"/>
     <br>
     <button onclick="addProduct()">Add to Fridge</button>
 
@@ -141,7 +153,7 @@
     <button onclick="removeProduct()">Remove from Fridge</button>
 
     <h2>Edit Quantity for Products</h2>
-    
+
     <label for="name">Product Name:</label>
     <select name="editQuantity" id="editQuantity">
         <option value="bread">Bread</option>
@@ -161,7 +173,7 @@
 
 
     <h2>Edit Expiry Date for Products</h2>
-    
+
     <label for="name">Product Name:</label>
     <select name="editExpiry" id="editExpiry">
         <option value="bread">Bread</option>
@@ -177,7 +189,7 @@
       <input type="date" id="expirydate"/>
       <br>
     <button onclick="editExpiry()">Edit Expiry</button>
-    
+
     <br>
     <br>
 
