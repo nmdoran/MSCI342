@@ -189,7 +189,7 @@ express()
       const result = await client.query(`SELECT name, email, postal_code, email_freq FROM Users where user_ID = '${userID}'`);
       //const client = await pool.connect();
       //const result = await client.query(`SELECT name, email, postal_code, email_freq FROM Users where user_ID IN ('1')`);
-      //const results = { 'results': (result) ? result.rows : null, 'searchresults': (result) ? result.rows : null};
+      const results = { 'results': (result) ? result.rows : null, 'searchresults': (result) ? result.rows : null};
       res.render('pages/editProfile', results );
       client.release();
     } catch (err) {
