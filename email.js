@@ -3,7 +3,7 @@ var nodemailer = require('nodemailer');
 var fs = require("fs");
 var ejs = require("ejs");
 
-ejs.renderFile(__dirname + "/email.ejs", { name: 'Test' }, function (err, data) {
+ejs.renderFile(__dirname + "/views/pages", { name: 'email' }, function (err, data) {
     if (err) {
         console.log(err);
     } else {
@@ -20,8 +20,8 @@ var mailOptions = {
     Hope you have a great week!`,
     html: data
 };
-console.log("html data ======================>", mainOptions.html);
-    transporter.sendMail(mainOptions, function (err, info) {
+console.log("html data ======================>", mailOptions.html);
+    transporter.sendMail(mailOptions, function (err, info) {
         if (err) {
             console.log(err);
         } else {
