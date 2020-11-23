@@ -73,7 +73,7 @@ function addCustom() {
   l = document.getElementById("prod_life").value;
   q = document.getElementById("prod_qty").value;
 
-  if(n == "" || t == "" || l == "", q == ""){
+  if(n == "" || t == "" || l == "" || q == ""){
     window.alert("Please add values for all fields")
   } else { 
     console.log("Adding a custom product...")
