@@ -25,7 +25,14 @@ function addProductFromSearch(e) {
     const userRequest = new XMLHttpRequest();
     userRequest.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-        location.reload();
+        if (this.response == "error: duplicate product") {
+          alert("This product is already in your fridge. Please try a different product.")
+        } else if (this.response == "error: unknown") {
+          // currently fails silently, though ideally this case does not occur unless something went wrong
+          location.reload();
+        } else {
+          location.reload();
+        }
       }
     };
     userRequest.open('post', '/addProduct');
