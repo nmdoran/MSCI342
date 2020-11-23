@@ -66,6 +66,27 @@ express()
     }
   })
 
+  .post('/editFridgeItem', jsonParser, async function(req, res) {
+    try {
+      const client = await pool.connect();
+      if (req.body.quantity) {
+        client.query(`UPDATE fridge_products
+        SET qty = '${req.body.quantity}'
+        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}')`)
+      }
+      if (req.body.expirydate) {
+        client.query(`UPDATE fridge_products
+        SET exp_dt = '${req.body.expirydate}'
+        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}')`)
+      }
+      client.release();
+      res.send("Success! " + res);
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+
 
   .get('/editQuantity', (req, res) => res.render('pages/editQuantity'))
   .post('/editQuantity', jsonParser, async function(req, res) {

@@ -50,6 +50,23 @@ function sortbyExpiry() {
   }
 }
 
+function editFridgeItem(event) {
+  console.log("Editing item details...")
+  console.log(event.target.value)
+  console.log(document.getElementById("editQuantity").value)
+  console.log(document.getElementById("editExpiryDate").value)
+
+  const userRequest = new XMLHttpRequest();
+  userRequest.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      location.reload();
+    }
+  };
+  userRequest.open('post', '/editFridgeItem');
+  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  userRequest.send(JSON.stringify({'product': event.target.value, 'quantity': document.getElementById("editQuantity").value, 'expirydate': document.getElementById("editExpiryDate").value}));
+}
+
 function editQuantity() {
   console.log("Editing quantity...")
   const userRequest = new XMLHttpRequest();

@@ -93,7 +93,7 @@
                 <button class="open-button" onclick="openForm()">Edit</button>
 
                 <div class="form-popup" id="myForm">
-                  <form action="/action_page.php" class="form-container">
+                  <div class="form-container">
                     <h1>Edit Products</h1>
 
                     <!-- Change in next sprint- Allow the form to show product name of the product being edited
@@ -112,16 +112,16 @@
                     </select> </p> -->
 
                     <label for="expirydate"><p>Expiry Date</label>
-                    <input type="date" placeholder="Edit Expiry Date" name="expirydate" required></p>
+                    <input type="date" placeholder="Edit Expiry Date" name="expirydate" id="editExpiryDate" required></p>
 
 
-                    <label for="pquantiy"><p>Quantity</label>
+                    <label for="pquantity"><p>Quantity</label>
                     <input type="number" onkeypress="return event.charCode >= 48" min="1"
-                      placeholder="Enter Product Quantity" name="pquantity" required></p>
+                      placeholder="Enter Product Quantity" name="pquantity" id="editQuantity" required></p>
 
-                    <button type="submit" class="btn">Done</button>
+                    <button class="btn" onclick="editFridgeItem(event)" value='<%= r.prod_name%>'>Done</button>
                     <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
-                  </form>
+                  </div>
                 </div>
               </td>
 
