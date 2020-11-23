@@ -61,24 +61,23 @@
   <h2>Here's what is in your fridge: </h2>
   <p> *Please note that expiry dates below are recommendations from the University of Nebraska-Lincoln* </p>      
     <table border = 2 style="width:50%" id="fridge">
-    <table  border = 2 style="width:50%">
 
     <tr>
       <th onclick="sortTable(0)">Products</th>
       <th><select name="Types" id="Types" onchange="filterbytype()" onclick="sortTable(1)">
-        <option value="Type">Type</option>
-        <option value="baked goods">Baked Goods</option>
-        <option value="condiments">Condiments</option>
-        <option value="dairy">Dairy</option>
-        <option value="fruits">Fruits</option>
-        <option value="protein">Protein</option>
-        <option value="vegetables">Vegetables</option>
-        <option value="">All</option>
+            <option value="Type">Type</option>
+            <option value="baked goods">Baked Goods</option>
+            <option value="condiments">Condiments</option>
+            <option value="dairy">Dairy</option>
+            <option value="fruits">Fruits</option>
+            <option value="protein">Protein</option>
+            <option value="vegetables">Vegetables</option>
+            <option value="">All</option>
         </select></th>
       <th> Date of Expiry <br>
         <label for="expiry-date">
           <select id= "expirysort" class = "sortbyexpiry" onchange = "sortbyExpiry()">
-            <option value = "">Sort by</option>
+          <option value = "">Sort by</option>
           <option value = "ASC">Soonest Expiry Date</option>
           <option value = "DESC">Latest Expiry Date</option>
           <option value = "">Default Order</option>
