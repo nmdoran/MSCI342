@@ -11,23 +11,23 @@
   <body>
     <div class="container">
         <h2>Edit Profile</h2>
-        <form name="editProfile" action="/editProfile" onsubmit="return validate()" method="post"><br>
-
-<!--pattern="[A-Za-z] [A-Za-z]"-->
+        <form name="editProfile" action="/editProfile" onsubmit="validate()" method="post"><br>
 
         	<!--Input name-->
 	        <label for="name" >Name:</label>
 	        <% searchresults.forEach(function(r) { %> <input value="<%= r.name%>" disabled></input> <% }); %>
-	        <input type="text" id="name" placeholder="First Last" autofocus autocomplete="on"/> <br>
-	        <!--Input email-->
+			<input type="text" id="name" placeholder="First Last" autofocus autocomplete="on"/> <br>
+		
+	        <!-- Input email -->
 	        <label for="name">Email:</label>
 	        <% searchresults.forEach(function(r) { %> <input value="<%= r.email%>" type="text" disabled></input> <% }); %>
-	        <input type="text" id="email" placeholder="email@gmail.com" pattern="[a-z0-9._%+-]+@gmail.com" autocomplete="on"/> <br>
+			<input type="text" id="email" placeholder="email@gmail.com" pattern="[a-z0-9._%+-]+@gmail.com" autocomplete="on"/> <br>
+			
 	        <!--Input postal code-->
 	        <label for="name">Postal Code:</label>
 	        <% searchresults.forEach(function(r) { %> <input value="<%= r.postal_code%>" disabled> <% }); %>
 	        <input type="text" id="postal_code" maxlength="7" placeholder="A0A 0A0" pattern="[A-Za-z][0-9][A-Za-z] [0-9][A-Za-z][0-9]" autocomplete="on"/> <br>
-	        <!--Input email frequency-->
+			<!--Input email frequency-->
 	        <label for="name">Email Frequency:</label>
 	        <% searchresults.forEach(function(r) { %> <input value="<%= r.email_freq%>" disabled><% }); %>
 	        <input list="email_freq" placeholder="Select"/> <br>
@@ -42,7 +42,7 @@
 	        <!--button-->
 	        <br><input type="submit" name="submit" value="Edit Profile" >	       
     	</form>
-    	<br><button onclick="/">Back</button>
+    	<!-- <br><button onclick="/">Back</button>
     </div>
   </body>
 </html>

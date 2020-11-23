@@ -69,23 +69,34 @@ function filterByType() {
     window.location.replace("https://whatscookinggoodlooking.herokuapp.com/" + x);
   }
 }
-<<<<<<< HEAD
 
 function editProfile() {
-  alert(":)!");
+  console.log("Editing user profile...")
+  const userRequest = new XMLHttpRequest();
+  userRequest.open('post', '/editProfile');
+  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  userRequest.send(JSON.stringify({'username':document.forms["editProfile"]["name"].value
+                                    , 'email':document.forms["editProfile"]["email"].value
+                                    , 'postal_code':document.forms["editProfile"]["postal_code"].value
+                                    , 'email_freq':document.forms["editProfile"]["email_freq"].value
+                                  }));
 }
 
 function validate() {
+  console.log("Test")
   var a = document.forms["editProfile"]["name"].value;
-  if (a == "") {
-    alert("Can't be empty!");
-    return false;
-  } else {
-    editProfile()
-  }
   var b = document.forms["editProfile"]["email"].value;
   var c = document.forms["editProfile"]["postal_code"].value;
-  var d = document.forms["editProfile"]["email_freq"].value;
+  //var d = document.forms["editProfile"]["email_freq"].value;
+  if (a == "" && b == "" && c == "") {
+    alert("Please input a value into one or more of the fields.");
+    console.log("No values in any fields")
+    return false;
+  } else {
+    console.log("Passed validation")
+    //editProfile()
+  }
+  
 }
 
 function sortTable(n) {
@@ -142,5 +153,46 @@ function sortTable(n) {
     }
   }
 }
-=======
->>>>>>> c2e9fca16bf6efb90d39469bb0ecb3d77ab809cd
+
+function temp() {
+  window.alert("Test")
+}
+
+function updateName(){
+  user_name = document.getElementById("user_name").value;
+  if (user_name == ""){
+    window.alert("Please add a name")
+  }else{
+    const userRequest = new XMLHttpRequest();
+    userRequest.open('post', '/editProfileName');
+    userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+    userRequest.send(JSON.stringify({'user_name':user_name}));
+    alert("Name updated");
+  }
+}
+
+function updateEmail(){
+  user_email = document.getElementById("user_email").value;
+  if (user_email == ""){
+    window.alert("Please add an email")
+  }else{
+    const userRequest = new XMLHttpRequest();
+    userRequest.open('post', '/editProfileEmail');
+    userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+    userRequest.send(JSON.stringify({'user_email':user_email}));
+    alert("Email updated");
+  }
+}
+
+function updatePC(){
+  user_PC = document.getElementById("user_PC").value;
+  if (user_PC == ""){
+    window.alert("Please add a postal code")
+  }else{
+    const userRequest = new XMLHttpRequest();
+    userRequest.open('post', '/editProfileTest');
+    userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+    userRequest.send(JSON.stringify({'user_PC':user_PC}));
+    alert("Postal code updated");
+  }
+}

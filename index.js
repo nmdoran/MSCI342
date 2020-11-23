@@ -61,22 +61,6 @@ express()
     }
 })
 
-<<<<<<< HEAD
-  .get('/addProduct', jsonParser, async (req, res) => {
-    try {
-      const client = await pool.connect();
-      const result = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}')AND user_ID IN ('0','1')`);
-      const results = { 'results': (result) ? result.rows : null};
-      res.render('pages/addProduct', results );
-      client.release();
-    } catch (err) {
-      console.error(err);
-      res.send("Error " + err);
-    }
-  })
-
-=======
->>>>>>> c2e9fca16bf6efb90d39469bb0ecb3d77ab809cd
   .get('/editQuantity', (req, res) => res.render('pages/editQuantity'))
   .post('/editQuantity', jsonParser, async function(req, res) {
     try {
@@ -200,11 +184,48 @@ express()
       res.send("Error " + err);
     }
   })
-  .post('/editProfile', jsonParser, async function(req, res) {
+  // .post('/editProfile', jsonParser, async function(req, res) {
+  //   try {
+  //     const client = await pool.connect();
+  //     client.query(`update users set name = '${req.body.username}', email = '${req.body.email}', postal_code = '${req.body.postal_code}', email_freq = '${req.body.email_freq}' where user_ID = '1'`);
+  //     client.release();
+  //     res.send("Success! " + res);
+  //   } catch (err) {
+  //     console.error(err);
+  //     res.send("Error " + err);
+  //   }
+  // })
+
+  .get('/editProfileTest', (req, res) => res.render('pages/editProfileTest'))
+  .post('/editProfileName', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
-      client.query(``)
-      client.query(``)
+      client.query(`update users set name = '${req.body.user_name}' where user_ID = '1'`)
+      client.release();
+      res.send("Success! " + res);
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+  .post('/editProfileEmail', jsonParser, async function(req, res) {
+    try {
+      var userID = userProfile ? userProfile.id : 1; 
+      const client = await pool.connect();
+      client.query(`update users set email = '${req.body.user_email}' where user_ID = '1'`)
+      client.release();
+      res.send("Success! " + res);
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
+  })
+  .post('/editProfileEmail', jsonParser, async function(req, res) {
+    try {
+      var userID = userProfile ? userProfile.id : 1; 
+      const client = await pool.connect();
+      client.query(`update users set postal_code = '${req.body.user_PC}' where user_ID = '1'`)
       client.release();
       res.send("Success! " + res);
     } catch (err) {

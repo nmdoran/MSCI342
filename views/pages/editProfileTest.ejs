@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/header.ejs %>
+    <!-- <script src="../../public/scripts/client.js"></script> -->
+    <script src="/client.js"></script>
+  </head>
+
+  <body>
+
+    <div class="container">
+        <h2>Edit Profile</h2>
+
+        <!--Name-->
+        <label for="name">Name:</label>
+        <input type="text" id="user_name"/>
+        <button onclick="updateName()">Update</button><br><br>
+
+        <!--Email-->
+        <label for="name">Email:</label>
+        <input type="text" id="user_email"/>
+        <button onclick="updateEmail()">Update</button><br><br>
+
+        <!--Input postal code-->
+        <label for="name">Postal Code:</label>
+        <input type="text" id="user_PC"/> 
+        <button onclick="updatePC()">Update</button><br>
+        <br>
+
+    </div>
+
+  </body>
+</html>
