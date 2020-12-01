@@ -32,7 +32,7 @@
         var dt = new Date();
         document.getElementById("datetime").innerHTML = dt.toLocaleString();</script>
 
-      
+
       <div class="main-content">
         <!-- Fridge table section -->
         <div class="table-scroll">
@@ -118,44 +118,65 @@
             Would you like to add a new product?
           </h3>
           <a href="/addCustom">Add a Custom Product</a>
-  
+
           <form class="search-box" name ="Search" onsubmit = "return searchError()" method="get">
             <input type="text" name="searchParam" class="search-txt" maxlength = "255" placeholder="Search..."/>
             <br>
-  
-            <input class="search-btn" type="submit"  value="">
-  
-            </form>
-  
+
+            <input class="search-btn" type="submit"  value="&rarr;">
+
+
+          </form>
+
+          <br>
+        </br>
+          <br>
+        </br>
+        <br>
+      </br>
+      <br>
+    </br>
+    <br>
+  </br>
+  <br>
+</br>
+<br>
+</br>
+
+<h3>Can't use your items? Donate!</h3>
+          <form>
+              <input type="button" class="foodDonationBttn" value="&#x2672;" onclick="window.location.href='http://localhost:5000/foodDonation'" style="font-size : 50px; color : white">
+          </form>
+
             <br>
-  
+
             <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
               <p>No results found. Would you like to <a href="addCustom">add a custom item</a> with that name instead?</p>
             <% } else if (searchresults.length > 0 && searchresults != "nosearch") { %>
-  
+
             <label for="name">Quantity:</label>
             <br>
             <input type="number" id="searchedProductQuantity"/>
             <br>
             <br>
-          
+
             <% searchresults.forEach(function(r) { %>
-  
-            <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch(event)"> 
+
+            <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch(event)">
               <%= r.prod_name%>
-            </button> 
+            </button>
             <br>
-            <% })}; %>  
-  
+            <% })}; %>
+
         </div>
       </div>
-    
-      <br>
+
+<br>
 
     <a class="btn btn-light" href="/logout" role="button" style="text-transform:none">
       <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
       Click Here to Signout
-    </a>    
+    </a>
 
     </font>
 
