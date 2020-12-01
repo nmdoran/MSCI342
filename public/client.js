@@ -11,7 +11,7 @@ function addProduct() {
 function addProductFromSearch(e) {
   console.log("Adding a product...")
   
-  var q = document.getElementById("quantity").value;
+  var q = document.getElementById("searchedProductQuantity").value;
   if (q==""){
     alert ("Please specify a quantity");
     return false;
@@ -22,12 +22,23 @@ function addProductFromSearch(e) {
   }
 
   else {
-  const userRequest = new XMLHttpRequest();
-  userRequest.open('post', '/addProduct');
-  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("searchedproduct").value, 'quantity' : e.target.value}));
+    const userRequest = new XMLHttpRequest();
+    userRequest.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        if (this.response == "error: duplicate product") {
+          alert("This product is already in your fridge. Please try a different product.")
+        } else if (this.response == "error: unknown") {
+          // currently fails silently, though ideally this case does not occur unless something went wrong
+          location.reload();
+        } else {
+          location.reload();
+        }
+      }
+    };
+    userRequest.open('post', '/addProduct');
+    userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+    userRequest.send(JSON.stringify({'product': e.target.value, 'quantity' : document.getElementById("searchedProductQuantity").value}));
   }
- 
 }
 
 function removeProduct(event) {

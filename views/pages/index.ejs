@@ -24,40 +24,6 @@
         }
       </style>
 
-      <div class="search">
-        <span>
-          Would you like to add a new product?
-        </span>
-
-     <form class="search-box" name ="Search" onsubmit = "return searchError()" method="get">
-        <input type="text" name="searchParam" class="search-txt" maxlength = "255" placeholder="Search..."/>
-        <br>
-
-        <input class="search-btn" type="submit"  value="">
-
-        </form>
-
-        <br>
-        <br>
-
-      <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
-        <p>No results found</p>
-      <% } else if (searchresults.length > 0 && searchresults != "nosearch") { %>
-
-        <label for="name">Quantity</label>
-        <input type="number" id="quantity"/>
-        <br>
-        
-        <% searchresults.forEach(function(r) { %>
-
-        <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch(event)"> 
-          <%= r.prod_name%>
-        </button> 
-        <br>
-        <% })}; %>  
-
-      </div>
-
       <h1> Hello <%= userProfile ? userProfile.displayName : "User" %>!</h1>
 
 
@@ -66,112 +32,125 @@
         var dt = new Date();
         document.getElementById("datetime").innerHTML = dt.toLocaleString();</script>
 
-      <!--Mirals changes for sort by function-->
-      <div class="table-scroll">
-        <table>
-          <h2>Here's what is in your fridge: </h2>
-          <table border=2 style="width:50%">
-            <tr>
-              <th>Products</th>
-              <th><select name="Types" id="Types" onchange="filterbytype()">
-                  <option value="Type">Type</option>
-                  <option value="baked goods">Baked Goods</option>
-                  <option value="condiments">Condiments</option>
-                  <option value="dairy">Dairy</option>
-                  <option value="fruits">Fruits</option>
-                  <option value="protein">Protein</option>
-                  <option value="vegetables">Vegetables</option>
-                </select></th>
-              <th> Date of Expiry <br>
-                <label for="expiry-date">
-                  <select id="expirysort" class="sortbyexpiry" onchange="sortbyExpiry()">
-                    <option value="">Sort by</option>
-                    <option value="ASC">Soonest Expiry Date</option>
-                    <option value="DESC">Latest Expiry Date</option>
-              </th>
-              <th>Quantity</th>
-              <th>Edit</th>
-              <th>Delete</th>
-              <% results.forEach(function(r) { %>
-            <tr>
-              <td><%= r.prod_name%></td>
-              <td><%= r.type%></td>
-              <td><%= r.exp_dt%></td>
-              <td><%= r.qty%></td>
-              <td>
-                <!-- Edit Pop Out Form -->
-                <button class="open-button" onclick="openForm(event)" value='<%= r.prod_name%>'>Edit</button>
+      
+      <div class="main-content">
+        <!-- Fridge table section -->
+        <div class="table-scroll">
+          <table>
+            <h2>Here's what is in your fridge: </h2>
+            <table border=2 style="width:100%">
+              <tr>
+                <th>Products</th>
+                <th><select name="Types" id="Types" onchange="filterbytype()">
+                    <option value="Type">Type</option>
+                    <option value="baked goods">Baked Goods</option>
+                    <option value="condiments">Condiments</option>
+                    <option value="dairy">Dairy</option>
+                    <option value="fruits">Fruits</option>
+                    <option value="protein">Protein</option>
+                    <option value="vegetables">Vegetables</option>
+                  </select></th>
+                <th> Date of Expiry <br>
+                  <label for="expiry-date">
+                    <select id="expirysort" class="sortbyexpiry" onchange="sortbyExpiry()">
+                      <option value="">Sort by</option>
+                      <option value="ASC">Soonest Expiry Date</option>
+                      <option value="DESC">Latest Expiry Date</option>
+                </th>
+                <th>Quantity</th>
+                <th>Edit</th>
+                <th>Delete</th>
+                <% results.forEach(function(r) { %>
+              <tr>
+                <td><%= r.prod_name%></td>
+                <td><%= r.type%></td>
+                <td><%= r.exp_dt%></td>
+                <td><%= r.qty%></td>
+                <td>
+                  <!-- Edit Pop Out Form -->
+                  <button class="open-button" onclick="openForm(event)" value='<%= r.prod_name%>'>Edit</button>
 
-                <div class="form-popup" id='<%= r.prod_name%>'>
-                  <div class="form-container">
-                    <h1>Edit Products</h1>
+                  <div class="form-popup" id='<%= r.prod_name%>'>
+                    <div class="form-container">
+                      <h1>Edit Products</h1>
 
-                    <!-- Change in next sprint- Allow the form to show product name of the product being edited
-                      <label for="pname"><p>Product Name</label>
-                    <input type="text" placeholder="Enter Product Name" name="pname" required></p> -->
+                      <!-- Change in next sprint- Allow the form to show product name of the product being edited
+                        <label for="pname"><p>Product Name</label>
+                      <input type="text" placeholder="Enter Product Name" name="pname" required></p> -->
 
-                    <!-- Change in next sprint - Only allow users to change product type of Custom Products
-                      <label for="ptype"><p>Product Type</label>
-                    <select name="Types" id="Types" required>
-                      <option value="baked goods">Baked Goods</option>
-                      <option value="condiments">Condiments</option>
-                      <option value="dairy">Dairy</option>
-                      <option value="fruits">Fruits</option>
-                      <option value="protein">Protein</option>
-                      <option value="vegetables">Vegetables</option>
-                    </select> </p> -->
+                      <!-- Change in next sprint - Only allow users to change product type of Custom Products
+                        <label for="ptype"><p>Product Type</label>
+                      <select name="Types" id="Types" required>
+                        <option value="baked goods">Baked Goods</option>
+                        <option value="condiments">Condiments</option>
+                        <option value="dairy">Dairy</option>
+                        <option value="fruits">Fruits</option>
+                        <option value="protein">Protein</option>
+                        <option value="vegetables">Vegetables</option>
+                      </select> </p> -->
 
-                    <label for="expirydate"><p>Expiry Date</label>
-                    <input type="date" placeholder="Edit Expiry Date" name="expirydate" id="<%= r.prod_name%>EditExpiryDate"></p>
+                      <label for="expirydate"><p>Expiry Date</label>
+                      <input type="date" placeholder="Edit Expiry Date" name="expirydate" id="<%= r.prod_name%>EditExpiryDate"></p>
 
 
-                    <label for="pquantity"><p>Quantity</label>
-                    <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1"
-                      placeholder="Enter Product Quantity" name="pquantity" id="<%= r.prod_name%>EditQuantity" required></p>
+                      <label for="pquantity"><p>Quantity</label>
+                      <input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1"
+                        placeholder="Enter Product Quantity" name="pquantity" id="<%= r.prod_name%>EditQuantity" required></p>
 
-                    <button class="btn" onclick="editFridgeItem(event)" value='<%= r.prod_name%>'>Done</button>
-                    <button type="button" class="btn cancel" onclick="closeForm(event)" value='<%= r.prod_name%>'>Cancel</button>
+                      <button class="btn" onclick="editFridgeItem(event)" value='<%= r.prod_name%>'>Done</button>
+                      <button type="button" class="btn cancel" onclick="closeForm(event)" value='<%= r.prod_name%>'>Cancel</button>
+                    </div>
                   </div>
-                </div>
-              </td>
+                </td>
 
-              <td>
-                <button onclick="removeProduct(event)" value='<%=r.prod_name%>'>Delete</button>
-              </td>
+                <td>
+                  <button onclick="removeProduct(event)" value='<%=r.prod_name%>'>Delete</button>
+                </td>
 
-              <% }); %>
-            </tr>
-          </table>
+                <% }); %>
+              </tr>
+            </table>
+        </div>
+
+        <!-- Add new product section -->
+        <div class="search">
+          <h3>
+            Would you like to add a new product?
+          </h3>
+          <a href="/addCustom">Add a Custom Product</a>
+  
+          <form class="search-box" name ="Search" onsubmit = "return searchError()" method="get">
+            <input type="text" name="searchParam" class="search-txt" maxlength = "255" placeholder="Search..."/>
+            <br>
+  
+            <input class="search-btn" type="submit"  value="">
+  
+            </form>
+  
+            <br>
+  
+            <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
+              <p>No results found. Would you like to <a href="addCustom">add a custom item</a> with that name instead?</p>
+            <% } else if (searchresults.length > 0 && searchresults != "nosearch") { %>
+  
+            <label for="name">Quantity:</label>
+            <br>
+            <input type="number" id="searchedProductQuantity"/>
+            <br>
+            <br>
+          
+            <% searchresults.forEach(function(r) { %>
+  
+            <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch(event)"> 
+              <%= r.prod_name%>
+            </button> 
+            <br>
+            <% })}; %>  
+  
+        </div>
       </div>
+    
       <br>
-
-<h2>Add Products to the Fridge</h2>
-
-<label for="name">Product Name:</label>
-<select name="addProduct" id="addProduct">
-    <option value="peaches">Peach</option>
-    <option value="muffins">Muffin</option>
-    <option value="oranges">Orange</option>
-    <option value="eggs">Egg</option>
-    <option value="bacon">Bacon</option>
-    <option value="butter">Butter</option>
-    <option value="celery">Celery</option>
-</select>
-<br>
-<label for="name">Quantity</label>
-<input type="number" onkeypress="return event.charCode >= 48 && event.charCode <= 57" min="1" id="quantity"/>
-<br>
-<button onclick="addProduct()">Add to Fridge</button>
-
-    <br>
-    <br>
-
-    <a href="/addCustom">Add a Custom Product</a>
-    <br>
-
-    <a href="recipePage">Need some recipe ideas? Click here!</a>
-
-    <br>
 
     <a class="btn btn-light" href="/logout" role="button" style="text-transform:none">
       <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
