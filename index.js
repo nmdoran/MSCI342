@@ -175,7 +175,7 @@ express()
       var userID = userProfile ? userProfile.id : 1; 
       //var userID = '1'
       const client = await pool.connect();
-      await client.query(`SELECT * FROM products WHERE user_id = '${userID}' AND prod_name = '${req.body.product_name}'`, (err, data) => {
+      await client.query(`SELECT * FROM products WHERE user_id IN ('0', '${userID}') AND prod_name = '${req.body.product_name}'`, (err, data) => {
         if (data.rowCount == 0) {
           client.query(`insert into products (user_ID, prod_name, type, lifetime)
             values('${userID}'
@@ -235,6 +235,16 @@ express()
   })
 
   .get('/signinpage', (req, res) => res.render('pages/signinpage'))
+
+  .get('/recipePage', (req, res) => res.render('pages/recipePage'))
+
+  .post('/getProducts', jsonParser, async (req, res) => {
+    var userID = userProfile ? userProfile.id : 1; 
+    const client = await pool.connect();
+    await client.query(`SELECT json_agg(prod_name) FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}')`, function(err, data) {
+      res.send(data.rows);
+    });
+  })
   
   // login setup
 
@@ -281,7 +291,18 @@ express()
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: "/auth/google/callback"
     },
-    function(accessToken, refreshToken, profile, done) {
+    async function(accessToken, refreshToken, profile, done) {
+        const client = await pool.connect();
+        // Checks if the user who just signed in has been registered. If they have not, register them in the users table
+        client.query(`SELECT * FROM users WHERE user_id = '${profile.id}'`, function (err, data) {
+          if (data.rowCount == 0) {
+            console.log("Registering a new user with ID " + profile.id);
+            client.query(`INSERT into users values('${profile.id}', '${profile.displayName}', '${profile.emails[0].value}', 'A1A1A1', 0)`);
+          } else {
+            console.log("Recognized user signing in with ID " + profile.id);
+          }
+        }); 
+        client.release();
         userProfile=profile;
         return done(null, userProfile);
     }
