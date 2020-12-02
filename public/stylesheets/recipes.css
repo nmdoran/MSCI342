@@ -3,7 +3,7 @@ body {
 }
 
 .header {
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .generateRecipes {
@@ -16,7 +16,7 @@ body {
 
 .foodItemsLabel {
     display: block;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .recipeLabel {
