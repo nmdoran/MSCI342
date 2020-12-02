@@ -47,6 +47,7 @@ function removeProduct(event) {
   userRequest.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       location.reload();
+      alert("Successfully Deleted")
     }
   };
   userRequest.open('post', '/removeProduct');
@@ -73,6 +74,7 @@ function editFridgeItem(event) {
   userRequest.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       location.reload();
+      alert("Successfully Edited")
     }
   };
   userRequest.open('post', '/editFridgeItem');
