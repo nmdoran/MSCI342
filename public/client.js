@@ -10,7 +10,7 @@ function addProduct() {
 
 function addProductFromSearch(e) {
   console.log("Adding a product...")
-  
+
   var q = document.getElementById("searchedProductQuantity").value;
   if (q==""){
     alert ("Please specify a quantity");
@@ -47,6 +47,7 @@ function removeProduct(event) {
   userRequest.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       location.reload();
+      alert("Successfully Deleted")
     }
   };
   userRequest.open('post', '/removeProduct');
@@ -73,6 +74,7 @@ function editFridgeItem(event) {
   userRequest.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       location.reload();
+      alert("Successfully Edited")
     }
   };
   userRequest.open('post', '/editFridgeItem');
@@ -88,7 +90,7 @@ function addCustom() {
 
   if(n == "" || t == "" || l == "" || q == ""){
     window.alert("Please add values for all fields")
-  } else { 
+  } else {
     console.log("Adding a custom product...")
     const userRequest = new XMLHttpRequest();
     userRequest.onreadystatechange = function() {
@@ -99,7 +101,7 @@ function addCustom() {
           alert("Successfully added!")
         }
       }
-    };      
+    };
     userRequest.open('post', '/addCustom');
     userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
     userRequest.send(JSON.stringify({
@@ -122,7 +124,7 @@ function filterByType() {
 
 function generateRecipes() {
   const recipeID = "96ed8d10";
-  const recipeKey = "8d864561b07870cc4021658590483b25"; 
+  const recipeKey = "8d864561b07870cc4021658590483b25";
   const getProducts = new XMLHttpRequest();
   getProducts.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -147,7 +149,7 @@ function generateRecipes() {
           if (this.readyState == 4 && this.status == 200) {
             var recipes = [];
             JSON.parse(this.response).hits.forEach((hit) => recipes.push(hit.recipe));
-            
+
             var foodItems = document.createElement("h2");
             if (fridgeProducts.length == 1) {
               foodItems.innerHTML = `With ${foodItem1} you can make:`;
@@ -157,7 +159,7 @@ function generateRecipes() {
 
             foodItems.classList.add("foodItemsLabel");
             document.getElementById("recipes").appendChild(foodItems);
-            
+
             recipes.forEach((function(recipe) {
               var title = document.createElement("a");
               title.innerHTML = recipe.label;
@@ -174,7 +176,7 @@ function generateRecipes() {
           }
         }
       }
-    };      
+    };
   }
   getProducts.open('post', '/getProducts');
   getProducts.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

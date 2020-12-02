@@ -1,7 +1,7 @@
 body {
  margin: 50px;
  padding: 0;
- background: #e84118;
+ background: #f2f1ef;
  font-family: Verdana, sans-serif;
 }
 
@@ -33,6 +33,16 @@ body {
 background-color: white;
 text-align-last:center;
 font-family: inherit;
+}
+
+.foodDonationBttn{
+   color: #e84118;
+   float: left;
+   width: 100px;
+   height: 100px;
+   border-radius: 50%;
+   background: #2f3640;
+
 }
 
 .main-content {
