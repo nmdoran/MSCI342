@@ -31,14 +31,14 @@ express()
       var userID = userProfile ? userProfile.id : 1;
       if (req.query.type) {
         const client = await pool.connect();
-        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}') AND Type='${req.query.type}'`);
+        const result = await client.query(`SELECT prod_name, type, exp_dt, qty, p.user_id FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}') AND Type='${req.query.type}'`);
         const searchresult = await client.query(`SELECT * FROM products WHERE upper(prod_name) LIKE upper('${req.query.searchParam}') AND user_ID IN ('0','${userID}')`);
         const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
       } else if (req.query.expirysort) {
         const client = await pool.connect();
-        const result = await client.query(`SELECT p.prod_name, f.exp_dt, f.qty, p.type
+        const result = await client.query(`SELECT p.prod_name, f.exp_dt, f.qty, p.type, p.user_id
         FROM fridge_products f
         INNER JOIN products p ON f.prod_ID = p.prod_ID
         WHERE f.user_ID = '${userID}'
@@ -49,7 +49,7 @@ express()
         client.release();
       } else {
         const client = await pool.connect();
-        const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}')`);
+        const result = await client.query(`SELECT prod_name, type, exp_dt, qty, p.user_id FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}')`);
         const searchresult = await client.query(`SELECT * FROM products where prod_name ILIKE upper('%${req.query.searchParam}%') AND user_ID IN ('0','${userID}')`);
         const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult && req.query.searchParam) ? searchresult.rows : "nosearch", 'userProfile': userProfile };
         res.render('pages/index', results );
@@ -72,6 +72,11 @@ express()
       if (req.body.expirydate) {
         client.query(`UPDATE fridge_products
         SET exp_dt = '${req.body.expirydate}'
+        WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}')`)
+      }
+      if (req.body.type) {
+        client.query(`UPDATE products
+        SET type = '${req.body.type}'
         WHERE prod_id = (select prod_id from products where prod_name = '${req.body.product}')`)
       }
       client.release();

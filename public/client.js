@@ -5,25 +5,25 @@ function addProduct() {
   const userRequest = new XMLHttpRequest();
   userRequest.open('post', '/addProduct');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product':document.getElementById("addProduct").value, 'quantity': document.getElementById("quantity").value}));
+  userRequest.send(JSON.stringify({ 'product': document.getElementById("addProduct").value, 'quantity': document.getElementById("quantity").value }));
 }
 
 function addProductFromSearch(e) {
   console.log("Adding a product...")
 
   var q = document.getElementById("searchedProductQuantity").value;
-  if (q==""){
-    alert ("Please specify a quantity");
+  if (q == "") {
+    alert("Please specify a quantity");
     return false;
   }
-  else if (q<=0){
-    alert ("Invalid negative quantity");
+  else if (q <= 0) {
+    alert("Invalid negative quantity");
     return false
   }
 
   else {
     const userRequest = new XMLHttpRequest();
-    userRequest.onreadystatechange = function() {
+    userRequest.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         if (this.response == "error: duplicate product") {
           alert("This product is already in your fridge. Please try a different product.")
@@ -37,14 +37,14 @@ function addProductFromSearch(e) {
     };
     userRequest.open('post', '/addProduct');
     userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-    userRequest.send(JSON.stringify({'product': e.target.value, 'quantity' : document.getElementById("searchedProductQuantity").value}));
+    userRequest.send(JSON.stringify({ 'product': e.target.value, 'quantity': document.getElementById("searchedProductQuantity").value }));
   }
 }
 
 function removeProduct(event) {
   console.log("Removing a product...", event.target.value)
   const userRequest = new XMLHttpRequest();
-  userRequest.onreadystatechange = function() {
+  userRequest.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       location.reload();
       alert("Successfully Deleted")
@@ -52,7 +52,7 @@ function removeProduct(event) {
   };
   userRequest.open('post', '/removeProduct');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product': event.target.value}));
+  userRequest.send(JSON.stringify({ 'product': event.target.value }));
 }
 
 function sortbyExpiry() {
@@ -69,17 +69,24 @@ function editFridgeItem(event) {
   console.log(event.target.value)
   console.log(document.getElementById(event.target.value + "EditQuantity").value)
   console.log(document.getElementById(event.target.value + "EditExpiryDate").value)
+  console.log(document.getElementById(event.target.value + "FoodType").value)
 
-  const userRequest = new XMLHttpRequest();
-  userRequest.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      location.reload();
-      alert("Successfully Edited")
-    }
-  };
-  userRequest.open('post', '/editFridgeItem');
-  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product': event.target.value, 'quantity': document.getElementById(event.target.value + "EditQuantity").value, 'expirydate': document.getElementById(event.target.value + "EditExpiryDate").value}));
+  if (document.getElementById(event.target.value + "EditQuantity").value == "" &&
+    document.getElementById(event.target.value + "EditExpiryDate").value == "" &&
+    document.getElementById(event.target.value + "FoodType").value == "") {
+    window.alert("Please add values for one or more of the fields")
+  } else {
+    const userRequest = new XMLHttpRequest();
+    userRequest.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        location.reload();
+        alert("Successfully Edited")
+      }
+    };
+    userRequest.open('post', '/editFridgeItem');
+    userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+    userRequest.send(JSON.stringify({'product': event.target.value, 'quantity': document.getElementById(event.target.value + "EditQuantity").value, 'expirydate': document.getElementById(event.target.value + "EditExpiryDate").value, 'type': document.getElementById(event.target.value + "FoodType").value}));
+  }
 }
 
 function addCustom() {
@@ -88,12 +95,12 @@ function addCustom() {
   l = document.getElementById("prod_life").value;
   q = document.getElementById("prod_qty").value;
 
-  if(n == "" || t == "" || l == "" || q == ""){
+  if (n == "" || t == "" || l == "" || q == "") {
     window.alert("Please add values for all fields")
   } else {
     console.log("Adding a custom product...")
     const userRequest = new XMLHttpRequest();
-    userRequest.onreadystatechange = function() {
+    userRequest.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         if (this.response == "duplicate") {
           alert("This product has already been added. Please add it to your fridge using the search function on the main page.")
@@ -105,10 +112,11 @@ function addCustom() {
     userRequest.open('post', '/addCustom');
     userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
     userRequest.send(JSON.stringify({
-      'product_name':document.getElementById("prod_name").value
-      , 'type':document.getElementById("addType").value
-      , 'life':document.getElementById("prod_life").value
-      , 'quantity': document.getElementById("prod_qty").value}));
+      'product_name': document.getElementById("prod_name").value
+      , 'type': document.getElementById("addType").value
+      , 'life': document.getElementById("prod_life").value
+      , 'quantity': document.getElementById("prod_qty").value
+    }));
 
   }
 }
@@ -126,7 +134,7 @@ function generateRecipes() {
   const recipeID = "96ed8d10";
   const recipeKey = "8d864561b07870cc4021658590483b25";
   const getProducts = new XMLHttpRequest();
-  getProducts.onreadystatechange = function() {
+  getProducts.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var fridgeProducts = JSON.parse(this.response)[0].json_agg;
       if (fridgeProducts == null) {
@@ -136,16 +144,16 @@ function generateRecipes() {
         // if the user's fridge is not empty
         const getRecipes = new XMLHttpRequest();
         if (fridgeProducts.length > 1) {
-        var foodItem1 = fridgeProducts[Math.floor(Math.random() * fridgeProducts.length)];
-        var foodItem2 = fridgeProducts[Math.floor(Math.random() * fridgeProducts.length)];
-        getRecipes.open('get', `https://api.edamam.com/search?q=${foodItem1}+${foodItem2}&app_id=${recipeID}&app_key=${recipeKey}`);
+          var foodItem1 = fridgeProducts[Math.floor(Math.random() * fridgeProducts.length)];
+          var foodItem2 = fridgeProducts[Math.floor(Math.random() * fridgeProducts.length)];
+          getRecipes.open('get', `https://api.edamam.com/search?q=${foodItem1}+${foodItem2}&app_id=${recipeID}&app_key=${recipeKey}`);
         } else if (fridgeProducts.length == 1) {
           var foodItem1 = fridgeProducts[0];
           getRecipes.open('get', `https://api.edamam.com/search?q=${foodItem1}&app_id=${recipeID}&app_key=${recipeKey}`);
         }
         getRecipes.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         getRecipes.send();
-        getRecipes.onreadystatechange = function() {
+        getRecipes.onreadystatechange = function () {
           if (this.readyState == 4 && this.status == 200) {
             var recipes = [];
             JSON.parse(this.response).hits.forEach((hit) => recipes.push(hit.recipe));
@@ -160,7 +168,7 @@ function generateRecipes() {
             foodItems.classList.add("foodItemsLabel");
             document.getElementById("recipes").appendChild(foodItems);
 
-            recipes.forEach((function(recipe) {
+            recipes.forEach((function (recipe) {
               var title = document.createElement("a");
               title.innerHTML = recipe.label;
               title.href = recipe.url;
@@ -190,15 +198,15 @@ function openForm(event) {
 function closeForm(event) {
   document.getElementById(event.target.value).style.display = "none";
 }
-function searchError(){
-   var s = document.forms["Search"]["searchParam"].value;
-   if (s=="") {
-    alert ("Please input a product name in the search box");
+function searchError() {
+  var s = document.forms["Search"]["searchParam"].value;
+  if (s == "") {
+    alert("Please input a product name in the search box");
     return false;
-   }
-   else{
+  }
+  else {
     return true;
-   }
+  }
 
 }
 
@@ -262,7 +270,7 @@ function sortTable(n) {
       rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
       switching = true;
       // Each time a switch is done, increase this count by 1:
-      switchcount ++;
+      switchcount++;
     } else {
       /* If no switching has been done AND the direction is "asc",
       set the direction to "desc" and run the while loop again. */
