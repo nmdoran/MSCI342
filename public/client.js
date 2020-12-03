@@ -69,9 +69,11 @@ function editFridgeItem(event) {
   console.log(event.target.value)
   console.log(document.getElementById(event.target.value + "EditQuantity").value)
   console.log(document.getElementById(event.target.value + "EditExpiryDate").value)
+  console.log(document.getElementById(event.target.value + "FoodType").value)
 
   if (document.getElementById(event.target.value + "EditQuantity").value == "" &&
-    document.getElementById(event.target.value + "EditExpiryDate").value == "") {
+    document.getElementById(event.target.value + "EditExpiryDate").value == "" &&
+    document.getElementById(event.target.value + "FoodType").value == "") {
     window.alert("Please add values for one or more of the fields")
   } else {
     const userRequest = new XMLHttpRequest();
@@ -83,7 +85,7 @@ function editFridgeItem(event) {
     };
     userRequest.open('post', '/editFridgeItem');
     userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-    userRequest.send(JSON.stringify({ 'product': event.target.value, 'quantity': document.getElementById(event.target.value + "EditQuantity").value, 'expirydate': document.getElementById(event.target.value + "EditExpiryDate").value }));
+    userRequest.send(JSON.stringify({'product': event.target.value, 'quantity': document.getElementById(event.target.value + "EditQuantity").value, 'expirydate': document.getElementById(event.target.value + "EditExpiryDate").value, 'type': document.getElementById(event.target.value + "FoodType").value}));
   }
 }
 
