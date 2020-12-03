@@ -21,14 +21,14 @@ express()
   .use(session({
     resave: false,
     saveUninitialized: true,
-    secret: 'SECRET' 
+    secret: 'SECRET'
   }))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  
+
   .get('/', jsonParser, async (req, res) => {
     try {
-      var userID = userProfile ? userProfile.id : 1; 
+      var userID = userProfile ? userProfile.id : 1;
       if (req.query.type) {
         const client = await pool.connect();
         const result = await client.query(`SELECT prod_name, type, exp_dt, qty FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}') AND Type='${req.query.type}'`);
@@ -85,7 +85,7 @@ express()
   .get('/editQuantity', (req, res) => res.render('pages/editQuantity'))
   .post('/editQuantity', jsonParser, async function(req, res) {
     try {
-      var userID = userProfile ? userProfile.id : 1; 
+      var userID = userProfile ? userProfile.id : 1;
       const client = await pool.connect();
       client.query(`UPDATE fridge_products
         SET qty = '${req.body.quantity}'
@@ -101,7 +101,7 @@ express()
   .get('/editExpiry', (req, res) => res.render('pages/editQuantity'))
   .post('/editExpiry', jsonParser, async function(req, res) {
     try {
-      var userID = userProfile ? userProfile.id : 1; 
+      var userID = userProfile ? userProfile.id : 1;
       const client = await pool.connect();
       client.query(`UPDATE fridge_products
         SET exp_dt = '${req.body.expirydate}'
@@ -117,7 +117,7 @@ express()
   .get('/addProduct', (req, res) => res.render('pages/addProduct'))
   .post('/addProduct', jsonParser, async function(req, res) {
     try {
-      var userID = userProfile ? userProfile.id : 1; 
+      var userID = userProfile ? userProfile.id : 1;
       const client = await pool.connect();
       client.query(`insert into fridge_products
                       values('${userID}'
@@ -141,7 +141,7 @@ express()
   })
   .post('/removeProduct', jsonParser, async function(req, res) {
     try {
-      var userID = userProfile ? userProfile.id : 1; 
+      var userID = userProfile ? userProfile.id : 1;
       const client = await pool.connect();
       client.query(`delete from fridge_products where user_ID = '${userID}' AND prod_id=(select prod_id from products where prod_name = '${req.body.product}');`)
       client.release();
@@ -151,7 +151,7 @@ express()
       res.send("Error " + err);
     }
   })
-  
+
   .post('/checkfridge', jsonParser, async function(req, res) { //create a "post" method to check fridge products (product name, quantity, expiry date)
       console.log(req.body)
       console.log(req.body.id)
@@ -172,7 +172,7 @@ express()
   .get('/addCustom', (req, res) => res.render('pages/addCustom'))
   .post('/addCustom', jsonParser, async function(req, res) {
     try {
-      var userID = userProfile ? userProfile.id : 1; 
+      var userID = userProfile ? userProfile.id : 1;
       //var userID = '1'
       const client = await pool.connect();
       await client.query(`SELECT * FROM products WHERE user_id IN ('0', '${userID}') AND prod_name = '${req.body.product_name}'`, (err, data) => {
@@ -236,16 +236,18 @@ express()
 
   .get('/signinpage', (req, res) => res.render('pages/signinpage'))
 
+  .get('/foodDonation', (req, res) => res.render('pages/foodDonation'))
+
   .get('/recipePage', (req, res) => res.render('pages/recipePage'))
 
   .post('/getProducts', jsonParser, async (req, res) => {
-    var userID = userProfile ? userProfile.id : 1; 
+    var userID = userProfile ? userProfile.id : 1;
     const client = await pool.connect();
     await client.query(`SELECT json_agg(prod_name) FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}')`, function(err, data) {
       res.send(data.rows);
     });
   })
-  
+
   // login setup
 
   .use(passport.initialize())
@@ -253,10 +255,10 @@ express()
 
   .get('/error', (req, res) => res.send("error logging in"))
 
-  .get('/auth/google', 
+  .get('/auth/google',
     passport.authenticate('google', { scope : ['profile', 'email'] }))
-  
-  .get('/auth/google/callback', 
+
+  .get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/error' }),
     function(req, res) {
       // Successful authentication, redirect success.
@@ -267,8 +269,8 @@ express()
     req.logout();
     userProfile = null;
     res.redirect('/signinpage');
-  }) 
-  
+  })
+
 
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
@@ -301,7 +303,7 @@ express()
           } else {
             console.log("Recognized user signing in with ID " + profile.id);
           }
-        }); 
+        });
         client.release();
         userProfile=profile;
         return done(null, userProfile);
