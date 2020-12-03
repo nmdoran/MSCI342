@@ -221,11 +221,19 @@ express()
       res.send("Error " + err);
     }
   })
-  .post('/editProfile', jsonParser, async function(req, res) {
+   .post('/editProfile', jsonParser, async function(req, res) {
     try {
+      var userID = userProfile ? userProfile.id : 1; 
       const client = await pool.connect();
-      client.query(``)
-      client.query(``)
+      if(req.body.username){
+        client.query(`update users set name = '${req.body.username}' where user_ID = '${userID}'`)
+      }
+      if(req.body.email){
+        client.query(`update users set email = '${req.body.email}' where user_ID = '${userID}'`)
+      }
+      if(req.body.postal_code){
+        client.query(`update users set postal_code = '${req.body.postal_code}' where user_ID = '${userID}'`)
+      }
       client.release();
       res.send("Success! " + res);
     } catch (err) {

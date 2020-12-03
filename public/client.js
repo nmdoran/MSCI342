@@ -201,20 +201,31 @@ function searchError(){
 }
 
 function editProfile() {
-  alert(":)!");
+  console.log("Editing user profile...")
+  const userRequest = new XMLHttpRequest();
+  userRequest.open('post', '/editProfile');
+  userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  userRequest.send(JSON.stringify({'username':document.forms["editProfile"]["name"].value
+    , 'email':document.forms["editProfile"]["email"].value
+    , 'postal_code':document.forms["editProfile"]["postal_code"].value
+    // , 'email_freq':document.forms["editProfile"]["email_freq"].value
+  }));
+  window.location.replace("/addCustom")
 }
 
 function validate() {
   var a = document.forms["editProfile"]["name"].value;
-  if (a == "") {
-    alert("Can't be empty!");
+  var b = document.forms["editProfile"]["email"].value;
+  var c = document.forms["editProfile"]["postal_code"].value;
+  //var d = document.forms["editProfile"]["email_freq"].value;
+  if (a == "" && b == "" && c == "") {
+    alert("Please input a value into one or more of the fields.");
+    console.log("No values in any fields")
     return false;
   } else {
     editProfile()
-  }
-  var b = document.forms["editProfile"]["email"].value;
-  var c = document.forms["editProfile"]["postal_code"].value;
-  var d = document.forms["editProfile"]["email_freq"].value;
+}
+  
 }
 
 function sortTable(n) {
