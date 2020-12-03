@@ -79,7 +79,7 @@ function editFridgeItem(event) {
   };
   userRequest.open('post', '/editFridgeItem');
   userRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-  userRequest.send(JSON.stringify({'product': event.target.value, 'quantity': document.getElementById(event.target.value + "EditQuantity").value, 'expirydate': document.getElementById(event.target.value + "EditExpiryDate").value}));
+  userRequest.send(JSON.stringify({'product': event.target.value, 'quantity': document.getElementById(event.target.value + "EditQuantity").value, 'expirydate': document.getElementById(event.target.value + "EditExpiryDate").value, 'type': document.getElementById(event.target.value + "FoodType").value}));
 }
 
 function addCustom() {

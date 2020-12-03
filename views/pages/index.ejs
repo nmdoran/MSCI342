@@ -74,17 +74,17 @@
 
                         <label for="pname"><p>Product Name: <%= r.prod_name%></label>
 
-                       <!-- Change in next sprint - Only allow users to change product type of Custom Products
-                        <label for="ptype" placeholder ="Select Type"><p>Product Type</label>
-
-                      <select name="Types" id="Types" required>
-                        <option value="baked goods">Baked Goods</option>
-                        <option value="condiments">Condiments</option>
-                        <option value="dairy">Dairy</option>
-                        <option value="fruits">Fruits</option>
-                        <option value="protein">Protein</option>
-                        <option value="vegetables">Vegetables</option>
-                      </select> </p>  -->
+                          <%if (r.user_id != 0) { %>
+                            <label for="foodType" placeholder ="Select Type"><p>Product Type</label>
+                          <select name="foodType" id="<%= r.prod_name%>FoodType" required>
+                            <option value="baked goods">Baked Goods</option>
+                            <option value="condiments">Condiments</option>
+                            <option value="dairy">Dairy</option>
+                            <option value="fruits">Fruits</option>
+                            <option value="protein">Protein</option>
+                            <option value="vegetables">Vegetables</option>
+                          </select> </p> 
+                        <% } %>
 
                       <label for="expirydate"><p>Expiry Date</label>
                       <input type="date" placeholder="Edit Expiry Date" name="expirydate" id="<%= r.prod_name%>EditExpiryDate"></p>
