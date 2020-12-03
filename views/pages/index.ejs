@@ -124,6 +124,24 @@
 
 
           </form>
+          
+           <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
+              <p>No results found. Would you like to <a href="addCustom">add a custom item</a> with that name instead?</p>
+            <% } else if (searchresults.length > 0 && searchresults != "nosearch") { %>
+
+            <label for="name">Quantity:</label>
+            <br>
+            <input type="number" id="searchedProductQuantity"/>
+            <br>
+            <br>
+
+            <% searchresults.forEach(function(r) { %>
+
+            <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch(event)">
+              <%= r.prod_name%>
+            </button>
+            <br>
+            <% })}; %>
 
           <br>
         </br>
@@ -146,24 +164,6 @@
           </form>
 
             <br>
-
-            <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
-              <p>No results found. Would you like to <a href="addCustom">add a custom item</a> with that name instead?</p>
-            <% } else if (searchresults.length > 0 && searchresults != "nosearch") { %>
-
-            <label for="name">Quantity:</label>
-            <br>
-            <input type="number" id="searchedProductQuantity"/>
-            <br>
-            <br>
-
-            <% searchresults.forEach(function(r) { %>
-
-            <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch(event)">
-              <%= r.prod_name%>
-            </button>
-            <br>
-            <% })}; %>
 
         </div>
       </div>
