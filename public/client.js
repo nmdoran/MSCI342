@@ -210,7 +210,6 @@ function editProfile() {
     , 'postal_code':document.forms["editProfile"]["postal_code"].value
     // , 'email_freq':document.forms["editProfile"]["email_freq"].value
   }));
-  window.location.replace("/addCustom")
 }
 
 function validate() {
