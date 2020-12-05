@@ -210,6 +210,14 @@ function editProfile() {
     , 'postal_code':document.forms["editProfile"]["postal_code"].value
     // , 'email_freq':document.forms["editProfile"]["email_freq"].value
   }));
+  userRequest.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      if (this.response == "Success!") {
+        location.reload()
+        alert("Profile updated successfully.")
+      }
+    }
+  };      
 }
 
 function validate() {

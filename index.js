@@ -235,7 +235,7 @@ express()
         client.query(`update users set postal_code = '${req.body.postal_code}' where user_ID = '${userID}'`)
       }
       client.release();
-      res.send("Success! " + res);
+      res.send("Success!");
     } catch (err) {
       console.error(err);
       res.send("Error " + err);
