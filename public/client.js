@@ -47,7 +47,7 @@ function removeProduct(event) {
   userRequest.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       location.reload();
-      alert("Successfully Deleted")
+      // alert("Successfully Deleted")
     }
   };
   userRequest.open('post', '/removeProduct');
@@ -55,7 +55,7 @@ function removeProduct(event) {
   userRequest.send(JSON.stringify({ 'product': event.target.value }));
 }
 
-function sortbyExpiry() {
+function sortByExpiry() {
   var x = document.getElementById("expirysort").value.length ? "?expirysort=" + document.getElementById("expirysort").value : "";
   if (window.location.hostname === "localhost") {
     window.location.replace("http://localhost:5000/" + x);
@@ -83,7 +83,7 @@ function editFridgeItem(event) {
     userRequest.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         location.reload();
-        alert("Successfully Edited")
+        // alert("Successfully Edited")
       }
     };
     userRequest.open('post', '/editFridgeItem');
@@ -227,7 +227,7 @@ function editProfile() {
     if (this.readyState == 4 && this.status == 200) {
       if (this.response == "Success!") {
         location.reload()
-        alert("Profile updated successfully.")
+        // alert("Profile updated successfully.")
       }
     }
   };      

@@ -33,7 +33,7 @@ express()
         const client = await pool.connect();
         const result = await client.query(`SELECT prod_name, type, exp_dt, qty, p.user_id FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}') AND Type='${req.query.type}'`);
         const searchresult = await client.query(`SELECT * FROM products WHERE upper(prod_name) LIKE upper('${req.query.searchParam}') AND user_ID IN ('0','${userID}')`);
-        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
+        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult && req.query.searchParam) ? searchresult.rows : "nosearch", 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
       } else if (req.query.expirysort) {
@@ -44,7 +44,7 @@ express()
         WHERE f.user_ID = '${userID}'
         ORDER BY exp_dt ${req.query.expirysort}`)
         const searchresult = await client.query(`SELECT * FROM products where upper(prod_name)=upper('${req.query.searchParam}') AND user_ID IN ('0', '${userID}')`);
-        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult) ? searchresult.rows : null, 'userProfile': userProfile };
+        const results = { 'results': (result) ? result.rows : null, 'searchresults': (searchresult && req.query.searchParam) ? searchresult.rows : "nosearch", 'userProfile': userProfile };
         res.render('pages/index', results );
         client.release();
       } else {

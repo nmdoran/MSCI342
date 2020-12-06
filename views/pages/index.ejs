@@ -41,7 +41,7 @@
               <tr>
                 <th>Products</th>
                 <th>Type<br>
-                  <select name="Types" id="Types" onchange="filterbytype()" style = "font-family: Georgia">
+                  <select name="types" id="types" onchange="filterByType()" style = "font-family: Georgia">
                     <option value="Type">Type</option>
                     <option value="baked goods">Baked Goods</option>
                     <option value="condiments">Condiments</option>
@@ -49,13 +49,15 @@
                     <option value="fruits">Fruits</option>
                     <option value="protein">Protein</option>
                     <option value="vegetables">Vegetables</option>
+                    <option value="">All</option>
                   </select></th>
                 <th> Date of Expiry <br>
                   <label for="expiry-date">
-                    <select id="expirysort" class="sortbyexpiry" onchange="sortbyExpiry()">
+                    <select id="expirysort" class="sortbyexpiry" onchange="sortByExpiry()">
                       <option value="">Sort by</option>
                       <option value="ASC">Soonest Expiry Date</option>
                       <option value="DESC">Latest Expiry Date</option>
+                      <option value = "">Default Order</option>
                 </th>
                 <th>Quantity</th>
                 <th>Edit</th>
@@ -64,7 +66,7 @@
               <tr>
                 <td><%= r.prod_name%></td>
                 <td><%= r.type%></td>
-                <td><%= r.exp_dt%></td>
+                <td><%= r.exp_dt.getFullYear() + "/" + (r.exp_dt.getMonth() + 1) + "/" + r.exp_dt.getDate() %></td>
                 <td><%= r.qty%></td>
                 <td>
                   <!-- Edit Pop Out Form -->
