@@ -12,7 +12,7 @@
 <title>Main Page</title>
 </head>
 
-<body>
+<body style="font-family:'Georgia';color:black;">
   <div class="container">
   
       <style>
@@ -40,7 +40,7 @@
             <table border=2 style="width:100%">
               <tr>
                 <th>Products</th>
-                <th><select name="Types" id="Types" onchange="filterbytype()">
+                <th><select name="Types" id="Types" onchange="filterbytype()" style = "font-family: Georgia">
                     <option value="Type">Type</option>
                     <option value="baked goods">Baked Goods</option>
                     <option value="condiments">Condiments</option>
@@ -125,6 +125,24 @@
 
 
           </form>
+          
+           <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
+              <p>No results found. Would you like to <a href="addCustom">add a custom item</a> with that name instead?</p>
+            <% } else if (searchresults.length > 0 && searchresults != "nosearch") { %>
+
+            <label for="name">Quantity:</label>
+            <br>
+            <input type="number" id="searchedProductQuantity"/>
+            <br>
+            <br>
+
+            <% searchresults.forEach(function(r) { %>
+
+            <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch(event)">
+              <%= r.prod_name%>
+            </button>
+            <br>
+            <% })}; %>
 
           <br>
         </br>
@@ -147,24 +165,6 @@
           </form>
 
             <br>
-
-            <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
-              <p>No results found. Would you like to <a href="addCustom">add a custom item</a> with that name instead?</p>
-            <% } else if (searchresults.length > 0 && searchresults != "nosearch") { %>
-
-            <label for="name">Quantity:</label>
-            <br>
-            <input type="number" id="searchedProductQuantity"/>
-            <br>
-            <br>
-
-            <% searchresults.forEach(function(r) { %>
-
-            <button id="searchedproduct" value="<%= r.prod_name%>" type="button" class="button" onclick="addProductFromSearch(event)">
-              <%= r.prod_name%>
-            </button>
-            <br>
-            <% })}; %>
 
         </div>
       </div>

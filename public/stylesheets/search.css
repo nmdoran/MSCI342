@@ -2,7 +2,7 @@ body {
  margin: 50px;
  padding: 0;
  background: #f2f1ef;
- font-family: Verdana, sans-serif;
+ font-family: Georgia,serif;
 }
 
 .search {
@@ -32,7 +32,7 @@ body {
 .sortbyexpiry {
 background-color: white;
 text-align-last:center;
-font-family: inherit;
+font-family: Georgia,serif;
 }
 
 .foodDonationBttn{
@@ -103,7 +103,7 @@ font-family: inherit;
         margin-left: 15px;
     }
 
-  body {font-family: Arial, Helvetica, sans-serif;}
+  body {font-family: Georgia,serif;}
 * {box-sizing: border-box;} */
 
 /* Button to open the contact form */
@@ -132,6 +132,7 @@ font-family: inherit;
   width: auto;
   padding: 10px;
   background-color: rgb(5, 5, 5);
+  font-family: Georgia,serif
 }
 
 /*input fields */
@@ -141,6 +142,7 @@ font-family: inherit;
   margin: 5px 0 22px 0;
   border: none;
   background: #642323;
+  font-family: Georgia,serif
 }
 
 .form-container input[type=text]:focus, .form-container input[type=password]:focus {
@@ -158,6 +160,7 @@ font-family: inherit;
   width: 100%;
   margin-bottom:10px;
   opacity: 0.8;
+  font-family: Georgia,serif
 }
 
 /* Cancel Button */
