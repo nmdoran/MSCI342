@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -e ejs,js index.js",
-    "test": "node test.js"
+    "test": "mocha"
   },
   "dependencies": {
     "ejs": "^2.7.4",
@@ -24,7 +24,10 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
+    "axios": "^0.21.0",
+    "chai": "^4.2.0",
     "got": "^11.3.0",
+    "mocha": "^8.2.1",
     "nodemon": "^2.0.5",
     "tape": "^4.7.0"
   },
