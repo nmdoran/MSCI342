@@ -68,21 +68,19 @@ describe('Add and remove product functionality', function() {
   describe('Edit user profile functionality', function() {
     var userProfile;
     describe('When checking a user profile it', function() {
-        it('should return a result for that user before it edits the profile', async function(done) {
-            userProfile = await getUserProfile('1');
+        it('should return a result for that user before it edits the profile', async function() {
+            userProfile = await getUserProfile(1);
             expect(userProfile).to.be.not.empty;
-            done();
         });
-        it('should return a result for that user after it edits the profile', async function(done) {
+        it('should return a result for that user after it edits the profile', async function() {
             await axios.post("http://localhost:5000/editProfile", { username: 'Test Name', email: 'tester@gmail.com', postal_code: 'B0B 0B0' })
             .then(async () => {
-                userProfile = await getUserProfile('1');
+                userProfile = await getUserProfile(1);
                 expect(userProfile).to.be.not.empty;
-                done();
             })
         });
         it('should correctly recognize the name that was edited', async function() {
-            expect(userProfile[0].username).to.equal('Test Name');
+            expect(userProfile[0].name).to.equal('Test Name');
         });
         it('should correctly recognize the email that was edited', async function() {
             expect(userProfile[0].email).to.equal('tester@gmail.com');
@@ -90,10 +88,9 @@ describe('Add and remove product functionality', function() {
         it('should correctly recognize the postal code that was edited', async function() {
             expect(userProfile[0].postal_code).to.equal('B0B 0B0');
         });
-        it('should not edit other users\' information', async function(done) {
-            fridgeProduct = await getUserProfile('2');
+        it('should not edit other users\' information', async function() {
+            fridgeProduct = await getUserProfile(2);
             expect(userProfile[0].email).to.not.equal('tester@gmail.com');
-            done();
         });
     });
 });
