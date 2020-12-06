@@ -89,7 +89,7 @@ describe('Add and remove product functionality', function() {
             expect(userProfile[0].postal_code).to.equal('B0B 0B0');
         });
         it('should not edit other users\' information', async function() {
-            fridgeProduct = await getUserProfile(2);
+            userProfile = await getUserProfile(2);
             expect(userProfile[0].email).to.not.equal('tester@gmail.com');
         });
     });
