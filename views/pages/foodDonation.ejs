@@ -5,15 +5,53 @@
     <!-- <script src="../../public/scripts/client.js"></script> -->
     <script src="/client.js"></script>
     <link rel = "stylesheet" href= "/stylesheets/foodDonation.css">
+    <style>
+      #map{
+        height: 400px;
+        width: 75%;
+      }
+
+      }
+    </style>
   </head>
-  <div class="header">
-    <h1>What's Cooking, Good Looking?</h1>
-    <h2> Here are some Food Banks near you!  </h2>
-  </div>
-  <br>
-  <a href="/">Click here to go back to your fridge.</a>
-  </br>
-  </br>
+  
+  <body>
+    <div class="header">
+      <h1>What's Cooking, Good Looking?</h1>
+      <h2> Here are some Food Banks near you!  </h2>
+    </div>
+    <br>
+    <a href="/">Click here to go back to your fridge.</a>
+    </br>
+    </br>
+    <div id="map"></div>
+    <script>
+      function initMap(){
+        var options = {
+          zoom:8,
+          center:{lat:43.4643, lng: - 80.5204 }
+        }
+        var map = new google.maps.Map(document.getElementById('map'), options);
+
+        var marker = new google.maps.Marker( {
+          position:{lat:43.4723, lng:-80.5449},
+          map:map
+        });
+
+        var infoWindow = new google.maps.InfoWindow({
+          content:'<h1>University of Waterloo</h1>'
+        });
+
+        marker.addListener('click', function(){
+          infoWindow.open(map, marker);
+        });
+      }
+    </script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoZCcuiXtuCUGqsrdXd-t4_hl4ILC9TK4&callback=initMap&libraries=&v=weekly"
+      defer
+    ></script>
+  </body>
 
   <br>
 </html>
