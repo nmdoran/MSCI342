@@ -40,7 +40,8 @@
             <table border=2 style="width:100%">
               <tr>
                 <th>Products</th>
-                <th><select name="Types" id="Types" onchange="filterbytype()" style = "font-family: Georgia">
+                <th>Type<br>
+                  <select name="Types" id="Types" onchange="filterbytype()" style = "font-family: Georgia">
                     <option value="Type">Type</option>
                     <option value="baked goods">Baked Goods</option>
                     <option value="condiments">Condiments</option>
@@ -110,21 +111,38 @@
             </table>
         </div>
 
+        <div class="editProfile">
+          <form action="/editProfile">
+            <input type="submit" value="Edit Profile" class="button" />
+          </form><br><br>
+        </div><br><br>
+        
+        <div class="signOut">
+          <form action="/logout" role="button" style="text-transform:none">
+            <!--<img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" /><br>-->
+            <input type="submit" name="lick Here to Signout" value="Click Here to Signout" class="button">
+          </form></div>
+
+  <br><br><br><br>
+
         <!-- Add new product section -->
         <div class="search">
+          
+
           <h3>
             Would you like to add a new product?
           </h3>
-          <a href="/addCustom">Add a Custom Product</a>
-
+          <form action="/addCustom">
+              <input type="submit" value="Add a Custom Product"  class="button"/>
+          </form>
           <form class="search-box" name ="Search" onsubmit = "return searchError()" method="get">
             <input type="text" name="searchParam" class="search-txt" maxlength = "255" placeholder="Search..."/>
             <br>
 
             <input class="search-btn" type="submit"  value="&rarr;">
+          </form><br><br>
 
-
-          </form>
+          
 
            <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
               <p>No results found. Would you like to <a href="addCustom">add a custom item</a> with that name instead?</p>
@@ -174,20 +192,12 @@
       </div>
 
     <a href="/recipepage">
-      <button class="btn recipebtn"> Find Recipes! </button>
+      <button class="button"> Find Recipes! </button>
     </a>
       <br>
 
 
 <br>
-      <a href="/editProfile">Edit Profile</a> <br><br>
-
-
-    <a class="btn btn-light" href="/logout" role="button" style="text-transform:none">
-      <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
-      Click Here to Signout
-    </a>
-
     </font>
 
 </body>

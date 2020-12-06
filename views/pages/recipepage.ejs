@@ -12,11 +12,11 @@
     <h2> Here are some recipe suggestions for you! </h2>
   </div>
   <br>
-  <a href="/">Click here to go back to your fridge.</a>
+  <form action="/">
+    <input type="submit" value="Home" class="button">
+  </form>
   </br>
-  </br>
-
-  <button onclick="generateRecipes()" class="generateRecipes">Click here to generate some recipe ideas:</button>
+  <button onclick="generateRecipes()" class="generateRecipes button">Generate Recipe Ideas</button>
 
   <div id="recipes"></div>
   <h4 id="noIngredients">There's nothing in your fridge! You'll need some ingredients first before we can find any recipes.</h4>
