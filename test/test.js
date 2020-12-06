@@ -10,6 +10,13 @@ function getFridgeProduct(product, userID) {
     })
 }
 
+function getUserProfile(userID) {
+    return new Promise(function(resolve, reject) {
+        axios.post("http://localhost:5000/getUserProfile", { userID: userID})
+        .then(res => resolve(res.data))
+    })
+}
+
 function getProduct(product, userID) {
     return new Promise(function(resolve, reject) {
         axios.post("http://localhost:5000/getProduct", { product: product, userID: userID })
@@ -57,6 +64,36 @@ describe('Add and remove product functionality', function() {
       });
     });
   });
+
+  describe('Edit user profile functionality', function() {
+    var userProfile;
+    describe('When checking a user profile it', function() {
+        it('should return a result for that user before it edits the profile', async function() {
+            userProfile = await getUserProfile('1');
+            expect(userProfile).to.be.not.empty;
+        });
+        it('should return a result for that user after it edits the profile', async function() {
+            await axios.post("http://localhost:5000/editProfile", { username: 'Test Name', email: 'tester@gmail.com', postal_code: 'B0B 0B0' })
+            .then(async () => {
+                userProfile = await getUserProfile(1);
+                expect(userProfile).to.be.not.empty;
+            })
+        });
+        it('should correctly recognize the name that was edited', async function() {
+            expect(userProfile[0].name).to.equal('Test Name');
+        });
+        it('should correctly recognize the email that was edited', async function() {
+            expect(userProfile[0].name).to.equal('tester@gmail.com');
+        });
+        it('should correctly recognize the postal code that was edited', async function() {
+            expect(userProfile[0].postal_code).to.equal('B0B 0B0');
+        });
+        it('should not edit other users\' information', async function() {
+            fridgeProduct = await getUserProfile(2);
+            expect(userProfile[0].email).to.not.equal('tester@gmail.com');
+        });
+    });
+});
 
 describe('Edit product functionality', function() {
     var fridgeProduct;

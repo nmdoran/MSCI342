@@ -281,6 +281,13 @@ express()
       res.send(data.rows);
     });
   })
+
+  .post('/getUserProfile', jsonParser, async (req, res) => {
+    const client = await pool.connect();
+    await client.query(`SELECT * FROM users WHERE user_ID =' ${req.body.userID}'`, function(err, data) {
+      res.send(data.rows);
+    });
+  })
   
   // login setup
 
