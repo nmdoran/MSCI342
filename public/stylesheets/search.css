@@ -120,7 +120,7 @@ font-family: Georgia,serif;
 .form-popup {
   display: none;
   position: fixed;
-  bottom: 150px;
+  top: 60px;
   left: 500px;
   border: 3px solid #f1f1f1;
   z-index: 9;
@@ -131,7 +131,7 @@ font-family: Georgia,serif;
   height: auto;
   width: auto;
   padding: 10px;
-  background-color: rgb(5, 5, 5);
+  background-color: #6B7A8F;
   font-family: Georgia,serif
 }
 
