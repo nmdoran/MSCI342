@@ -14,7 +14,7 @@
 
 <body style="font-family:'Georgia';color:black;">
   <div class="container">
-  
+
       <style>
         div.scroll {
           Width: 5px;
@@ -84,9 +84,9 @@
                             <option value="fruits">Fruits</option>
                             <option value="protein">Protein</option>
                             <option value="vegetables">Vegetables</option>
-                          </select> </p> 
+                          </select> </p>
                         <% } %>
-                        
+
                       <label for="expirydate"><p>Expiry Date</label>
                       <input type="date" placeholder="Edit Expiry Date" name="expirydate" id="<%= r.prod_name%>EditExpiryDate"></p>
 
@@ -125,7 +125,7 @@
 
 
           </form>
-          
+
            <%if (searchresults != "nosearch" && searchresults.length == 0) { %>
               <p>No results found. Would you like to <a href="addCustom">add a custom item</a> with that name instead?</p>
             <% } else if (searchresults.length > 0 && searchresults != "nosearch") { %>
@@ -168,12 +168,12 @@
 
         </div>
       </div>
-      
-    <a href="/recipepage.ejs">
+
+    <a href="/recipepage">
       <button class="btn recipebtn"> Find Recipes! </button>
     </a>
       <br>
-      
+
 
 <br>
       <a href="/editProfile">Edit Profile</a> <br><br>
