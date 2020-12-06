@@ -10,6 +10,27 @@ function getFridgeProduct(product, userID) {
     })
 }
 
+function getUserProfile(userID) {
+    return new Promise(function(resolve, reject) {
+        axios.post("http://localhost:5000/getUserProfile", { userID: userID})
+        .then(res => resolve(res.data))
+    })
+}
+
+function getUserProfilesByName(name) {
+    return new Promise(function(resolve, reject) {
+        axios.post("http://localhost:5000/getUserProfilesByName", { name: name})
+        .then(res => resolve(res.data))
+    })
+}
+
+function getUserProfilesByEmail(email) {
+    return new Promise(function(resolve, reject) {
+        axios.post("http://localhost:5000/getUserProfilesByEmail", { email: email})
+        .then(res => resolve(res.data))
+    })
+}
+
 function getProduct(product, userID) {
     return new Promise(function(resolve, reject) {
         axios.post("http://localhost:5000/getProduct", { product: product, userID: userID })
@@ -57,6 +78,56 @@ describe('Add and remove product functionality', function() {
       });
     });
   });
+
+  describe('Edit user profile functionality', function() {
+    var userProfile;
+    describe('When checking a user profile it', function() {
+        it('should return a result for that user before it edits the profile', async function() {
+            userProfile = await getUserProfile(1);
+            expect(userProfile).to.be.not.empty;
+        });
+        it('should have initial name', async function() {
+            expect(userProfile[0].name).to.equal('First Test');
+        });
+        it('should have initial email', async function() {
+            expect(userProfile[0].email).to.equal('test1@gmail.com');
+        });
+        it('should have initial postal code', async function() {
+            expect(userProfile[0].postal_code).to.equal('A1A 1A1');
+        });
+        it('should return a result for that user after it edits the profile', async function() {
+            await axios.post("http://localhost:5000/editProfile", { username: 'Second Test', email: 'test2@gmail.com', postal_code: 'B0B 0B0' })
+            .then(async () => {
+                userProfile = await getUserProfile(1);
+                expect(userProfile).to.be.not.empty;
+            })
+        });
+        it('should correctly recognize the name that was edited', async function() {
+            expect(userProfile[0].name).to.equal('Second Test');
+        });
+        it('should correctly recognize the email that was edited', async function() {
+            expect(userProfile[0].email).to.equal('test2@gmail.com');
+        });
+        it('should correctly recognize the postal code that was edited', async function() {
+            expect(userProfile[0].postal_code).to.equal('B0B 0B0');
+        });
+        it('should not edit other users\' names', async function() {
+            userProfile = await getUserProfilesByName('Second Test');
+            expect(userProfile).to.be.empty;
+        });
+        it('should not edit other users\' email', async function() {
+            userProfile = await getUserProfilesByEmail('test2@gmail.com');
+            expect(userProfile).to.be.empty;
+        });
+        it('should reset profile to initial information', async function() {
+            await axios.post("http://localhost:5000/editProfile", { username: 'First Test', email: 'test1@gmail.com', postal_code: 'A1A 1A1' })
+            .then(async () => {
+                userProfile = await getUserProfile(1);
+                expect(userProfile).to.be.not.empty;
+            })
+        });
+    });
+});
 
 describe('Edit product functionality', function() {
     var fridgeProduct;

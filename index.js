@@ -281,7 +281,28 @@ express()
       res.send(data.rows);
     });
   })
-  
+
+  .post('/getUserProfile', jsonParser, async (req, res) => {
+    const client = await pool.connect();
+    await client.query(`SELECT * FROM users WHERE user_ID ='${req.body.userID}'`, function(err, data) {
+      res.send(data.rows);
+    });
+  })
+
+  .post('/getUserProfilesByName', jsonParser, async (req, res) => {
+    const client = await pool.connect();
+    await client.query(`SELECT * FROM users WHERE user_ID <> '1' and name = '${req.body.name}'` , function(err, data) {
+      res.send(data.rows);
+    });
+  })
+ 
+  .post('/getUserProfilesByEmail', jsonParser, async (req, res) => {
+    const client = await pool.connect();
+    await client.query(`SELECT * FROM users WHERE user_ID <> '1' and email = '${req.body.email}'` , function(err, data) {
+      res.send(data.rows);
+    });
+  })
+
   // login setup
 
   .use(passport.initialize())
