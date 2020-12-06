@@ -211,6 +211,13 @@ express()
     }
   })
 
+  .post('/removeCustom', jsonParser, async function(req, res) {
+    const client = await pool.connect();
+    await client.query(`DELETE FROM products WHERE user_ID IN ('0', '${req.body.userID}') AND p.prod_name = '${req.body.product}'`, function(err, data) {
+      res.send(data.rows);
+    });
+  })
+
   .get('/editProfile', jsonParser, async (req, res) => {
     try {
       var userID = userProfile ? userProfile.id : 1;
@@ -261,6 +268,20 @@ express()
     });
   })
 
+  .post('/getFridgeProduct', jsonParser, async (req, res) => {
+    const client = await pool.connect();
+    await client.query(`SELECT * FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${req.body.userID}') AND p.prod_name = '${req.body.product}'`, function(err, data) {
+      res.send(data.rows);
+    });
+  })
+
+  .post('/getProduct', jsonParser, async (req, res) => {
+    const client = await pool.connect();
+    await client.query(`SELECT * FROM products WHERE f.user_ID IN ('0', '${req.body.userID}') AND p.prod_name = '${req.body.product}'`, function(err, data) {
+      res.send(data.rows);
+    });
+  })
+  
   // login setup
 
   .use(passport.initialize())
