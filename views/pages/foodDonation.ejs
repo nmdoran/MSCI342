@@ -5,13 +5,53 @@
     <!-- <script src="../../public/scripts/client.js"></script> -->
     <script src="/client.js"></script>
     <link rel = "stylesheet" href= "/stylesheets/foodDonation.css">
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoZCcuiXtuCUGqsrdXd-t4_hl4ILC9TK4&callback=initMap&libraries=&v=weekly"
+      defer
+    ></script>
+    <script>
+      var map;
+      function initMap(){
+        var options = {
+          zoom:12,
+          center:{lat:43.4643, lng: - 80.5204}
+        }
+        map = new google.maps.Map(document.getElementById('map'), options);
+        
+        var request = {
+          location: center,
+          radius: 10000,
+          types: ['donation']
+        };
+        
+        var service = new google.maps.places.PlacesService(map);
+
+        service.nearbySearch(request, callback);
+      }
+
+      function callback(request, status){
+          if(status == google.maps.places.PlacesServiceStatus.OK){
+              for (var i = 0; i < request.length; i++){
+                createMarker(request[i]);
+              }
+          }
+      }
+
+      function createMarker(places){
+        var placeLoc = places.geometry.location;
+        var marker = new google.maps.Marker({
+          map:map,
+          position: places.geometry.location
+        });
+      }
+    google.maps.event.addDomListener(window, 'load', initMap);
+    </script>
     <style>
       #map{
         height: 400px;
         width: 75%;
       }
-
-      }
+      
     </style>
   </head>
   
@@ -25,32 +65,8 @@
     </br>
     </br>
     <div id="map"></div>
-    <script>
-      function initMap(){
-        var options = {
-          zoom:8,
-          center:{lat:43.4643, lng: - 80.5204 }
-        }
-        var map = new google.maps.Map(document.getElementById('map'), options);
-
-        var marker = new google.maps.Marker( {
-          position:{lat:43.4723, lng:-80.5449},
-          map:map
-        });
-
-        var infoWindow = new google.maps.InfoWindow({
-          content:'<h1>University of Waterloo</h1>'
-        });
-
-        marker.addListener('click', function(){
-          infoWindow.open(map, marker);
-        });
-      }
-    </script>
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoZCcuiXtuCUGqsrdXd-t4_hl4ILC9TK4&callback=initMap&libraries=&v=weekly"
-      defer
-    ></script>
+    
+    
   </body>
 
   <br>
