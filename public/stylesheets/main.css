@@ -5,6 +5,44 @@ body {
   font-family: Georgia, serif;
  }
 
+ .editProfile {
+     line-height: 10px;
+     width: 150px;
+     font-size: 8pt;
+     font-family: tahoma;
+     margin-top: 10px;
+     margin-right: 100px;
+     position:absolute;
+     top:0;
+     right:0;
+ }
+
+.button{
+  background-color: #6B7A8F;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 16px;
+  width: 180px;
+}
+
+ .signOut {
+     line-height: 10px;
+     width: 150px;
+     font-size: 8pt;
+     font-family: tahoma;
+     margin-top: 60px;
+     margin-right: 100px;
+     position:absolute;
+     top:0;
+     right:0;
+ }
+
 .header-text {
   color: white;
   position: relative;
@@ -14,7 +52,7 @@ body {
   top: 35%;
 }
 
-.wrapper { 
+.wrapper {
   height: 100%;
   width: 100%;
   left:0;
@@ -45,7 +83,7 @@ background-size: 1800% 1800%;
     50%{background-position:100% 19%}
     100%{background-position:0% 82%}
 }
-@keyframes rainbow { 
+@keyframes rainbow {
     0%{background-position:0% 82%}
     50%{background-position:100% 19%}
     100%{background-position:0% 82%}
