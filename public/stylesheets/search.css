@@ -58,6 +58,11 @@ font-family: Georgia,serif;
   direction: ltr;
 }
 
+.signoutbutton{
+background-color: #F7C331
+
+}
+
 .search-btn {
  color: #e84118;
  float: right;
