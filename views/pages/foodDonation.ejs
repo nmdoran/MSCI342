@@ -5,15 +5,80 @@
     <!-- <script src="../../public/scripts/client.js"></script> -->
     <script src="/client.js"></script>
     <link rel = "stylesheet" href= "/stylesheets/foodDonation.css">
+    <style>
+      #map{
+        height: 400px;
+        width: 75%;
+      }
+      
+    </style>
   </head>
-  <div class="header">
-    <h1>What's Cooking, Good Looking?</h1>
-    <h2> Here are some Food Banks near you!  </h2>
-  </div>
-  <br>
-  <a href="/">Click here to go back to your fridge.</a>
-  </br>
-  </br>
+  
+  <body>
+    <div class="header">
+      <h1>What's Cooking, Good Looking?</h1>
+      <h2> Here are some Food Banks near you!  </h2>
+    </div>
+    <br>
+    <a href="/">Click here to go back to your fridge.</a>
+    </br>
+    </br>
+    <div id="map"></div>
+    <script>
+      function initMap(){
+
+        var options = {
+          zoom:10,
+          center:{lat:43.4643, lng: -80.5204}
+        }
+        var map = new google.maps.Map(document.getElementById('map'), options);
+
+        var marker = new google.maps.Marker({
+          position:{lat:43.4723, lng: -80.5449},
+          map:map
+        });
+
+        var infoWindow = new google.maps.InfoWindow({
+          content:'<h1> University of Waterloo </h1><h2>200 University Ave W, Waterloo, ON N2L 3G1</h2>'
+        });
+
+        marker.addListener('click', function(){
+          infoWindow.open(map, marker);
+        });
+
+        var marker1 = new google.maps.Marker({
+          position:{lat:43.424360, lng: -80.478360},
+          map:map
+        });
+
+        var infoWindow1 = new google.maps.InfoWindow({
+          content:'<h1> The Food Bank of Waterloo Region </h1><h2>50 Alpine Ct, Kitchener, ON N2E 2M7</h2>'
+        });
+
+        marker1.addListener('click', function(){
+          infoWindow1.open(map, marker1);
+        });
+
+        var marker2 = new google.maps.Marker({
+          position:{lat:43.382460, lng: -80.714010},
+          map:map
+        });
+
+        var infoWindow2 = new google.maps.InfoWindow({
+          content:'<h1> Wilmot Family Resource Centre </h1> <h2>175 Waterloo St Unit 1, New Hamburg, ON N3A 1S3</h2>'
+        });
+
+        marker2.addListener('click', function(){
+          infoWindow2.open(map, marker2);
+        });
+        
+      }
+    </script>
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoZCcuiXtuCUGqsrdXd-t4_hl4ILC9TK4&callback=initMap&libraries=&v=weekly"
+    defer
+  ></script>
+  </body>
 
   <body style="font-family:'Georgia';color:black;">
   
