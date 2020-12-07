@@ -196,7 +196,6 @@ express()
               , ${req.body.quantity}
               , 'each')`
           )
-          console.log("Success!")
           res.send("success")
         } else {
           console.log("Duplicate!")
@@ -212,10 +211,15 @@ express()
   })
 
   .post('/removeCustom', jsonParser, async function(req, res) {
-    const client = await pool.connect();
-    await client.query(`DELETE FROM products WHERE user_ID IN ('0', '${req.body.userID}') AND p.prod_name = '${req.body.product}'`, function(err, data) {
-      res.send(data.rows);
-    });
+    try {
+      const client = await pool.connect();
+      client.query(`DELETE FROM products WHERE user_ID IN ('0', '${req.body.userID}') AND prod_name = '${req.body.product}'`);
+      client.release();
+      res.send("Success!");
+    } catch (err) {
+      console.error(err);
+      res.send("Error " + err);
+    }
   })
 
   .get('/editProfile', jsonParser, async (req, res) => {
@@ -223,8 +227,6 @@ express()
       var userID = userProfile ? userProfile.id : 1;
       const client = await pool.connect();
       const result = await client.query(`SELECT name, email, postal_code, email_freq FROM Users where user_ID = '${userID}'`);
-      //const client = await pool.connect();
-      //const result = await client.query(`SELECT name, email, postal_code, email_freq FROM Users where user_ID IN ('1')`);
       const results = { 'results': (result) ? result.rows : null, 'searchresults': (result) ? result.rows : null};
       res.render('pages/editProfile', results );
       client.release();
@@ -264,6 +266,7 @@ express()
     var userID = userProfile ? userProfile.id : 1;
     const client = await pool.connect();
     await client.query(`SELECT json_agg(prod_name) FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${userID}')`, function(err, data) {
+      client.release();
       res.send(data.rows);
     });
   })
@@ -271,13 +274,15 @@ express()
   .post('/getFridgeProduct', jsonParser, async (req, res) => {
     const client = await pool.connect();
     await client.query(`SELECT * FROM fridge_products f LEFT JOIN products p on p.prod_ID=f.prod_ID WHERE f.user_ID IN ('0', '${req.body.userID}') AND p.prod_name = '${req.body.product}'`, function(err, data) {
+      client.release();
       res.send(data.rows);
     });
   })
 
   .post('/getProduct', jsonParser, async (req, res) => {
     const client = await pool.connect();
-    await client.query(`SELECT * FROM products WHERE f.user_ID IN ('0', '${req.body.userID}') AND p.prod_name = '${req.body.product}'`, function(err, data) {
+    await client.query(`SELECT * FROM products WHERE user_ID IN ('0', '${req.body.userID}') AND prod_name = '${req.body.product}'`, function(err, data) {
+      client.release();
       res.send(data.rows);
     });
   })
@@ -285,6 +290,7 @@ express()
   .post('/getUserProfile', jsonParser, async (req, res) => {
     const client = await pool.connect();
     await client.query(`SELECT * FROM users WHERE user_ID ='${req.body.userID}'`, function(err, data) {
+      client.release();
       res.send(data.rows);
     });
   })
@@ -292,6 +298,7 @@ express()
   .post('/getUserProfilesByName', jsonParser, async (req, res) => {
     const client = await pool.connect();
     await client.query(`SELECT * FROM users WHERE user_ID <> '1' and name = '${req.body.name}'` , function(err, data) {
+      client.release();
       res.send(data.rows);
     });
   })
@@ -299,6 +306,7 @@ express()
   .post('/getUserProfilesByEmail', jsonParser, async (req, res) => {
     const client = await pool.connect();
     await client.query(`SELECT * FROM users WHERE user_ID <> '1' and email = '${req.body.email}'` , function(err, data) {
+      client.release();
       res.send(data.rows);
     });
   })

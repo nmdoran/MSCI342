@@ -134,35 +134,47 @@ describe('Edit product functionality', function() {
     describe('A newly added product', function() {
         it('should initially have the specified quantity', async function() {
             // similar to above in add/remove products, need to add a product and then check that its quantity equals what was specified
+            await axios.post("http://localhost:5000/addProduct", { product: 'tomatoes', quantity: '4' })
+            .then(async () => {
+                fridgeProduct = await getFridgeProduct('tomatoes', 1);
+                expect(fridgeProduct[0].qty).to.equal(4);
+            })
         });
         it('should initially have the default expiry date', async function() {
             // need to check if the expiry date = the input date + lifetime
             // to do this, get the expiry and input dates (as Date objects) and add the lifetime in days using the setDate() function
             // because of by reference/by value problems, you will need apply the function getTime() to both dates before attempting to compare them
-            // this one is sort of tricky so it is completed below, it won't work until the first test above is completed however
             
-            /* expiry_date = new Date(fridgeProduct[0].exp_dt).getTime();
+            expiry_date = new Date(fridgeProduct[0].exp_dt).getTime();
             input_date = new Date(fridgeProduct[0].input_dt);            
 
             input_date.setDate(input_date.getDate() + fridgeProduct[0].lifetime);
             input_date = input_date.getTime();
-            expect(expiry_date).to.equal(input_date); */
+            expect(expiry_date).to.equal(input_date);
         });
     });
     describe('After editing the product with a new expiry date and quantity, it', async function() {
         it('should have the new quantity', async function() {
             // use axios to make a post http request to /editFridgeItem, with parameters called 'quantity' and 'expirydate' with the desired updated dates
-            // after this is done, update the value of the fridgeProduct variable using the await getFridgeProduct('carrots', 1) function, as done above, and check the quantity again to see if it matches
+            // after this is done, update the value of the fridgeProduct variable using the await getFridgeProduct('tomatoes', 1) function, as done above, and check the quantity again to see if it matches
+            await axios.post("http://localhost:5000/editFridgeItem", { product: 'tomatoes', quantity: '6', expirydate: '2021-01-07' })
+            .then(async () => {
+                fridgeProduct = await getFridgeProduct('tomatoes', 1);
+                expect(fridgeProduct[0].qty).to.equal(6);
+            })
         });
         it('should have the new expiry date', async function() {
             // create a new date object with the same date as the date you specified (i.e. var expiryDate = new Date(2020, 11, 25) returns a date equal to December 25, 2020)
             // again convert using the getTime() function, and compare it to the exp_date value from the fridgeProduct object
+            expiry_date = new Date(fridgeProduct[0].exp_dt).getTime();
+            expected_date = new Date(2021, 0, 7).getTime();
+            expect(expiry_date).to.equal(expected_date);
         });
         it('should return no longer exist after the product has been deleted from the fridge', async function() {
             // delete the product afterward so that future test runs don't break
-            await axios.post("http://localhost:5000/removeProduct", { product: 'carrots' })
+            await axios.post("http://localhost:5000/removeProduct", { product: 'tomatoes' })
             .then(async () => {
-                fridgeProduct = await getFridgeProduct('carrots', 1);
+                fridgeProduct = await getFridgeProduct('tomatoes', 1);
                 expect(fridgeProduct).to.be.empty;
             })
         });
@@ -177,26 +189,39 @@ describe('Add custom product functionality', function() {
             // check the products table for a custom product that does not yet exist using the getProduct() function
             // it should return an empty array
             // this should look similar to the first test in add/remove products, except with getProduct() instead of getFridgeProduct()
+            customProduct = await getProduct('carrot cake', 1);
+            expect(customProduct).to.be.empty;
         });
     });
     describe('After adding a new custom product, it', async function() {
         it('should have the name that was specified', async function() {
             // use the getProduct() function to check that the product you added does exist now; save it to the customProduct variable so you won't have to call this function again
+            await axios.post("http://localhost:5000/addCustom", { product_name: 'carrot cake', type: 'baked goods', life: '8', quantity: '4' })
+            .then(async () => {
+                customProduct = await getProduct('carrot cake', 1);
+                expect(customProduct).to.be.not.empty;
+            })
         });
         it('should have the type that was specified', async function() {
             // check the customProduct variable's type field and see if it matches what you specified
+            expect(customProduct[0].type).to.equal('baked goods');
         });
         it('should have the lifetime that was specified', async function() {
             // check the customProduct variable's variable field and see if it matches what you specified
+            expect(customProduct[0].lifetime).to.equal(8);
         });
         it('should not appear in other user\'s products lists', async function() {
             // call getProduct() again on the customProduct variable, but this time pass a different user ID than the one you passed originally
             // the returned array should be empty as the product should not exist for that user
             // should look similar to how it was done for add/remove products
+            customProduct = await getProduct('carrot cake', 2);
+            expect(customProduct).to.be.empty;
         });
         it('should appear in the user\'s fridge', async function() {
-            // call getFridgeProduct() and assign its resdults to the fridgeProduct variable, and ensure that the result is not empty
+            // call getFridgeProduct() and assign its results to the fridgeProduct variable, and ensure that the result is not empty
             // should look essentially identical to the second test in add/remove products
+            fridgeProduct = await getFridgeProduct('carrot cake', 1);
+            expect(fridgeProduct).to.be.not.empty;
         })
     })
     
@@ -204,5 +229,11 @@ describe('Add custom product functionality', function() {
         // delete the custom product afterward so that future test runs don't break
         // will need to make an axios http post request to /removeProduct first and then to /removeCustom, otherwise the foreign keys won't let you
         // call getProduct one last time and check that it is empty
+        await axios.post("http://localhost:5000/removeProduct", { product: 'carrot cake', userID: '1' }).then(async() => {
+            await axios.post("http://localhost:5000/removeCustom", { product: 'carrot cake', userID: '1' }).then(async() => {
+                customProduct = await getProduct('carrot cake', 1);
+                expect(customProduct).to.be.empty;
+            })
+        })
     });
 })
